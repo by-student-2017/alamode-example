@@ -1,0 +1,36 @@
+I can not test it. This is because "sudo apt -y install lammps" do not work for reax in my case.
+
+metal vs. real
+different: time, velocity, force, etc
+
+For style real, these are the units:
+mass = grams/mole
+distance = Angstroms
+time = femtoseconds
+energy = Kcal/mole
+velocity = Angstroms/femtosecond
+force = Kcal/mole-Angstrom
+torque = Kcal/mole
+temperature = Kelvin
+pressure = atmospheres
+dynamic viscosity = Poise
+charge = multiple of electron charge (1.0 is a proton)
+dipole = charge*Angstroms
+electric field = volts/Angstrom
+density = gram/cm^dim
+
+For style metal, these are the units:
+mass = grams/mole
+distance = Angstroms
+time = picoseconds
+energy = eV
+velocity = Angstroms/picosecond
+force = eV/Angstrom
+torque = eV
+temperature = Kelvin
+pressure = bars
+dynamic viscosity = Poise
+charge = multiple of electron charge (1.0 is a proton)
+dipole = charge*Angstroms
+electric field = volts/Angstrom
+density = gram/cm^dim

@@ -1,0 +1,14 @@
+units           real
+atom_style      charge
+boundary        p p p
+
+read_data       tmp.lammps
+
+pair_style      reax/c lmp_control
+pair_coeff 	* * ffield.reax.001.CHOSiAlLiFPB Si
+
+#dump            1 all custom 1 XFSET id xu yu zu fx fy fz
+dump            1 all custom 1 XFSET id xu yu zu $(fx*0.04336413) $(fy*0.04336413) $(fz*0.04336413) 
+dump_modify     1 format float "%20.15f"
+run             0
+
