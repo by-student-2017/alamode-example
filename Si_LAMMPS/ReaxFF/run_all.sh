@@ -125,7 +125,7 @@ mv ${SC222_data}.reax ${SC222_data}
 
 python3 ${ALAMODE_ROOT}/tools/displace.py --LAMMPS ../${SC222_data} --prefix harm --mag 0.01 -pf ../si222.pattern_HARMONIC >> run.log
 python3 ${ALAMODE_ROOT}/tools/displace.py --LAMMPS ../${SC222_data} --prefix cubic --mag 0.04 -pf ../si222.pattern_ANHARM3 >> run.log
-1
+
 cp ../${potential} .
 cp ../${control} .
 #cp ../${input_file} .
