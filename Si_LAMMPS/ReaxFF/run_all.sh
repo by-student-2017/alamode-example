@@ -7,7 +7,7 @@
 # Binaries 
 #LAMMPS=${HOME}/src/lammps/_build/lmp
 #LAMMPS=/usr/local/bin/lmp
-LAMMPS=/usr/bin/lmp
+LAMMPS="mpirun -np 2 $HOME/lammps-stable_23Jun2022/src/lmp_mpi"
 #ALAMODE_ROOT=${HOME}/src/alamode
 ALAMODE_ROOT=${HOME}/alamode-v.1.4.1/_build
 potential=ffield.reax.001.CHOSiAlLiFPB
@@ -16,6 +16,7 @@ input_file=in.lmp
 SC222_data=Si222.lammps
 
 chmod +x conv_data.sh
+chmod +x conv_force.sh
 
 # Generate displacement patterns
 
@@ -129,6 +130,7 @@ python3 ${ALAMODE_ROOT}/tools/displace.py --LAMMPS ../${SC222_data} --prefix cub
 cp ../${potential} .
 cp ../${control} .
 #cp ../${input_file} .
+cp ../conv_force.sh .
 
 # Run LAMMPS
 for ((i=1; i<=1; i++))
@@ -137,6 +139,8 @@ do
    ./conv_data.sh tmp.lammps
    mv tmp.lammps.reax tmp.lammps
    $LAMMPS < ${input_file} >> run.log
+   ./conv_force.sh XFSET
+   mv XFSET.reax XFSET
    mv XFSET XFSET.harm${i}
 done
 
@@ -147,11 +151,13 @@ do
    ./conv_data.sh tmp.lammps
    mv tmp.lammps.reax tmp.lammps
    $LAMMPS < ${input_file} >> run.log
+   ./conv_force.sh XFSET
+   mv XFSET.reax XFSET
    mv XFSET XFSET.cubic${suffix}
 done
 
 # Collect data
-./conv.sh ${SC222_data}
+./conv_data.sh ${SC222_data}
 mv ${SC222_data}.reax ${SC222_data}
 python3 ${ALAMODE_ROOT}/tools/extract.py --LAMMPS ../${SC222_data} XFSET.harm* > DFSET_harmonic
 python3 ${ALAMODE_ROOT}/tools/extract.py --LAMMPS ../${SC222_data} XFSET.cubic* > DFSET_cubic

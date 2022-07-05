@@ -8,8 +8,7 @@ pair_style      reax/c lmp_control
 pair_coeff 	* * ffield.reax.001.CHOSiAlLiFPB Si
 fix		1 all qeq/reax 1 0.0 10.0 1e-6 reax/c
 
-#dump            1 all custom 1 XFSET id xu yu zu fx fy fz
-dump            1 all custom 1 XFSET id xu yu zu $(fx*0.04336413) $(fy*0.04336413) $(fz*0.04336413) 
+dump            1 all custom 1 XFSET id xu yu zu fx fy fz 
 dump_modify     1 format float "%20.15f"
 run             0
 

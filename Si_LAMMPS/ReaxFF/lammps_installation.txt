@@ -1,5 +1,25 @@
-I can not test it. This is because "sudo apt -y install lammps" do not work for reax in my case.
+-----------------------------------------------------------------------------------
+- lammps
+(https://github.com/lammps/lammps/releases)
 
+- Installation
+1. cd $HOME
+2. wget https://github.com/lammps/lammps/archive/refs/tags/stable_23Jun2022.tar.gz
+3. tar zxvf stable_23Jun2022.tar.gz
+4. cd lammps-stable_23Jun2022
+5. cd src
+6. make package-status
+7. make yes-MC yes-MEAM yes-REAXFF yes-QEQ
+8. make mpi
+
+- environment settings
+1. echo 'PATH=$PATH:$HOME/lammps-stable_23Jun2022/src' >> ~/.bashrc
+2. bash
+3. which lmp_mpi
+-----(username = your PC name)
+/home/username/lammps-stable_23Jun2022/src/lmp_mpi
+-----
+-----------------------------------------------------------------------------------
 metal vs. real
 different: time, velocity, force, etc
 
@@ -34,3 +54,4 @@ charge = multiple of electron charge (1.0 is a proton)
 dipole = charge*Angstroms
 electric field = volts/Angstrom
 density = gram/cm^dim
+-----------------------------------------------------------------------------------
