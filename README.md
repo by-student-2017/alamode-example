@@ -1,6 +1,6 @@
 # alamode-example
 
-#Installation (ubuntu 20.04 LTS on windows10)
+# Installation (ubuntu 20.04 LTS on windows10)
 1. sudo apt update
 2. sudo apt -y install cmake g++ liblapack-dev libopenblas-dev libopenmpi-dev 
 3. sudo apt -y install libboost-dev libeigen3-dev libfftw3-dev libsymspg-dev
