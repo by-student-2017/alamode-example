@@ -19,6 +19,14 @@
 -----(username = your PC name)
 /home/username/lammps-stable_23Jun2022/src/lmp_mpi
 -----
+
+- Si
+1. git clone https://github.com/by-student-2017/alamode-example.git
+2. cd alamode-example/Si_LAMMPS/ReaxFF
+3. bash run_all.sh
+(if you use gnuplot)
+4. gnuplot < plot_band.gpl
+5. gnuplot < plot_thermal_conductivity.gpl
 -----------------------------------------------------------------------------------
 metal vs. real
 different: time, velocity, force, etc

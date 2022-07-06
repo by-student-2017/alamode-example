@@ -1,0 +1,27 @@
+¡ MOPAC v22.0.3
+(https://github.com/openmopac/mopac/releases/tag/v22.0.3)
+
+- Installation
+1. cd $HOME
+2. sudo apt update
+3. sudo apt -y install git wget cmake gcc build-essential libomp5-7
+4. sudo apt -y install gfortran liblapack-dev libblas-dev
+5. wget https://github.com/openmopac/mopac/archive/refs/tags/v22.0.3.tar.gz
+6. tar zxvf v22.0.3.tar.gz
+7. cd mopac-22.0.3
+8. cmake -S . -B build
+9. cmake --build build
+
+- environment settings
+1. echo 'PATH=$PATH:$HOME/mopac/build' >> ~/.bashrc
+2. bash
+3. which mopac
+  (you can get "/home/username/mopac/build/mopac")
+
+- Si
+1. git clone https://github.com/by-student-2017/alamode-example.git
+2. cd alamode-example/Si_MOPAC
+3. bash run_all.sh
+(if you use gnuplot)
+4. gnuplot < plot_band.gpl
+5. gnuplot < plot_thermal_conductivity.gpl

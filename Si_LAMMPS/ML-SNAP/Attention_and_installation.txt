@@ -28,6 +28,14 @@ So, I removed 'diagonalstyle 3' in Si_Zuo_Arxiv2019.snapparam.
 /home/username/lammps-stable_23Jun2022/src/lmp_mpi
 -----
 
+- Si
+1. git clone https://github.com/by-student-2017/alamode-example.git
+2. cd alamode-example/Si_LAMMPS/ML-SNAP
+3. bash run_all.sh
+(if you use gnuplot)
+4. gnuplot < plot_band.gpl
+5. gnuplot < plot_thermal_conductivity.gpl
+
 - SNAP files
 ENIST -> KIM page -> FILES (*.snapcoef and *.snapparam)
 -----------------------------------------------------------------------------------
