@@ -128,7 +128,7 @@ cp ../conv_force.sh .
 for ((i=1; i<=1; i++))
 do
    cp harm${i}.lammps tmp.lammps
-   ./conv_mop.sh tmp.lammps Si
+   ./conv_mop.sh tmp.lammps
    $MOPAC tmp.lammps.mop
    ./conv_force.sh tmp.lammps.out
    mv XFSET XFSET.harm${i}
@@ -138,7 +138,7 @@ for ((i=1; i<=20; i++))
 do
    suffix=`echo ${i} | awk '{printf("%02d", $1)}'`
    cp cubic${suffix}.lammps tmp.lammps
-   ./conv_mop.sh tmp.lammps Si
+   ./conv_mop.sh tmp.lammps
    $MOPAC tmp.lammps.mop
    ./conv_force.sh tmp.lammps.out
    mv XFSET XFSET.cubic${suffix}
