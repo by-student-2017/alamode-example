@@ -1,4 +1,4 @@
-Å° MOPAC v22.0.3
+- MOPAC v22.0.3
 (https://github.com/openmopac/mopac/releases/tag/v22.0.3)
 
 - Installation
