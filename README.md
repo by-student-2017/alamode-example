@@ -1,5 +1,6 @@
 # alamode-example
 
+
 # Installation (ubuntu 20.04 LTS on windows10)
 1. sudo apt update
 2. sudo apt -y install cmake g++ liblapack-dev libopenblas-dev libopenmpi-dev 
@@ -12,6 +13,7 @@
 9. cmake -DUSE_MKL_FFT=no ..
 10. make
 11. cp -r ~/alamode-v.1.4.1/tools ~/alamode-v.1.4.1/_build/
+
 
 # test
 1. cd ~/alamode-v.1.4.1/test
