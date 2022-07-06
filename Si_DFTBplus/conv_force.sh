@@ -5,7 +5,7 @@ fname=$1
 echo "ITEM: TIMESTEP" > XFSET
 echo "0" >> XFSET
 echo "ITEM: NUMBER OF ATOMS" >> XFSET
-natom=`awk '{if($2=="atoms"){print $1}}' tmp.lammps`
+natom=`awk '{if($2=="atoms"){printf "%d",$1}}' tmp.lammps`
 echo "${natom}" >> XFSET
 echo "ITEM: BOX BOUNDS xy xz yz pp pp pp" >> XFSET
 xhi=`awk '{if($4=="xhi"){printf "%18.16e",$2}}' tmp.lammps`
@@ -17,7 +17,7 @@ echo "0.0000000000000000e+00 ${zhi} 0.0000000000000000e+00" >> XFSET
 echo "ITEM: ATOMS id xu yu zu fx fy fz" >> XFSET
 
 nla=`awk '{if($1=="Total" && $2=="Forces"){print NR}}' ${fname}`
-for ((i=1; i<=64; i++)); do
+for ((i=1; i<=${natom}; i++)); do
   #id=`awk -v i=${i} '{if(NR==2+i){printf "%6d",$1}}' geometry.gen`
   # Angstrom unit
   xu=`awk -v i=${i} '{if(NR==2+i){printf "%20.15f",$3}}' geometry.gen`

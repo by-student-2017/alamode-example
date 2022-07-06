@@ -131,7 +131,7 @@ cp ../dftb_in.hsd .
 for ((i=1; i<=1; i++))
 do
    cp harm${i}.lammps tmp.lammps
-   ./conv_dftbp.sh tmp.lammps Si
+   ./conv_dftbp.sh tmp.lammps
    $DFTBp
    ./conv_force.sh detailed.out
    mv XFSET XFSET.harm${i}
@@ -141,7 +141,7 @@ for ((i=1; i<=20; i++))
 do
    suffix=`echo ${i} | awk '{printf("%02d", $1)}'`
    cp cubic${suffix}.lammps tmp.lammps
-   ./conv_dftbp.sh tmp.lammps Si
+   ./conv_dftbp.sh tmp.lammps
    $DFTBp
    ./conv_force.sh detailed.out
    mv XFSET XFSET.cubic${suffix}

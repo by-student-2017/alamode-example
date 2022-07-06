@@ -1,11 +1,18 @@
 #!/bin/bash
 
 fname=$1
-elem1=$2
 
-natom=`awk '{if($2=="atoms"){print $1}}' ${fname}`
+nat=`awk '{if($2=="atom" && $3=="types"){printf "%d",$1}}' tmp.lammps`
+nma=`awk '{if($1=="Masses"){print NR}}' tmp.lammps`
+echo $nat $nma
+for ((i=1;i<=${nat};i++));do
+  elem[$i]=`awk -v nma=${nma} -v i=$i '{if(NR==nma+1+i){printf "%s",$4}}' tmp.lammps`
+done
+echo ${elem[@]}
+
+natom=`awk '{if($2=="atoms"){printf "%d",$1}}' ${fname}`
 echo "${natom} S" > geometry.gen
-echo "${elem1}" >> geometry.gen
+echo "${elem[@]}" >> geometry.gen
 
 nla=`awk '{if($1=="Atoms"){print NR}}' ${fname}`
 # Angstrom unit
