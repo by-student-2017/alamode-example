@@ -13,7 +13,7 @@
 8. make mpi
 
 - environment settings
-1. echo 'PATH=$PATH:$HOME/lammps-stable_23Jun2022/src' >> ~/.bashrc
+1. echo 'export PATH=$PATH:$HOME/lammps-stable_23Jun2022/src' >> ~/.bashrc
 2. bash
 3. which lmp_mpi
 -----(username = your PC name)

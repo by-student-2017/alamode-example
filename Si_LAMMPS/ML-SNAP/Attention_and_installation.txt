@@ -21,7 +21,7 @@ So, I removed 'diagonalstyle 3' in Si_Zuo_Arxiv2019.snapparam.
 - Failed: QUIP, HDNNP, PACE
 
 - environment settings
-1. echo 'PATH=$PATH:$HOME/lammps-stable_23Jun2022/src' >> ~/.bashrc
+1. echo 'export PATH=$PATH:$HOME/lammps-stable_23Jun2022/src' >> ~/.bashrc
 2. bash
 3. which lmp_mpi
 -----(username = your PC name)

@@ -13,7 +13,7 @@
 9. cmake --build build
 
 - environment settings
-1. echo 'PATH=$PATH:$HOME/mopac/build' >> ~/.bashrc
+1. echo 'export PATH=$PATH:$HOME/mopac/build' >> ~/.bashrc
 2. bash
 3. which mopac
   (you can get "/home/username/mopac/build/mopac")
