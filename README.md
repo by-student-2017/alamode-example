@@ -21,8 +21,8 @@
 
 
 # Note
-- The phonon calculation was performed in "alamode" and "DFTB+" using the skf or GNF2-xTB parameters.
-- Phonon calculation with "alamode" and "MOPAC" was performed.
+- The phonon calculation was performed on "alamode" and "DFTB+" using the skf or GNF2-xTB parameters.
+- Phonon calculation was performed on "alamode" and "MOPAC" 
 - Phonon calculations using the Reaxff and ML-SNAP potentials were performed on "alamode" and "Lammps".
-- These techniques and code are available on github. This is the first time in the world including the result. These are developed based on the original "Si_LAMMPS". Coincidentally, I feel destined to accomplish these feats on July 7, 2022 (Tanabata).
+- These techniques and code are published on github. This is the first time in the world including the result. These are developed based on the original "Si_LAMMPS". Coincidentally, I feel destined to accomplish these feats on July 7, 2022 (Tanabata).
 - The interface still has room for improvement. Other systems also need to be verified. I will post it on arXiv as soon as these verifications are completed. However, I'm so busy that it's likely to be years away.
