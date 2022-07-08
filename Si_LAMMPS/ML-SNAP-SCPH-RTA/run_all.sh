@@ -27,7 +27,8 @@ cat << EOF > si_alm0.in
 /
 
 &interaction
-  NORDER = 2  # 1: harmonic, 2: cubic, ..
+  NORDER = 3  # 1: harmonic, 2: cubic, ..
+  NBODY = 2 3 3
 /
 
 &cell
@@ -38,7 +39,7 @@ cat << EOF > si_alm0.in
 /
 
 &cutoff 
-  Si-Si 7.3 7.3
+  Si-Si 8.1 8.1 8.1
 /
 
 
