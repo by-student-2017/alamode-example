@@ -400,7 +400,7 @@ EOF
 ${ALAMODE_ROOT}/anphon/anphon scph.in > scph.log
 grep "conv" scph.log
 
-# Thermal conductivity
+# Thermal property
 cat << EOF > therm.in
 &general
   PREFIX = si222_scph
@@ -440,6 +440,7 @@ EOF
 
 ${ALAMODE_ROOT}/anphon/anphon therm.in > therm.log
 
+# Thermal conductivity
 for ((temp=200; temp<=800; temp+=100))
 do
 # dfc2: Create effective harmonic force constant (ALAMODE XML) from

@@ -400,7 +400,7 @@ EOF
 ${ALAMODE_ROOT}/anphon/anphon scph.in > scph.log
 grep "conv" scph.log
 
-# Thermal conductivity
+# Thermal property
 cat << EOF > therm.in
 &general
   PREFIX = si222_scph
