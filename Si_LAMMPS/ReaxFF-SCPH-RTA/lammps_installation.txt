@@ -1,0 +1,65 @@
+-----------------------------------------------------------------------------------
+- lammps
+(https://github.com/lammps/lammps/releases)
+
+- Installation
+1. cd $HOME
+2. wget https://github.com/lammps/lammps/archive/refs/tags/stable_23Jun2022.tar.gz
+3. tar zxvf stable_23Jun2022.tar.gz
+4. cd lammps-stable_23Jun2022
+5. cd src
+6. make package-status
+7. make yes-MC yes-MEAM yes-REAXFF yes-QEQ
+8. make mpi
+
+- environment settings
+1. echo 'export PATH=$PATH:$HOME/lammps-stable_23Jun2022/src' >> ~/.bashrc
+2. bash
+3. which lmp_mpi
+-----(username = your PC name)
+/home/username/lammps-stable_23Jun2022/src/lmp_mpi
+-----
+
+- Si
+1. git clone https://github.com/by-student-2017/alamode-example.git
+2. cd alamode-example/Si_LAMMPS/ReaxFF
+3. bash run_all.sh
+(if you use gnuplot)
+4. gnuplot < plot_band.gpl
+5. gnuplot < plot_thermal_conductivity.gpl
+-----------------------------------------------------------------------------------
+metal vs. real
+different: time, velocity, force, etc
+
+For style real, these are the units:
+mass = grams/mole
+distance = Angstroms
+time = femtoseconds
+energy = Kcal/mole
+velocity = Angstroms/femtosecond
+force = Kcal/mole-Angstrom
+torque = Kcal/mole
+temperature = Kelvin
+pressure = atmospheres
+dynamic viscosity = Poise
+charge = multiple of electron charge (1.0 is a proton)
+dipole = charge*Angstroms
+electric field = volts/Angstrom
+density = gram/cm^dim
+
+For style metal, these are the units:
+mass = grams/mole
+distance = Angstroms
+time = picoseconds
+energy = eV
+velocity = Angstroms/picosecond
+force = eV/Angstrom
+torque = eV
+temperature = Kelvin
+pressure = bars
+dynamic viscosity = Poise
+charge = multiple of electron charge (1.0 is a proton)
+dipole = charge*Angstroms
+electric field = volts/Angstrom
+density = gram/cm^dim
+-----------------------------------------------------------------------------------

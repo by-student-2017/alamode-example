@@ -7,16 +7,13 @@
 # Binaries 
 #LAMMPS=${HOME}/src/lammps/_build/lmp
 #LAMMPS=/usr/local/bin/lmp
-LAMMPS="mpirun -np 2 $HOME/lammps-stable_23Jun2022/src/lmp_mpi"
+#LAMMPS=/usr/bin/lmp
+#MOPAC=/opt/mopac/bin/mopac
+DFTBp=${HOME}/dftbplus-22.1.x86_64-linux/bin/dftb+
 #ALAMODE_ROOT=${HOME}/src/alamode
 ALAMODE_ROOT=${HOME}/alamode-v.1.4.1/_build
-potential=ffield.reax.001.CHOSiAlLiFPB
-control=lmp_control
 input_file=in.lmp
 SC222_data=Si222.lammps
-
-chmod +x conv_data.sh
-chmod +x conv_force.sh
 
 # Generate displacement patterns
 
@@ -29,7 +26,8 @@ cat << EOF > si_alm0.in
 /
 
 &interaction
-  NORDER = 2  # 1: harmonic, 2: cubic, ..
+  NORDER = 3  # 1: harmonic, 2: cubic, ..
+  NBODY = 2 3 3
 /
 
 &cell
@@ -40,7 +38,7 @@ cat << EOF > si_alm0.in
 /
 
 &cutoff 
-  Si-Si 7.3 7.3
+  Si-Si 8.1 8.1 8.1
 /
 
 
@@ -119,49 +117,37 @@ ${ALAMODE_ROOT}/alm/alm si_alm0.in > alm.log
 # Generate structure files of LAMMPS
 mkdir displace; cd displace/
 
-cp ../${SC222_data} .
-cp ../${input_file} .
-cp ../conv_data.sh .
-./conv_data.sh ${SC222_data}
-mv ${SC222_data}.reax ${SC222_data}
-
 python3 ${ALAMODE_ROOT}/tools/displace.py --LAMMPS ../${SC222_data} --prefix harm --mag 0.01 -pf ../si222.pattern_HARMONIC >> run.log
-python3 ${ALAMODE_ROOT}/tools/displace.py --LAMMPS ../${SC222_data} --prefix cubic --mag 0.04 -pf ../si222.pattern_ANHARM3 >> run.log
+python3 ${ALAMODE_ROOT}/tools/displace.py --LAMMPS ../${SC222_data} --prefix random --random --mag 0.04 -nd 20 >> run.log
 
-cp ../${potential} .
-cp ../${control} .
-#cp ../${input_file} .
+cp -r ../pbc-0-3 .
+cp ../conv_dftbp.sh .
 cp ../conv_force.sh .
+cp ../dftb_in.hsd .
 
 # Run LAMMPS
 for ((i=1; i<=1; i++))
 do
    cp harm${i}.lammps tmp.lammps
-   ./conv_data.sh tmp.lammps
-   mv tmp.lammps.reax tmp.lammps
-   $LAMMPS < ${input_file} >> run.log
-   ./conv_force.sh XFSET
-   mv XFSET.reax XFSET
+   ./conv_dftbp.sh tmp.lammps
+   $DFTBp
+   ./conv_force.sh detailed.out
    mv XFSET XFSET.harm${i}
 done
 
 for ((i=1; i<=20; i++))
 do
    suffix=`echo ${i} | awk '{printf("%02d", $1)}'`
-   cp cubic${suffix}.lammps tmp.lammps
-   ./conv_data.sh tmp.lammps
-   mv tmp.lammps.reax tmp.lammps
-   $LAMMPS < ${input_file} >> run.log
-   ./conv_force.sh XFSET
-   mv XFSET.reax XFSET
-   mv XFSET XFSET.cubic${suffix}
+   cp random${suffix}.lammps tmp.lammps
+   ./conv_dftbp.sh tmp.lammps
+   $DFTBp
+   ./conv_force.sh detailed.out
+   mv XFSET XFSET.random${suffix}
 done
 
 # Collect data
-./conv_data.sh ${SC222_data}
-mv ${SC222_data}.reax ${SC222_data}
 python3 ${ALAMODE_ROOT}/tools/extract.py --LAMMPS ../${SC222_data} XFSET.harm* > DFSET_harmonic
-python3 ${ALAMODE_ROOT}/tools/extract.py --LAMMPS ../${SC222_data} XFSET.cubic* > DFSET_cubic
+python3 ${ALAMODE_ROOT}/tools/extract.py --LAMMPS ../${SC222_data} XFSET.random* > DFSET_random
 
 cd ../
 
@@ -264,22 +250,28 @@ cat << EOF > si_alm1.in
 EOF
 ${ALAMODE_ROOT}/alm/alm si_alm1.in >> alm.log
 
-# Extract cubic force constants
+# Extract cubic and quartic force constants
 cat << EOF > si_alm2.in
 &general
-  PREFIX = si222_cubic
+  PREFIX = si222_anharm
   MODE = optimize
   NAT = 64; NKD = 1
   KD = Si
 /
 
 &optimize
- DFSET = displace/DFSET_cubic
+ DFSET = displace/DFSET_random
  FC2XML = si222_harm.xml
+ LMODEL = enet
+ NDATA = 20
+ CV = 4
+ L1_RATIO = 1.0
+ CONV_TOL = 1.0e-8
 /
 
 &interaction
-  NORDER = 2  # 1: harmonic, 2: cubic, ..
+  NORDER = 3  # 1: harmonic, 2: cubic, ..
+  NBODY = 2 3 3
 /
 
 &cell
@@ -290,7 +282,7 @@ cat << EOF > si_alm2.in
 /
 
 &cutoff 
-  Si-Si 7.3 7.3
+  Si-Si 8.1 8.1 8.1
 /
 
 
@@ -362,17 +354,35 @@ cat << EOF > si_alm2.in
 /
 
 EOF
+# si_alm2.in = si_CV.in
 ${ALAMODE_ROOT}/alm/alm si_alm2.in >> alm.log
+# opt.in
+alpha=`awk '{if($1=="Minimum" && $2=="CVSCORE"){print $6}}' alm.log`
+echo "Minimum CVSCORE at alpha = "${alpha}
+sed "15i \ L1_ALPHA = ${alpha}" si_alm2.in > si_opt.in
+sed -i "s/CV = 4/CV = 0/" si_opt.in
+awk '{if($1=="CV"){print $0}}' si_opt.in
+awk '{if($1=="L1_ALPHA"){print $0}}' si_opt.in
+${ALAMODE_ROOT}/alm/alm si_opt.in >> alm.log
 
 # Phonon dispersion
-cat << EOF > phband.in
+cat << EOF > scph.in
 &general
-  PREFIX = si222
-  MODE = phonons
-  FCSXML =si222_harm.xml
+  PREFIX = si222_scph
+  MODE = SCPH
+  FCSXML =si222_anharm.xml
+  TMIN = 0; TMAX = 1000; DT = 50
 
   NKD = 1; KD = Si
   MASS = 28.0855
+/
+
+&scph
+  SELF_OFFDIAG = 0
+  MAXITER = 1000
+  MIXALPHA = 0.2
+  KMESH_INTERPOLATE = 2 2 2
+  KMESH_SCPH = 2 2 2
 /
 
 &cell
@@ -391,17 +401,27 @@ cat << EOF > phband.in
 
 EOF
 
-${ALAMODE_ROOT}/anphon/anphon phband.in > phband.log
+${ALAMODE_ROOT}/anphon/anphon scph.in > scph.log
+grep "conv" scph.log
 
-# Thermal conductivity
-cat << EOF > RTA.in
+# Thermal property
+cat << EOF > therm.in
 &general
-  PREFIX = si222_10
-  MODE = RTA
-  FCSXML = si222_cubic.xml
+  PREFIX = si222_scph
+  MODE = SCPH
+  FCSXML = si222_anharm.xml
+  EMIN = -100; EMAX = 850; DELTA_E = 1.0
+  TMIN = 0; TMAX = 1000; DT = 50
 
   NKD = 1; KD = Si
   MASS = 28.0855
+/
+
+&scph
+  SELF_OFFDIAG = 0
+  MAXITER = 500
+  KMESH_INTERPOLATE = 2 2 2
+  KMESH_SCPH = 2 2 2
 /
 
 &cell
@@ -416,6 +436,44 @@ cat << EOF > RTA.in
   10 10 10
 /
 
+&analysis
+  PRINTMSD = 1
+/
+
 EOF
 
-${ALAMODE_ROOT}/anphon/anphon RTA.in > RTA.log
+${ALAMODE_ROOT}/anphon/anphon therm.in > therm.log
+
+# Thermal conductivity
+for ((temp=200; temp<=800; temp+=100))
+do
+# dfc2: Create effective harmonic force constant (ALAMODE XML) from
+#       input harmonic force constant (XML format) and PREFIX.scph_dfc2.
+${ALAMODE_ROOT}/tools/dfc2 si222_harm.xml si222_scph_${temp}K.xml si222_scph.scph_dfc2 ${temp}
+cat << EOF > kappa${temp}.in
+&general
+  PREFIX = si222_scph_${temp}K
+  MODE = RTA
+  FCSXML = si222_anharm.xml
+  FC2XML = si222_scph_${temp}K.xml
+  TMIN = ${temp}; TMAX = ${temp}
+
+  NKD = 1; KD = Si
+  MASS = 28.0855
+/
+&cell
+  10.203
+  0.0 0.5 0.5
+  0.5 0.0 0.5
+  0.5 0.5 0.0
+/
+&kpoint
+  2
+  10 10 10
+/
+EOF
+echo "Running kappa calculation at T = " ${temp}
+${ALAMODE_ROOT}/anphon/anphon kappa${temp}.in > kappa${temp}.log
+echo "Done"
+done
+
