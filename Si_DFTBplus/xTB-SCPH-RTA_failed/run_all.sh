@@ -422,7 +422,6 @@ cat << EOF > therm.in
 &scph
   SELF_OFFDIAG = 0
   MAXITER = 1000
-  MIXALPHA = 0.2
   KMESH_INTERPOLATE = 2 2 2
   KMESH_SCPH = 2 2 2
 /

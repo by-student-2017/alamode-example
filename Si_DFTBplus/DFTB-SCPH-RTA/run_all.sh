@@ -15,6 +15,9 @@ ALAMODE_ROOT=${HOME}/alamode-v.1.4.1/_build
 input_file=in.lmp
 SC222_data=Si222.lammps
 
+chmod +x conv_dftbp.sh
+chmod +x conv_force.sh
+
 # Generate displacement patterns
 
 cat << EOF > si_alm0.in
