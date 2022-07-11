@@ -1,0 +1,2560 @@
+*****************************************************************
+    displace.py --  Generator of displaced configurations        
+                      Version. 1.2.1                             
+*****************************************************************
+
+ Output format                  : LAMMPS structure format
+ Structure before displacements : ../Si222.lammps
+ Output file names              : harm{counter}.lammps
+ Magnitude of displacements     : 0.01 Angstrom
+ Number of atoms                : 64
+
+ Displacement mode              : Finite displacement
+
+ 1 displacement pattern are generated from
+ the given *.pattern_* files
+
+ Number of displacements        : 1
+-----------------------------------------------------------------
+
+All input files are created.
+*****************************************************************
+    displace.py --  Generator of displaced configurations        
+                      Version. 1.2.1                             
+*****************************************************************
+
+ Output format                  : LAMMPS structure format
+ Structure before displacements : ../Si222.lammps
+ Output file names              : cubic{counter}.lammps
+ Magnitude of displacements     : 0.04 Angstrom
+ Number of atoms                : 64
+
+ Displacement mode              : Finite displacement
+
+ 20 displacement pattern are generated from
+ the given *.pattern_* files
+
+ Number of displacements        : 20
+-----------------------------------------------------------------
+
+All input files are created.
+amp: false
+cmd:
+  checkpoint_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/checkpoints/2022-07-11-22-34-56
+  commit: 8a57243
+  identifier: ''
+  logs_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/logs/tensorboard/2022-07-11-22-34-56
+  print_every: 100
+  results_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/results/2022-07-11-22-34-56
+  seed: null
+  timestamp_id: 2022-07-11-22-34-56
+dataset: null
+gpus: 0
+logger: tensorboard
+model: spinconv
+model_attributes:
+  basis_width_scalar: 3.0
+  cutoff: 6.0
+  force_estimator: random
+  hidden_channels: 32
+  max_num_neighbors: 40
+  mid_hidden_channels: 256
+  model_ref_number: 0
+  num_basis_functions: 512
+  num_interactions: 3
+  otf_graph: true
+  output_message: fullconv
+  regress_forces: true
+  scale_distances: true
+  sphere_message: fullconv
+  sphere_size_lat: 16
+  sphere_size_long: 12
+  use_pbc: true
+noddp: false
+optim:
+  batch_size: 3
+  energy_coefficient: 1
+  eval_batch_size: 3
+  eval_every: 5000
+  factor: 0.8
+  force_coefficient: 100
+  lr_initial: 0.0004
+  max_epochs: 80
+  mode: min
+  num_workers: 8
+  optimizer: Adam
+  optimizer_params:
+    amsgrad: true
+  patience: 3
+  scheduler: ReduceLROnPlateau
+slurm: {}
+task:
+  dataset: trajectory_lmdb
+  description: Regressing to energies and forces for DFT trajectories from OCP
+  eval_on_free_atoms: true
+  grad_input: atomic forces
+  labels:
+  - potential energy
+  metric: mae
+  train_on_free_atoms: true
+  type: regression
+
+2022-07-11 22:35:08 (INFO): Loading dataset: trajectory_lmdb
+2022-07-11 22:35:08 (INFO): Loading model: spinconv
+2022-07-11 22:35:09 (INFO): Loaded spinconv with 8473371 parameters.
+2022-07-11 22:35:09 (INFO): Loading checkpoint from: /home/inukai/lammps/potentials/OC20DRIVER/oc20_checkpt/spinconv_force_centric_all.pt
+LAMMPS (7 Aug 2019)
+Reading data file ...
+  triclinic box = (0 0 0) to (10.8 10.8 10.8) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  64 atoms
+  read_data CPU = 0.000495911 secs
+WARNING: No fixes defined, atoms won't move (../verlet.cpp:52)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair oc20, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton/tri
+      stencil: half/bin/3d/newton/tri
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+WARNING: Pair style OC20 does currently not support virial pressure (../pair_oc20.cpp:105)
+WARNING: Calculated pressure is INCORRECT (../pair_oc20.cpp:106)
+Per MPI rank memory allocation (min/avg/max) = 3.966 | 3.966 | 3.966 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0   -6.6602693            0   -6.6602693    9066.1235 
+Loop time of 4.05312e-06 on 1 procs for 0 steps with 64 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 4.053e-06  |            |       |100.00
+
+Nlocal:    64 ave 64 max 64 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    801 ave 801 max 801 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    3904 ave 3904 max 3904 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 3904
+Ave neighs/atom = 61
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:13
+amp: false
+cmd:
+  checkpoint_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/checkpoints/2022-07-11-22-34-56
+  commit: 8a57243
+  identifier: ''
+  logs_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/logs/tensorboard/2022-07-11-22-34-56
+  print_every: 100
+  results_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/results/2022-07-11-22-34-56
+  seed: null
+  timestamp_id: 2022-07-11-22-34-56
+dataset: null
+gpus: 0
+logger: tensorboard
+model: spinconv
+model_attributes:
+  basis_width_scalar: 3.0
+  cutoff: 6.0
+  force_estimator: random
+  hidden_channels: 32
+  max_num_neighbors: 40
+  mid_hidden_channels: 256
+  model_ref_number: 0
+  num_basis_functions: 512
+  num_interactions: 3
+  otf_graph: true
+  output_message: fullconv
+  regress_forces: true
+  scale_distances: true
+  sphere_message: fullconv
+  sphere_size_lat: 16
+  sphere_size_long: 12
+  use_pbc: true
+noddp: false
+optim:
+  batch_size: 3
+  energy_coefficient: 1
+  eval_batch_size: 3
+  eval_every: 5000
+  factor: 0.8
+  force_coefficient: 100
+  lr_initial: 0.0004
+  max_epochs: 80
+  mode: min
+  num_workers: 8
+  optimizer: Adam
+  optimizer_params:
+    amsgrad: true
+  patience: 3
+  scheduler: ReduceLROnPlateau
+slurm: {}
+task:
+  dataset: trajectory_lmdb
+  description: Regressing to energies and forces for DFT trajectories from OCP
+  eval_on_free_atoms: true
+  grad_input: atomic forces
+  labels:
+  - potential energy
+  metric: mae
+  train_on_free_atoms: true
+  type: regression
+
+2022-07-11 22:35:21 (INFO): Loading dataset: trajectory_lmdb
+2022-07-11 22:35:21 (INFO): Loading model: spinconv
+2022-07-11 22:35:21 (INFO): Loaded spinconv with 8473371 parameters.
+2022-07-11 22:35:21 (INFO): Loading checkpoint from: /home/inukai/lammps/potentials/OC20DRIVER/oc20_checkpt/spinconv_force_centric_all.pt
+LAMMPS (7 Aug 2019)
+Reading data file ...
+  triclinic box = (0 0 0) to (10.8 10.8 10.8) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  64 atoms
+  read_data CPU = 0.000692844 secs
+WARNING: No fixes defined, atoms won't move (../verlet.cpp:52)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair oc20, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton/tri
+      stencil: half/bin/3d/newton/tri
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+WARNING: Pair style OC20 does currently not support virial pressure (../pair_oc20.cpp:105)
+WARNING: Calculated pressure is INCORRECT (../pair_oc20.cpp:106)
+Per MPI rank memory allocation (min/avg/max) = 3.966 | 3.966 | 3.966 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0   -6.6768832            0   -6.6768832    9063.9995 
+Loop time of 4.05312e-06 on 1 procs for 0 steps with 64 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 4.053e-06  |            |       |100.00
+
+Nlocal:    64 ave 64 max 64 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    801 ave 801 max 801 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    3896 ave 3896 max 3896 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 3896
+Ave neighs/atom = 60.875
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:12
+amp: false
+cmd:
+  checkpoint_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/checkpoints/2022-07-11-22-34-56
+  commit: 8a57243
+  identifier: ''
+  logs_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/logs/tensorboard/2022-07-11-22-34-56
+  print_every: 100
+  results_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/results/2022-07-11-22-34-56
+  seed: null
+  timestamp_id: 2022-07-11-22-34-56
+dataset: null
+gpus: 0
+logger: tensorboard
+model: spinconv
+model_attributes:
+  basis_width_scalar: 3.0
+  cutoff: 6.0
+  force_estimator: random
+  hidden_channels: 32
+  max_num_neighbors: 40
+  mid_hidden_channels: 256
+  model_ref_number: 0
+  num_basis_functions: 512
+  num_interactions: 3
+  otf_graph: true
+  output_message: fullconv
+  regress_forces: true
+  scale_distances: true
+  sphere_message: fullconv
+  sphere_size_lat: 16
+  sphere_size_long: 12
+  use_pbc: true
+noddp: false
+optim:
+  batch_size: 3
+  energy_coefficient: 1
+  eval_batch_size: 3
+  eval_every: 5000
+  factor: 0.8
+  force_coefficient: 100
+  lr_initial: 0.0004
+  max_epochs: 80
+  mode: min
+  num_workers: 8
+  optimizer: Adam
+  optimizer_params:
+    amsgrad: true
+  patience: 3
+  scheduler: ReduceLROnPlateau
+slurm: {}
+task:
+  dataset: trajectory_lmdb
+  description: Regressing to energies and forces for DFT trajectories from OCP
+  eval_on_free_atoms: true
+  grad_input: atomic forces
+  labels:
+  - potential energy
+  metric: mae
+  train_on_free_atoms: true
+  type: regression
+
+2022-07-11 22:35:38 (INFO): Loading dataset: trajectory_lmdb
+2022-07-11 22:35:38 (INFO): Loading model: spinconv
+2022-07-11 22:35:38 (INFO): Loaded spinconv with 8473371 parameters.
+2022-07-11 22:35:38 (INFO): Loading checkpoint from: /home/inukai/lammps/potentials/OC20DRIVER/oc20_checkpt/spinconv_force_centric_all.pt
+LAMMPS (7 Aug 2019)
+Reading data file ...
+  triclinic box = (0 0 0) to (10.8 10.8 10.8) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  64 atoms
+  read_data CPU = 0.000497103 secs
+WARNING: No fixes defined, atoms won't move (../verlet.cpp:52)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair oc20, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton/tri
+      stencil: half/bin/3d/newton/tri
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+WARNING: Pair style OC20 does currently not support virial pressure (../pair_oc20.cpp:105)
+WARNING: Calculated pressure is INCORRECT (../pair_oc20.cpp:106)
+Per MPI rank memory allocation (min/avg/max) = 3.966 | 3.966 | 3.966 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0   -6.6457181            0   -6.6457181    10514.938 
+Loop time of 4.05312e-06 on 1 procs for 0 steps with 64 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 4.053e-06  |            |       |100.00
+
+Nlocal:    64 ave 64 max 64 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    801 ave 801 max 801 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    3892 ave 3892 max 3892 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 3892
+Ave neighs/atom = 60.8125
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:16
+amp: false
+cmd:
+  checkpoint_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/checkpoints/2022-07-11-22-34-56
+  commit: 8a57243
+  identifier: ''
+  logs_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/logs/tensorboard/2022-07-11-22-34-56
+  print_every: 100
+  results_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/results/2022-07-11-22-34-56
+  seed: null
+  timestamp_id: 2022-07-11-22-34-56
+dataset: null
+gpus: 0
+logger: tensorboard
+model: spinconv
+model_attributes:
+  basis_width_scalar: 3.0
+  cutoff: 6.0
+  force_estimator: random
+  hidden_channels: 32
+  max_num_neighbors: 40
+  mid_hidden_channels: 256
+  model_ref_number: 0
+  num_basis_functions: 512
+  num_interactions: 3
+  otf_graph: true
+  output_message: fullconv
+  regress_forces: true
+  scale_distances: true
+  sphere_message: fullconv
+  sphere_size_lat: 16
+  sphere_size_long: 12
+  use_pbc: true
+noddp: false
+optim:
+  batch_size: 3
+  energy_coefficient: 1
+  eval_batch_size: 3
+  eval_every: 5000
+  factor: 0.8
+  force_coefficient: 100
+  lr_initial: 0.0004
+  max_epochs: 80
+  mode: min
+  num_workers: 8
+  optimizer: Adam
+  optimizer_params:
+    amsgrad: true
+  patience: 3
+  scheduler: ReduceLROnPlateau
+slurm: {}
+task:
+  dataset: trajectory_lmdb
+  description: Regressing to energies and forces for DFT trajectories from OCP
+  eval_on_free_atoms: true
+  grad_input: atomic forces
+  labels:
+  - potential energy
+  metric: mae
+  train_on_free_atoms: true
+  type: regression
+
+2022-07-11 22:35:51 (INFO): Loading dataset: trajectory_lmdb
+2022-07-11 22:35:51 (INFO): Loading model: spinconv
+2022-07-11 22:35:51 (INFO): Loaded spinconv with 8473371 parameters.
+2022-07-11 22:35:51 (INFO): Loading checkpoint from: /home/inukai/lammps/potentials/OC20DRIVER/oc20_checkpt/spinconv_force_centric_all.pt
+LAMMPS (7 Aug 2019)
+Reading data file ...
+  triclinic box = (0 0 0) to (10.8 10.8 10.8) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  64 atoms
+  read_data CPU = 0.000504017 secs
+WARNING: No fixes defined, atoms won't move (../verlet.cpp:52)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair oc20, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton/tri
+      stencil: half/bin/3d/newton/tri
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+WARNING: Pair style OC20 does currently not support virial pressure (../pair_oc20.cpp:105)
+WARNING: Calculated pressure is INCORRECT (../pair_oc20.cpp:106)
+Per MPI rank memory allocation (min/avg/max) = 3.966 | 3.966 | 3.966 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0     -6.62538            0     -6.62538    9923.0125 
+Loop time of 4.05312e-06 on 1 procs for 0 steps with 64 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 4.053e-06  |            |       |100.00
+
+Nlocal:    64 ave 64 max 64 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    801 ave 801 max 801 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    3888 ave 3888 max 3888 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 3888
+Ave neighs/atom = 60.75
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:12
+amp: false
+cmd:
+  checkpoint_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/checkpoints/2022-07-11-22-37-04
+  commit: 8a57243
+  identifier: ''
+  logs_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/logs/tensorboard/2022-07-11-22-37-04
+  print_every: 100
+  results_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/results/2022-07-11-22-37-04
+  seed: null
+  timestamp_id: 2022-07-11-22-37-04
+dataset: null
+gpus: 0
+logger: tensorboard
+model: spinconv
+model_attributes:
+  basis_width_scalar: 3.0
+  cutoff: 6.0
+  force_estimator: random
+  hidden_channels: 32
+  max_num_neighbors: 40
+  mid_hidden_channels: 256
+  model_ref_number: 0
+  num_basis_functions: 512
+  num_interactions: 3
+  otf_graph: true
+  output_message: fullconv
+  regress_forces: true
+  scale_distances: true
+  sphere_message: fullconv
+  sphere_size_lat: 16
+  sphere_size_long: 12
+  use_pbc: true
+noddp: false
+optim:
+  batch_size: 3
+  energy_coefficient: 1
+  eval_batch_size: 3
+  eval_every: 5000
+  factor: 0.8
+  force_coefficient: 100
+  lr_initial: 0.0004
+  max_epochs: 80
+  mode: min
+  num_workers: 8
+  optimizer: Adam
+  optimizer_params:
+    amsgrad: true
+  patience: 3
+  scheduler: ReduceLROnPlateau
+slurm: {}
+task:
+  dataset: trajectory_lmdb
+  description: Regressing to energies and forces for DFT trajectories from OCP
+  eval_on_free_atoms: true
+  grad_input: atomic forces
+  labels:
+  - potential energy
+  metric: mae
+  train_on_free_atoms: true
+  type: regression
+
+2022-07-11 22:36:03 (INFO): Loading dataset: trajectory_lmdb
+2022-07-11 22:36:03 (INFO): Loading model: spinconv
+2022-07-11 22:36:03 (INFO): Loaded spinconv with 8473371 parameters.
+2022-07-11 22:36:03 (INFO): Loading checkpoint from: /home/inukai/lammps/potentials/OC20DRIVER/oc20_checkpt/spinconv_force_centric_all.pt
+LAMMPS (7 Aug 2019)
+Reading data file ...
+  triclinic box = (0 0 0) to (10.8 10.8 10.8) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  64 atoms
+  read_data CPU = 0.000494003 secs
+WARNING: No fixes defined, atoms won't move (../verlet.cpp:52)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair oc20, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton/tri
+      stencil: half/bin/3d/newton/tri
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+WARNING: Pair style OC20 does currently not support virial pressure (../pair_oc20.cpp:105)
+WARNING: Calculated pressure is INCORRECT (../pair_oc20.cpp:106)
+Per MPI rank memory allocation (min/avg/max) = 3.966 | 3.966 | 3.966 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0   -6.6923728            0   -6.6923728    10102.016 
+Loop time of 3.8147e-06 on 1 procs for 0 steps with 64 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 3.815e-06  |            |       |100.00
+
+Nlocal:    64 ave 64 max 64 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    801 ave 801 max 801 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    3888 ave 3888 max 3888 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 3888
+Ave neighs/atom = 60.75
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:11
+amp: false
+cmd:
+  checkpoint_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/checkpoints/2022-07-11-22-37-04
+  commit: 8a57243
+  identifier: ''
+  logs_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/logs/tensorboard/2022-07-11-22-37-04
+  print_every: 100
+  results_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/results/2022-07-11-22-37-04
+  seed: null
+  timestamp_id: 2022-07-11-22-37-04
+dataset: null
+gpus: 0
+logger: tensorboard
+model: spinconv
+model_attributes:
+  basis_width_scalar: 3.0
+  cutoff: 6.0
+  force_estimator: random
+  hidden_channels: 32
+  max_num_neighbors: 40
+  mid_hidden_channels: 256
+  model_ref_number: 0
+  num_basis_functions: 512
+  num_interactions: 3
+  otf_graph: true
+  output_message: fullconv
+  regress_forces: true
+  scale_distances: true
+  sphere_message: fullconv
+  sphere_size_lat: 16
+  sphere_size_long: 12
+  use_pbc: true
+noddp: false
+optim:
+  batch_size: 3
+  energy_coefficient: 1
+  eval_batch_size: 3
+  eval_every: 5000
+  factor: 0.8
+  force_coefficient: 100
+  lr_initial: 0.0004
+  max_epochs: 80
+  mode: min
+  num_workers: 8
+  optimizer: Adam
+  optimizer_params:
+    amsgrad: true
+  patience: 3
+  scheduler: ReduceLROnPlateau
+slurm: {}
+task:
+  dataset: trajectory_lmdb
+  description: Regressing to energies and forces for DFT trajectories from OCP
+  eval_on_free_atoms: true
+  grad_input: atomic forces
+  labels:
+  - potential energy
+  metric: mae
+  train_on_free_atoms: true
+  type: regression
+
+2022-07-11 22:36:15 (INFO): Loading dataset: trajectory_lmdb
+2022-07-11 22:36:15 (INFO): Loading model: spinconv
+2022-07-11 22:36:15 (INFO): Loaded spinconv with 8473371 parameters.
+2022-07-11 22:36:15 (INFO): Loading checkpoint from: /home/inukai/lammps/potentials/OC20DRIVER/oc20_checkpt/spinconv_force_centric_all.pt
+LAMMPS (7 Aug 2019)
+Reading data file ...
+  triclinic box = (0 0 0) to (10.8 10.8 10.8) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  64 atoms
+  read_data CPU = 0.00048995 secs
+WARNING: No fixes defined, atoms won't move (../verlet.cpp:52)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair oc20, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton/tri
+      stencil: half/bin/3d/newton/tri
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+WARNING: Pair style OC20 does currently not support virial pressure (../pair_oc20.cpp:105)
+WARNING: Calculated pressure is INCORRECT (../pair_oc20.cpp:106)
+Per MPI rank memory allocation (min/avg/max) = 3.966 | 3.966 | 3.966 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0   -6.5878124            0   -6.5878124    10407.888 
+Loop time of 4.05312e-06 on 1 procs for 0 steps with 64 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 4.053e-06  |            |       |100.00
+
+Nlocal:    64 ave 64 max 64 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    801 ave 801 max 801 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    3888 ave 3888 max 3888 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 3888
+Ave neighs/atom = 60.75
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:11
+amp: false
+cmd:
+  checkpoint_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/checkpoints/2022-07-11-22-37-04
+  commit: 8a57243
+  identifier: ''
+  logs_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/logs/tensorboard/2022-07-11-22-37-04
+  print_every: 100
+  results_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/results/2022-07-11-22-37-04
+  seed: null
+  timestamp_id: 2022-07-11-22-37-04
+dataset: null
+gpus: 0
+logger: tensorboard
+model: spinconv
+model_attributes:
+  basis_width_scalar: 3.0
+  cutoff: 6.0
+  force_estimator: random
+  hidden_channels: 32
+  max_num_neighbors: 40
+  mid_hidden_channels: 256
+  model_ref_number: 0
+  num_basis_functions: 512
+  num_interactions: 3
+  otf_graph: true
+  output_message: fullconv
+  regress_forces: true
+  scale_distances: true
+  sphere_message: fullconv
+  sphere_size_lat: 16
+  sphere_size_long: 12
+  use_pbc: true
+noddp: false
+optim:
+  batch_size: 3
+  energy_coefficient: 1
+  eval_batch_size: 3
+  eval_every: 5000
+  factor: 0.8
+  force_coefficient: 100
+  lr_initial: 0.0004
+  max_epochs: 80
+  mode: min
+  num_workers: 8
+  optimizer: Adam
+  optimizer_params:
+    amsgrad: true
+  patience: 3
+  scheduler: ReduceLROnPlateau
+slurm: {}
+task:
+  dataset: trajectory_lmdb
+  description: Regressing to energies and forces for DFT trajectories from OCP
+  eval_on_free_atoms: true
+  grad_input: atomic forces
+  labels:
+  - potential energy
+  metric: mae
+  train_on_free_atoms: true
+  type: regression
+
+2022-07-11 22:36:27 (INFO): Loading dataset: trajectory_lmdb
+2022-07-11 22:36:27 (INFO): Loading model: spinconv
+2022-07-11 22:36:27 (INFO): Loaded spinconv with 8473371 parameters.
+2022-07-11 22:36:27 (INFO): Loading checkpoint from: /home/inukai/lammps/potentials/OC20DRIVER/oc20_checkpt/spinconv_force_centric_all.pt
+LAMMPS (7 Aug 2019)
+Reading data file ...
+  triclinic box = (0 0 0) to (10.8 10.8 10.8) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  64 atoms
+  read_data CPU = 0.000772953 secs
+WARNING: No fixes defined, atoms won't move (../verlet.cpp:52)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair oc20, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton/tri
+      stencil: half/bin/3d/newton/tri
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+WARNING: Pair style OC20 does currently not support virial pressure (../pair_oc20.cpp:105)
+WARNING: Calculated pressure is INCORRECT (../pair_oc20.cpp:106)
+Per MPI rank memory allocation (min/avg/max) = 3.966 | 3.966 | 3.966 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0   -6.6712074            0   -6.6712074    9402.2156 
+Loop time of 4.05312e-06 on 1 procs for 0 steps with 64 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 4.053e-06  |            |       |100.00
+
+Nlocal:    64 ave 64 max 64 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    801 ave 801 max 801 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    3888 ave 3888 max 3888 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 3888
+Ave neighs/atom = 60.75
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:11
+amp: false
+cmd:
+  checkpoint_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/checkpoints/2022-07-11-22-37-04
+  commit: 8a57243
+  identifier: ''
+  logs_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/logs/tensorboard/2022-07-11-22-37-04
+  print_every: 100
+  results_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/results/2022-07-11-22-37-04
+  seed: null
+  timestamp_id: 2022-07-11-22-37-04
+dataset: null
+gpus: 0
+logger: tensorboard
+model: spinconv
+model_attributes:
+  basis_width_scalar: 3.0
+  cutoff: 6.0
+  force_estimator: random
+  hidden_channels: 32
+  max_num_neighbors: 40
+  mid_hidden_channels: 256
+  model_ref_number: 0
+  num_basis_functions: 512
+  num_interactions: 3
+  otf_graph: true
+  output_message: fullconv
+  regress_forces: true
+  scale_distances: true
+  sphere_message: fullconv
+  sphere_size_lat: 16
+  sphere_size_long: 12
+  use_pbc: true
+noddp: false
+optim:
+  batch_size: 3
+  energy_coefficient: 1
+  eval_batch_size: 3
+  eval_every: 5000
+  factor: 0.8
+  force_coefficient: 100
+  lr_initial: 0.0004
+  max_epochs: 80
+  mode: min
+  num_workers: 8
+  optimizer: Adam
+  optimizer_params:
+    amsgrad: true
+  patience: 3
+  scheduler: ReduceLROnPlateau
+slurm: {}
+task:
+  dataset: trajectory_lmdb
+  description: Regressing to energies and forces for DFT trajectories from OCP
+  eval_on_free_atoms: true
+  grad_input: atomic forces
+  labels:
+  - potential energy
+  metric: mae
+  train_on_free_atoms: true
+  type: regression
+
+2022-07-11 22:36:39 (INFO): Loading dataset: trajectory_lmdb
+2022-07-11 22:36:39 (INFO): Loading model: spinconv
+2022-07-11 22:36:39 (INFO): Loaded spinconv with 8473371 parameters.
+2022-07-11 22:36:39 (INFO): Loading checkpoint from: /home/inukai/lammps/potentials/OC20DRIVER/oc20_checkpt/spinconv_force_centric_all.pt
+LAMMPS (7 Aug 2019)
+Reading data file ...
+  triclinic box = (0 0 0) to (10.8 10.8 10.8) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  64 atoms
+  read_data CPU = 0.000511169 secs
+WARNING: No fixes defined, atoms won't move (../verlet.cpp:52)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair oc20, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton/tri
+      stencil: half/bin/3d/newton/tri
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+WARNING: Pair style OC20 does currently not support virial pressure (../pair_oc20.cpp:105)
+WARNING: Calculated pressure is INCORRECT (../pair_oc20.cpp:106)
+Per MPI rank memory allocation (min/avg/max) = 3.966 | 3.966 | 3.966 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0   -6.6594148            0   -6.6594148    9080.9648 
+Loop time of 4.05312e-06 on 1 procs for 0 steps with 64 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 4.053e-06  |            |       |100.00
+
+Nlocal:    64 ave 64 max 64 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    801 ave 801 max 801 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    3888 ave 3888 max 3888 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 3888
+Ave neighs/atom = 60.75
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:11
+amp: false
+cmd:
+  checkpoint_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/checkpoints/2022-07-11-22-37-04
+  commit: 8a57243
+  identifier: ''
+  logs_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/logs/tensorboard/2022-07-11-22-37-04
+  print_every: 100
+  results_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/results/2022-07-11-22-37-04
+  seed: null
+  timestamp_id: 2022-07-11-22-37-04
+dataset: null
+gpus: 0
+logger: tensorboard
+model: spinconv
+model_attributes:
+  basis_width_scalar: 3.0
+  cutoff: 6.0
+  force_estimator: random
+  hidden_channels: 32
+  max_num_neighbors: 40
+  mid_hidden_channels: 256
+  model_ref_number: 0
+  num_basis_functions: 512
+  num_interactions: 3
+  otf_graph: true
+  output_message: fullconv
+  regress_forces: true
+  scale_distances: true
+  sphere_message: fullconv
+  sphere_size_lat: 16
+  sphere_size_long: 12
+  use_pbc: true
+noddp: false
+optim:
+  batch_size: 3
+  energy_coefficient: 1
+  eval_batch_size: 3
+  eval_every: 5000
+  factor: 0.8
+  force_coefficient: 100
+  lr_initial: 0.0004
+  max_epochs: 80
+  mode: min
+  num_workers: 8
+  optimizer: Adam
+  optimizer_params:
+    amsgrad: true
+  patience: 3
+  scheduler: ReduceLROnPlateau
+slurm: {}
+task:
+  dataset: trajectory_lmdb
+  description: Regressing to energies and forces for DFT trajectories from OCP
+  eval_on_free_atoms: true
+  grad_input: atomic forces
+  labels:
+  - potential energy
+  metric: mae
+  train_on_free_atoms: true
+  type: regression
+
+2022-07-11 22:36:51 (INFO): Loading dataset: trajectory_lmdb
+2022-07-11 22:36:51 (INFO): Loading model: spinconv
+2022-07-11 22:36:51 (INFO): Loaded spinconv with 8473371 parameters.
+2022-07-11 22:36:51 (INFO): Loading checkpoint from: /home/inukai/lammps/potentials/OC20DRIVER/oc20_checkpt/spinconv_force_centric_all.pt
+LAMMPS (7 Aug 2019)
+Reading data file ...
+  triclinic box = (0 0 0) to (10.8 10.8 10.8) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  64 atoms
+  read_data CPU = 0.000488997 secs
+WARNING: No fixes defined, atoms won't move (../verlet.cpp:52)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair oc20, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton/tri
+      stencil: half/bin/3d/newton/tri
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+WARNING: Pair style OC20 does currently not support virial pressure (../pair_oc20.cpp:105)
+WARNING: Calculated pressure is INCORRECT (../pair_oc20.cpp:106)
+Per MPI rank memory allocation (min/avg/max) = 3.966 | 3.966 | 3.966 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0   -6.5685115            0   -6.5685115    9193.6207 
+Loop time of 4.05312e-06 on 1 procs for 0 steps with 64 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 4.053e-06  |            |       |100.00
+
+Nlocal:    64 ave 64 max 64 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    801 ave 801 max 801 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    3888 ave 3888 max 3888 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 3888
+Ave neighs/atom = 60.75
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:11
+amp: false
+cmd:
+  checkpoint_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/checkpoints/2022-07-11-22-37-04
+  commit: 8a57243
+  identifier: ''
+  logs_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/logs/tensorboard/2022-07-11-22-37-04
+  print_every: 100
+  results_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/results/2022-07-11-22-37-04
+  seed: null
+  timestamp_id: 2022-07-11-22-37-04
+dataset: null
+gpus: 0
+logger: tensorboard
+model: spinconv
+model_attributes:
+  basis_width_scalar: 3.0
+  cutoff: 6.0
+  force_estimator: random
+  hidden_channels: 32
+  max_num_neighbors: 40
+  mid_hidden_channels: 256
+  model_ref_number: 0
+  num_basis_functions: 512
+  num_interactions: 3
+  otf_graph: true
+  output_message: fullconv
+  regress_forces: true
+  scale_distances: true
+  sphere_message: fullconv
+  sphere_size_lat: 16
+  sphere_size_long: 12
+  use_pbc: true
+noddp: false
+optim:
+  batch_size: 3
+  energy_coefficient: 1
+  eval_batch_size: 3
+  eval_every: 5000
+  factor: 0.8
+  force_coefficient: 100
+  lr_initial: 0.0004
+  max_epochs: 80
+  mode: min
+  num_workers: 8
+  optimizer: Adam
+  optimizer_params:
+    amsgrad: true
+  patience: 3
+  scheduler: ReduceLROnPlateau
+slurm: {}
+task:
+  dataset: trajectory_lmdb
+  description: Regressing to energies and forces for DFT trajectories from OCP
+  eval_on_free_atoms: true
+  grad_input: atomic forces
+  labels:
+  - potential energy
+  metric: mae
+  train_on_free_atoms: true
+  type: regression
+
+2022-07-11 22:37:03 (INFO): Loading dataset: trajectory_lmdb
+2022-07-11 22:37:03 (INFO): Loading model: spinconv
+2022-07-11 22:37:03 (INFO): Loaded spinconv with 8473371 parameters.
+2022-07-11 22:37:03 (INFO): Loading checkpoint from: /home/inukai/lammps/potentials/OC20DRIVER/oc20_checkpt/spinconv_force_centric_all.pt
+LAMMPS (7 Aug 2019)
+Reading data file ...
+  triclinic box = (0 0 0) to (10.8 10.8 10.8) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  64 atoms
+  read_data CPU = 0.000672102 secs
+WARNING: No fixes defined, atoms won't move (../verlet.cpp:52)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair oc20, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton/tri
+      stencil: half/bin/3d/newton/tri
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+WARNING: Pair style OC20 does currently not support virial pressure (../pair_oc20.cpp:105)
+WARNING: Calculated pressure is INCORRECT (../pair_oc20.cpp:106)
+Per MPI rank memory allocation (min/avg/max) = 3.966 | 3.966 | 3.966 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0    -6.563591            0    -6.563591    8700.9163 
+Loop time of 3.8147e-06 on 1 procs for 0 steps with 64 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 3.815e-06  |            |       |100.00
+
+Nlocal:    64 ave 64 max 64 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    801 ave 801 max 801 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    3888 ave 3888 max 3888 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 3888
+Ave neighs/atom = 60.75
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:11
+amp: false
+cmd:
+  checkpoint_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/checkpoints/2022-07-11-22-37-04
+  commit: 8a57243
+  identifier: ''
+  logs_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/logs/tensorboard/2022-07-11-22-37-04
+  print_every: 100
+  results_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/results/2022-07-11-22-37-04
+  seed: null
+  timestamp_id: 2022-07-11-22-37-04
+dataset: null
+gpus: 0
+logger: tensorboard
+model: spinconv
+model_attributes:
+  basis_width_scalar: 3.0
+  cutoff: 6.0
+  force_estimator: random
+  hidden_channels: 32
+  max_num_neighbors: 40
+  mid_hidden_channels: 256
+  model_ref_number: 0
+  num_basis_functions: 512
+  num_interactions: 3
+  otf_graph: true
+  output_message: fullconv
+  regress_forces: true
+  scale_distances: true
+  sphere_message: fullconv
+  sphere_size_lat: 16
+  sphere_size_long: 12
+  use_pbc: true
+noddp: false
+optim:
+  batch_size: 3
+  energy_coefficient: 1
+  eval_batch_size: 3
+  eval_every: 5000
+  factor: 0.8
+  force_coefficient: 100
+  lr_initial: 0.0004
+  max_epochs: 80
+  mode: min
+  num_workers: 8
+  optimizer: Adam
+  optimizer_params:
+    amsgrad: true
+  patience: 3
+  scheduler: ReduceLROnPlateau
+slurm: {}
+task:
+  dataset: trajectory_lmdb
+  description: Regressing to energies and forces for DFT trajectories from OCP
+  eval_on_free_atoms: true
+  grad_input: atomic forces
+  labels:
+  - potential energy
+  metric: mae
+  train_on_free_atoms: true
+  type: regression
+
+2022-07-11 22:37:15 (INFO): Loading dataset: trajectory_lmdb
+2022-07-11 22:37:15 (INFO): Loading model: spinconv
+2022-07-11 22:37:15 (INFO): Loaded spinconv with 8473371 parameters.
+2022-07-11 22:37:15 (INFO): Loading checkpoint from: /home/inukai/lammps/potentials/OC20DRIVER/oc20_checkpt/spinconv_force_centric_all.pt
+LAMMPS (7 Aug 2019)
+Reading data file ...
+  triclinic box = (0 0 0) to (10.8 10.8 10.8) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  64 atoms
+  read_data CPU = 0.000507116 secs
+WARNING: No fixes defined, atoms won't move (../verlet.cpp:52)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair oc20, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton/tri
+      stencil: half/bin/3d/newton/tri
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+WARNING: Pair style OC20 does currently not support virial pressure (../pair_oc20.cpp:105)
+WARNING: Calculated pressure is INCORRECT (../pair_oc20.cpp:106)
+Per MPI rank memory allocation (min/avg/max) = 3.966 | 3.966 | 3.966 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0   -6.6428094            0   -6.6428094    9012.6703 
+Loop time of 4.05312e-06 on 1 procs for 0 steps with 64 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 4.053e-06  |            |       |100.00
+
+Nlocal:    64 ave 64 max 64 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    801 ave 801 max 801 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    3888 ave 3888 max 3888 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 3888
+Ave neighs/atom = 60.75
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:11
+amp: false
+cmd:
+  checkpoint_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/checkpoints/2022-07-11-22-37-04
+  commit: 8a57243
+  identifier: ''
+  logs_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/logs/tensorboard/2022-07-11-22-37-04
+  print_every: 100
+  results_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/results/2022-07-11-22-37-04
+  seed: null
+  timestamp_id: 2022-07-11-22-37-04
+dataset: null
+gpus: 0
+logger: tensorboard
+model: spinconv
+model_attributes:
+  basis_width_scalar: 3.0
+  cutoff: 6.0
+  force_estimator: random
+  hidden_channels: 32
+  max_num_neighbors: 40
+  mid_hidden_channels: 256
+  model_ref_number: 0
+  num_basis_functions: 512
+  num_interactions: 3
+  otf_graph: true
+  output_message: fullconv
+  regress_forces: true
+  scale_distances: true
+  sphere_message: fullconv
+  sphere_size_lat: 16
+  sphere_size_long: 12
+  use_pbc: true
+noddp: false
+optim:
+  batch_size: 3
+  energy_coefficient: 1
+  eval_batch_size: 3
+  eval_every: 5000
+  factor: 0.8
+  force_coefficient: 100
+  lr_initial: 0.0004
+  max_epochs: 80
+  mode: min
+  num_workers: 8
+  optimizer: Adam
+  optimizer_params:
+    amsgrad: true
+  patience: 3
+  scheduler: ReduceLROnPlateau
+slurm: {}
+task:
+  dataset: trajectory_lmdb
+  description: Regressing to energies and forces for DFT trajectories from OCP
+  eval_on_free_atoms: true
+  grad_input: atomic forces
+  labels:
+  - potential energy
+  metric: mae
+  train_on_free_atoms: true
+  type: regression
+
+2022-07-11 22:37:27 (INFO): Loading dataset: trajectory_lmdb
+2022-07-11 22:37:27 (INFO): Loading model: spinconv
+2022-07-11 22:37:27 (INFO): Loaded spinconv with 8473371 parameters.
+2022-07-11 22:37:27 (INFO): Loading checkpoint from: /home/inukai/lammps/potentials/OC20DRIVER/oc20_checkpt/spinconv_force_centric_all.pt
+LAMMPS (7 Aug 2019)
+Reading data file ...
+  triclinic box = (0 0 0) to (10.8 10.8 10.8) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  64 atoms
+  read_data CPU = 0.000514984 secs
+WARNING: No fixes defined, atoms won't move (../verlet.cpp:52)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair oc20, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton/tri
+      stencil: half/bin/3d/newton/tri
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+WARNING: Pair style OC20 does currently not support virial pressure (../pair_oc20.cpp:105)
+WARNING: Calculated pressure is INCORRECT (../pair_oc20.cpp:106)
+Per MPI rank memory allocation (min/avg/max) = 3.966 | 3.966 | 3.966 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0   -6.6202641            0   -6.6202641    8962.1607 
+Loop time of 3.09944e-06 on 1 procs for 0 steps with 64 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 3.099e-06  |            |       |100.00
+
+Nlocal:    64 ave 64 max 64 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    801 ave 801 max 801 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    3888 ave 3888 max 3888 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 3888
+Ave neighs/atom = 60.75
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:11
+amp: false
+cmd:
+  checkpoint_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/checkpoints/2022-07-11-22-37-04
+  commit: 8a57243
+  identifier: ''
+  logs_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/logs/tensorboard/2022-07-11-22-37-04
+  print_every: 100
+  results_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/results/2022-07-11-22-37-04
+  seed: null
+  timestamp_id: 2022-07-11-22-37-04
+dataset: null
+gpus: 0
+logger: tensorboard
+model: spinconv
+model_attributes:
+  basis_width_scalar: 3.0
+  cutoff: 6.0
+  force_estimator: random
+  hidden_channels: 32
+  max_num_neighbors: 40
+  mid_hidden_channels: 256
+  model_ref_number: 0
+  num_basis_functions: 512
+  num_interactions: 3
+  otf_graph: true
+  output_message: fullconv
+  regress_forces: true
+  scale_distances: true
+  sphere_message: fullconv
+  sphere_size_lat: 16
+  sphere_size_long: 12
+  use_pbc: true
+noddp: false
+optim:
+  batch_size: 3
+  energy_coefficient: 1
+  eval_batch_size: 3
+  eval_every: 5000
+  factor: 0.8
+  force_coefficient: 100
+  lr_initial: 0.0004
+  max_epochs: 80
+  mode: min
+  num_workers: 8
+  optimizer: Adam
+  optimizer_params:
+    amsgrad: true
+  patience: 3
+  scheduler: ReduceLROnPlateau
+slurm: {}
+task:
+  dataset: trajectory_lmdb
+  description: Regressing to energies and forces for DFT trajectories from OCP
+  eval_on_free_atoms: true
+  grad_input: atomic forces
+  labels:
+  - potential energy
+  metric: mae
+  train_on_free_atoms: true
+  type: regression
+
+2022-07-11 22:37:39 (INFO): Loading dataset: trajectory_lmdb
+2022-07-11 22:37:39 (INFO): Loading model: spinconv
+2022-07-11 22:37:39 (INFO): Loaded spinconv with 8473371 parameters.
+2022-07-11 22:37:39 (INFO): Loading checkpoint from: /home/inukai/lammps/potentials/OC20DRIVER/oc20_checkpt/spinconv_force_centric_all.pt
+LAMMPS (7 Aug 2019)
+Reading data file ...
+  triclinic box = (0 0 0) to (10.8 10.8 10.8) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  64 atoms
+  read_data CPU = 0.000494003 secs
+WARNING: No fixes defined, atoms won't move (../verlet.cpp:52)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair oc20, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton/tri
+      stencil: half/bin/3d/newton/tri
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+WARNING: Pair style OC20 does currently not support virial pressure (../pair_oc20.cpp:105)
+WARNING: Calculated pressure is INCORRECT (../pair_oc20.cpp:106)
+Per MPI rank memory allocation (min/avg/max) = 3.966 | 3.966 | 3.966 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0   -6.6286798            0   -6.6286798    9540.4639 
+Loop time of 4.05312e-06 on 1 procs for 0 steps with 64 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 4.053e-06  |            |       |100.00
+
+Nlocal:    64 ave 64 max 64 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    801 ave 801 max 801 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    3888 ave 3888 max 3888 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 3888
+Ave neighs/atom = 60.75
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:14
+amp: false
+cmd:
+  checkpoint_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/checkpoints/2022-07-11-22-37-04
+  commit: 8a57243
+  identifier: ''
+  logs_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/logs/tensorboard/2022-07-11-22-37-04
+  print_every: 100
+  results_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/results/2022-07-11-22-37-04
+  seed: null
+  timestamp_id: 2022-07-11-22-37-04
+dataset: null
+gpus: 0
+logger: tensorboard
+model: spinconv
+model_attributes:
+  basis_width_scalar: 3.0
+  cutoff: 6.0
+  force_estimator: random
+  hidden_channels: 32
+  max_num_neighbors: 40
+  mid_hidden_channels: 256
+  model_ref_number: 0
+  num_basis_functions: 512
+  num_interactions: 3
+  otf_graph: true
+  output_message: fullconv
+  regress_forces: true
+  scale_distances: true
+  sphere_message: fullconv
+  sphere_size_lat: 16
+  sphere_size_long: 12
+  use_pbc: true
+noddp: false
+optim:
+  batch_size: 3
+  energy_coefficient: 1
+  eval_batch_size: 3
+  eval_every: 5000
+  factor: 0.8
+  force_coefficient: 100
+  lr_initial: 0.0004
+  max_epochs: 80
+  mode: min
+  num_workers: 8
+  optimizer: Adam
+  optimizer_params:
+    amsgrad: true
+  patience: 3
+  scheduler: ReduceLROnPlateau
+slurm: {}
+task:
+  dataset: trajectory_lmdb
+  description: Regressing to energies and forces for DFT trajectories from OCP
+  eval_on_free_atoms: true
+  grad_input: atomic forces
+  labels:
+  - potential energy
+  metric: mae
+  train_on_free_atoms: true
+  type: regression
+
+2022-07-11 22:37:56 (INFO): Loading dataset: trajectory_lmdb
+2022-07-11 22:37:56 (INFO): Loading model: spinconv
+2022-07-11 22:37:56 (INFO): Loaded spinconv with 8473371 parameters.
+2022-07-11 22:37:56 (INFO): Loading checkpoint from: /home/inukai/lammps/potentials/OC20DRIVER/oc20_checkpt/spinconv_force_centric_all.pt
+LAMMPS (7 Aug 2019)
+Reading data file ...
+  triclinic box = (0 0 0) to (10.8 10.8 10.8) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  64 atoms
+  read_data CPU = 0.000743866 secs
+WARNING: No fixes defined, atoms won't move (../verlet.cpp:52)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair oc20, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton/tri
+      stencil: half/bin/3d/newton/tri
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+WARNING: Pair style OC20 does currently not support virial pressure (../pair_oc20.cpp:105)
+WARNING: Calculated pressure is INCORRECT (../pair_oc20.cpp:106)
+Per MPI rank memory allocation (min/avg/max) = 3.966 | 3.966 | 3.966 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0   -6.6474857            0   -6.6474857    9110.0203 
+Loop time of 3.09944e-06 on 1 procs for 0 steps with 64 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 3.099e-06  |            |       |100.00
+
+Nlocal:    64 ave 64 max 64 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    801 ave 801 max 801 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    3888 ave 3888 max 3888 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 3888
+Ave neighs/atom = 60.75
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:18
+amp: false
+cmd:
+  checkpoint_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/checkpoints/2022-07-11-22-39-12
+  commit: 8a57243
+  identifier: ''
+  logs_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/logs/tensorboard/2022-07-11-22-39-12
+  print_every: 100
+  results_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/results/2022-07-11-22-39-12
+  seed: null
+  timestamp_id: 2022-07-11-22-39-12
+dataset: null
+gpus: 0
+logger: tensorboard
+model: spinconv
+model_attributes:
+  basis_width_scalar: 3.0
+  cutoff: 6.0
+  force_estimator: random
+  hidden_channels: 32
+  max_num_neighbors: 40
+  mid_hidden_channels: 256
+  model_ref_number: 0
+  num_basis_functions: 512
+  num_interactions: 3
+  otf_graph: true
+  output_message: fullconv
+  regress_forces: true
+  scale_distances: true
+  sphere_message: fullconv
+  sphere_size_lat: 16
+  sphere_size_long: 12
+  use_pbc: true
+noddp: false
+optim:
+  batch_size: 3
+  energy_coefficient: 1
+  eval_batch_size: 3
+  eval_every: 5000
+  factor: 0.8
+  force_coefficient: 100
+  lr_initial: 0.0004
+  max_epochs: 80
+  mode: min
+  num_workers: 8
+  optimizer: Adam
+  optimizer_params:
+    amsgrad: true
+  patience: 3
+  scheduler: ReduceLROnPlateau
+slurm: {}
+task:
+  dataset: trajectory_lmdb
+  description: Regressing to energies and forces for DFT trajectories from OCP
+  eval_on_free_atoms: true
+  grad_input: atomic forces
+  labels:
+  - potential energy
+  metric: mae
+  train_on_free_atoms: true
+  type: regression
+
+2022-07-11 22:38:19 (INFO): Loading dataset: trajectory_lmdb
+2022-07-11 22:38:19 (INFO): Loading model: spinconv
+2022-07-11 22:38:19 (INFO): Loaded spinconv with 8473371 parameters.
+2022-07-11 22:38:19 (INFO): Loading checkpoint from: /home/inukai/lammps/potentials/OC20DRIVER/oc20_checkpt/spinconv_force_centric_all.pt
+LAMMPS (7 Aug 2019)
+Reading data file ...
+  triclinic box = (0 0 0) to (10.8 10.8 10.8) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  64 atoms
+  read_data CPU = 0.00097394 secs
+WARNING: No fixes defined, atoms won't move (../verlet.cpp:52)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair oc20, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton/tri
+      stencil: half/bin/3d/newton/tri
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+WARNING: Pair style OC20 does currently not support virial pressure (../pair_oc20.cpp:105)
+WARNING: Calculated pressure is INCORRECT (../pair_oc20.cpp:106)
+Per MPI rank memory allocation (min/avg/max) = 3.966 | 3.966 | 3.966 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0   -6.5532975            0   -6.5532975    9246.8236 
+Loop time of 4.05312e-06 on 1 procs for 0 steps with 64 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 4.053e-06  |            |       |100.00
+
+Nlocal:    64 ave 64 max 64 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    801 ave 801 max 801 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    3888 ave 3888 max 3888 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 3888
+Ave neighs/atom = 60.75
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:20
+amp: false
+cmd:
+  checkpoint_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/checkpoints/2022-07-11-22-39-12
+  commit: 8a57243
+  identifier: ''
+  logs_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/logs/tensorboard/2022-07-11-22-39-12
+  print_every: 100
+  results_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/results/2022-07-11-22-39-12
+  seed: null
+  timestamp_id: 2022-07-11-22-39-12
+dataset: null
+gpus: 0
+logger: tensorboard
+model: spinconv
+model_attributes:
+  basis_width_scalar: 3.0
+  cutoff: 6.0
+  force_estimator: random
+  hidden_channels: 32
+  max_num_neighbors: 40
+  mid_hidden_channels: 256
+  model_ref_number: 0
+  num_basis_functions: 512
+  num_interactions: 3
+  otf_graph: true
+  output_message: fullconv
+  regress_forces: true
+  scale_distances: true
+  sphere_message: fullconv
+  sphere_size_lat: 16
+  sphere_size_long: 12
+  use_pbc: true
+noddp: false
+optim:
+  batch_size: 3
+  energy_coefficient: 1
+  eval_batch_size: 3
+  eval_every: 5000
+  factor: 0.8
+  force_coefficient: 100
+  lr_initial: 0.0004
+  max_epochs: 80
+  mode: min
+  num_workers: 8
+  optimizer: Adam
+  optimizer_params:
+    amsgrad: true
+  patience: 3
+  scheduler: ReduceLROnPlateau
+slurm: {}
+task:
+  dataset: trajectory_lmdb
+  description: Regressing to energies and forces for DFT trajectories from OCP
+  eval_on_free_atoms: true
+  grad_input: atomic forces
+  labels:
+  - potential energy
+  metric: mae
+  train_on_free_atoms: true
+  type: regression
+
+2022-07-11 22:38:36 (INFO): Loading dataset: trajectory_lmdb
+2022-07-11 22:38:36 (INFO): Loading model: spinconv
+2022-07-11 22:38:36 (INFO): Loaded spinconv with 8473371 parameters.
+2022-07-11 22:38:36 (INFO): Loading checkpoint from: /home/inukai/lammps/potentials/OC20DRIVER/oc20_checkpt/spinconv_force_centric_all.pt
+LAMMPS (7 Aug 2019)
+Reading data file ...
+  triclinic box = (0 0 0) to (10.8 10.8 10.8) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  64 atoms
+  read_data CPU = 0.000878811 secs
+WARNING: No fixes defined, atoms won't move (../verlet.cpp:52)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair oc20, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton/tri
+      stencil: half/bin/3d/newton/tri
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+WARNING: Pair style OC20 does currently not support virial pressure (../pair_oc20.cpp:105)
+WARNING: Calculated pressure is INCORRECT (../pair_oc20.cpp:106)
+Per MPI rank memory allocation (min/avg/max) = 3.966 | 3.966 | 3.966 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0   -6.5461011            0   -6.5461011    9415.7841 
+Loop time of 5.00679e-06 on 1 procs for 0 steps with 64 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 5.007e-06  |            |       |100.00
+
+Nlocal:    64 ave 64 max 64 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    801 ave 801 max 801 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    3888 ave 3888 max 3888 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 3888
+Ave neighs/atom = 60.75
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:17
+amp: false
+cmd:
+  checkpoint_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/checkpoints/2022-07-11-22-39-12
+  commit: 8a57243
+  identifier: ''
+  logs_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/logs/tensorboard/2022-07-11-22-39-12
+  print_every: 100
+  results_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/results/2022-07-11-22-39-12
+  seed: null
+  timestamp_id: 2022-07-11-22-39-12
+dataset: null
+gpus: 0
+logger: tensorboard
+model: spinconv
+model_attributes:
+  basis_width_scalar: 3.0
+  cutoff: 6.0
+  force_estimator: random
+  hidden_channels: 32
+  max_num_neighbors: 40
+  mid_hidden_channels: 256
+  model_ref_number: 0
+  num_basis_functions: 512
+  num_interactions: 3
+  otf_graph: true
+  output_message: fullconv
+  regress_forces: true
+  scale_distances: true
+  sphere_message: fullconv
+  sphere_size_lat: 16
+  sphere_size_long: 12
+  use_pbc: true
+noddp: false
+optim:
+  batch_size: 3
+  energy_coefficient: 1
+  eval_batch_size: 3
+  eval_every: 5000
+  factor: 0.8
+  force_coefficient: 100
+  lr_initial: 0.0004
+  max_epochs: 80
+  mode: min
+  num_workers: 8
+  optimizer: Adam
+  optimizer_params:
+    amsgrad: true
+  patience: 3
+  scheduler: ReduceLROnPlateau
+slurm: {}
+task:
+  dataset: trajectory_lmdb
+  description: Regressing to energies and forces for DFT trajectories from OCP
+  eval_on_free_atoms: true
+  grad_input: atomic forces
+  labels:
+  - potential energy
+  metric: mae
+  train_on_free_atoms: true
+  type: regression
+
+2022-07-11 22:38:55 (INFO): Loading dataset: trajectory_lmdb
+2022-07-11 22:38:55 (INFO): Loading model: spinconv
+2022-07-11 22:38:55 (INFO): Loaded spinconv with 8473371 parameters.
+2022-07-11 22:38:55 (INFO): Loading checkpoint from: /home/inukai/lammps/potentials/OC20DRIVER/oc20_checkpt/spinconv_force_centric_all.pt
+LAMMPS (7 Aug 2019)
+Reading data file ...
+  triclinic box = (0 0 0) to (10.8 10.8 10.8) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  64 atoms
+  read_data CPU = 0.000796795 secs
+WARNING: No fixes defined, atoms won't move (../verlet.cpp:52)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair oc20, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton/tri
+      stencil: half/bin/3d/newton/tri
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+WARNING: Pair style OC20 does currently not support virial pressure (../pair_oc20.cpp:105)
+WARNING: Calculated pressure is INCORRECT (../pair_oc20.cpp:106)
+Per MPI rank memory allocation (min/avg/max) = 3.966 | 3.966 | 3.966 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0    -6.615521            0    -6.615521    8640.0675 
+Loop time of 3.8147e-06 on 1 procs for 0 steps with 64 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 3.815e-06  |            |       |100.00
+
+Nlocal:    64 ave 64 max 64 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    801 ave 801 max 801 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    3888 ave 3888 max 3888 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 3888
+Ave neighs/atom = 60.75
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:16
+amp: false
+cmd:
+  checkpoint_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/checkpoints/2022-07-11-22-39-12
+  commit: 8a57243
+  identifier: ''
+  logs_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/logs/tensorboard/2022-07-11-22-39-12
+  print_every: 100
+  results_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/results/2022-07-11-22-39-12
+  seed: null
+  timestamp_id: 2022-07-11-22-39-12
+dataset: null
+gpus: 0
+logger: tensorboard
+model: spinconv
+model_attributes:
+  basis_width_scalar: 3.0
+  cutoff: 6.0
+  force_estimator: random
+  hidden_channels: 32
+  max_num_neighbors: 40
+  mid_hidden_channels: 256
+  model_ref_number: 0
+  num_basis_functions: 512
+  num_interactions: 3
+  otf_graph: true
+  output_message: fullconv
+  regress_forces: true
+  scale_distances: true
+  sphere_message: fullconv
+  sphere_size_lat: 16
+  sphere_size_long: 12
+  use_pbc: true
+noddp: false
+optim:
+  batch_size: 3
+  energy_coefficient: 1
+  eval_batch_size: 3
+  eval_every: 5000
+  factor: 0.8
+  force_coefficient: 100
+  lr_initial: 0.0004
+  max_epochs: 80
+  mode: min
+  num_workers: 8
+  optimizer: Adam
+  optimizer_params:
+    amsgrad: true
+  patience: 3
+  scheduler: ReduceLROnPlateau
+slurm: {}
+task:
+  dataset: trajectory_lmdb
+  description: Regressing to energies and forces for DFT trajectories from OCP
+  eval_on_free_atoms: true
+  grad_input: atomic forces
+  labels:
+  - potential energy
+  metric: mae
+  train_on_free_atoms: true
+  type: regression
+
+2022-07-11 22:39:10 (INFO): Loading dataset: trajectory_lmdb
+2022-07-11 22:39:10 (INFO): Loading model: spinconv
+2022-07-11 22:39:10 (INFO): Loaded spinconv with 8473371 parameters.
+2022-07-11 22:39:10 (INFO): Loading checkpoint from: /home/inukai/lammps/potentials/OC20DRIVER/oc20_checkpt/spinconv_force_centric_all.pt
+LAMMPS (7 Aug 2019)
+Reading data file ...
+  triclinic box = (0 0 0) to (10.8 10.8 10.8) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  64 atoms
+  read_data CPU = 0.000849962 secs
+WARNING: No fixes defined, atoms won't move (../verlet.cpp:52)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair oc20, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton/tri
+      stencil: half/bin/3d/newton/tri
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+WARNING: Pair style OC20 does currently not support virial pressure (../pair_oc20.cpp:105)
+WARNING: Calculated pressure is INCORRECT (../pair_oc20.cpp:106)
+Per MPI rank memory allocation (min/avg/max) = 3.966 | 3.966 | 3.966 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0   -6.6824522            0   -6.6824522    8704.0681 
+Loop time of 4.05312e-06 on 1 procs for 0 steps with 64 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 4.053e-06  |            |       |100.00
+
+Nlocal:    64 ave 64 max 64 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    801 ave 801 max 801 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    3888 ave 3888 max 3888 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 3888
+Ave neighs/atom = 60.75
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:13
+amp: false
+cmd:
+  checkpoint_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/checkpoints/2022-07-11-22-39-12
+  commit: 8a57243
+  identifier: ''
+  logs_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/logs/tensorboard/2022-07-11-22-39-12
+  print_every: 100
+  results_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/results/2022-07-11-22-39-12
+  seed: null
+  timestamp_id: 2022-07-11-22-39-12
+dataset: null
+gpus: 0
+logger: tensorboard
+model: spinconv
+model_attributes:
+  basis_width_scalar: 3.0
+  cutoff: 6.0
+  force_estimator: random
+  hidden_channels: 32
+  max_num_neighbors: 40
+  mid_hidden_channels: 256
+  model_ref_number: 0
+  num_basis_functions: 512
+  num_interactions: 3
+  otf_graph: true
+  output_message: fullconv
+  regress_forces: true
+  scale_distances: true
+  sphere_message: fullconv
+  sphere_size_lat: 16
+  sphere_size_long: 12
+  use_pbc: true
+noddp: false
+optim:
+  batch_size: 3
+  energy_coefficient: 1
+  eval_batch_size: 3
+  eval_every: 5000
+  factor: 0.8
+  force_coefficient: 100
+  lr_initial: 0.0004
+  max_epochs: 80
+  mode: min
+  num_workers: 8
+  optimizer: Adam
+  optimizer_params:
+    amsgrad: true
+  patience: 3
+  scheduler: ReduceLROnPlateau
+slurm: {}
+task:
+  dataset: trajectory_lmdb
+  description: Regressing to energies and forces for DFT trajectories from OCP
+  eval_on_free_atoms: true
+  grad_input: atomic forces
+  labels:
+  - potential energy
+  metric: mae
+  train_on_free_atoms: true
+  type: regression
+
+2022-07-11 22:39:23 (INFO): Loading dataset: trajectory_lmdb
+2022-07-11 22:39:23 (INFO): Loading model: spinconv
+2022-07-11 22:39:23 (INFO): Loaded spinconv with 8473371 parameters.
+2022-07-11 22:39:23 (INFO): Loading checkpoint from: /home/inukai/lammps/potentials/OC20DRIVER/oc20_checkpt/spinconv_force_centric_all.pt
+LAMMPS (7 Aug 2019)
+Reading data file ...
+  triclinic box = (0 0 0) to (10.8 10.8 10.8) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  64 atoms
+  read_data CPU = 0.000679016 secs
+WARNING: No fixes defined, atoms won't move (../verlet.cpp:52)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair oc20, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton/tri
+      stencil: half/bin/3d/newton/tri
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+WARNING: Pair style OC20 does currently not support virial pressure (../pair_oc20.cpp:105)
+WARNING: Calculated pressure is INCORRECT (../pair_oc20.cpp:106)
+Per MPI rank memory allocation (min/avg/max) = 3.966 | 3.966 | 3.966 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0   -6.7063093            0   -6.7063093     9054.516 
+Loop time of 8.10623e-06 on 1 procs for 0 steps with 64 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 8.106e-06  |            |       |100.00
+
+Nlocal:    64 ave 64 max 64 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    801 ave 801 max 801 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    3888 ave 3888 max 3888 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 3888
+Ave neighs/atom = 60.75
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:12
+amp: false
+cmd:
+  checkpoint_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/checkpoints/2022-07-11-22-39-12
+  commit: 8a57243
+  identifier: ''
+  logs_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/logs/tensorboard/2022-07-11-22-39-12
+  print_every: 100
+  results_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/results/2022-07-11-22-39-12
+  seed: null
+  timestamp_id: 2022-07-11-22-39-12
+dataset: null
+gpus: 0
+logger: tensorboard
+model: spinconv
+model_attributes:
+  basis_width_scalar: 3.0
+  cutoff: 6.0
+  force_estimator: random
+  hidden_channels: 32
+  max_num_neighbors: 40
+  mid_hidden_channels: 256
+  model_ref_number: 0
+  num_basis_functions: 512
+  num_interactions: 3
+  otf_graph: true
+  output_message: fullconv
+  regress_forces: true
+  scale_distances: true
+  sphere_message: fullconv
+  sphere_size_lat: 16
+  sphere_size_long: 12
+  use_pbc: true
+noddp: false
+optim:
+  batch_size: 3
+  energy_coefficient: 1
+  eval_batch_size: 3
+  eval_every: 5000
+  factor: 0.8
+  force_coefficient: 100
+  lr_initial: 0.0004
+  max_epochs: 80
+  mode: min
+  num_workers: 8
+  optimizer: Adam
+  optimizer_params:
+    amsgrad: true
+  patience: 3
+  scheduler: ReduceLROnPlateau
+slurm: {}
+task:
+  dataset: trajectory_lmdb
+  description: Regressing to energies and forces for DFT trajectories from OCP
+  eval_on_free_atoms: true
+  grad_input: atomic forces
+  labels:
+  - potential energy
+  metric: mae
+  train_on_free_atoms: true
+  type: regression
+
+2022-07-11 22:39:36 (INFO): Loading dataset: trajectory_lmdb
+2022-07-11 22:39:36 (INFO): Loading model: spinconv
+2022-07-11 22:39:36 (INFO): Loaded spinconv with 8473371 parameters.
+2022-07-11 22:39:36 (INFO): Loading checkpoint from: /home/inukai/lammps/potentials/OC20DRIVER/oc20_checkpt/spinconv_force_centric_all.pt
+LAMMPS (7 Aug 2019)
+Reading data file ...
+  triclinic box = (0 0 0) to (10.8 10.8 10.8) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  64 atoms
+  read_data CPU = 0.000921965 secs
+WARNING: No fixes defined, atoms won't move (../verlet.cpp:52)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair oc20, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton/tri
+      stencil: half/bin/3d/newton/tri
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+WARNING: Pair style OC20 does currently not support virial pressure (../pair_oc20.cpp:105)
+WARNING: Calculated pressure is INCORRECT (../pair_oc20.cpp:106)
+Per MPI rank memory allocation (min/avg/max) = 3.966 | 3.966 | 3.966 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0   -6.6431413            0   -6.6431413    8731.7864 
+Loop time of 4.05312e-06 on 1 procs for 0 steps with 64 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 4.053e-06  |            |       |100.00
+
+Nlocal:    64 ave 64 max 64 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    801 ave 801 max 801 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    3888 ave 3888 max 3888 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 3888
+Ave neighs/atom = 60.75
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:12
+amp: false
+cmd:
+  checkpoint_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/checkpoints/2022-07-11-22-39-12
+  commit: 8a57243
+  identifier: ''
+  logs_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/logs/tensorboard/2022-07-11-22-39-12
+  print_every: 100
+  results_dir: /home/inukai/alamode-example/Si_LAMMPS/ML-GCCNN/displace/results/2022-07-11-22-39-12
+  seed: null
+  timestamp_id: 2022-07-11-22-39-12
+dataset: null
+gpus: 0
+logger: tensorboard
+model: spinconv
+model_attributes:
+  basis_width_scalar: 3.0
+  cutoff: 6.0
+  force_estimator: random
+  hidden_channels: 32
+  max_num_neighbors: 40
+  mid_hidden_channels: 256
+  model_ref_number: 0
+  num_basis_functions: 512
+  num_interactions: 3
+  otf_graph: true
+  output_message: fullconv
+  regress_forces: true
+  scale_distances: true
+  sphere_message: fullconv
+  sphere_size_lat: 16
+  sphere_size_long: 12
+  use_pbc: true
+noddp: false
+optim:
+  batch_size: 3
+  energy_coefficient: 1
+  eval_batch_size: 3
+  eval_every: 5000
+  factor: 0.8
+  force_coefficient: 100
+  lr_initial: 0.0004
+  max_epochs: 80
+  mode: min
+  num_workers: 8
+  optimizer: Adam
+  optimizer_params:
+    amsgrad: true
+  patience: 3
+  scheduler: ReduceLROnPlateau
+slurm: {}
+task:
+  dataset: trajectory_lmdb
+  description: Regressing to energies and forces for DFT trajectories from OCP
+  eval_on_free_atoms: true
+  grad_input: atomic forces
+  labels:
+  - potential energy
+  metric: mae
+  train_on_free_atoms: true
+  type: regression
+
+2022-07-11 22:39:48 (INFO): Loading dataset: trajectory_lmdb
+2022-07-11 22:39:48 (INFO): Loading model: spinconv
+2022-07-11 22:39:48 (INFO): Loaded spinconv with 8473371 parameters.
+2022-07-11 22:39:48 (INFO): Loading checkpoint from: /home/inukai/lammps/potentials/OC20DRIVER/oc20_checkpt/spinconv_force_centric_all.pt
+LAMMPS (7 Aug 2019)
+Reading data file ...
+  triclinic box = (0 0 0) to (10.8 10.8 10.8) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  64 atoms
+  read_data CPU = 0.000529051 secs
+WARNING: No fixes defined, atoms won't move (../verlet.cpp:52)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair oc20, perpetual
+      attributes: half, newton on
+      pair build: half/bin/newton/tri
+      stencil: half/bin/3d/newton/tri
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+WARNING: Pair style OC20 does currently not support virial pressure (../pair_oc20.cpp:105)
+WARNING: Calculated pressure is INCORRECT (../pair_oc20.cpp:106)
+Per MPI rank memory allocation (min/avg/max) = 3.966 | 3.966 | 3.966 Mbytes
+Step Temp E_pair E_mol TotEng Press 
+       0            0   -6.6289954            0   -6.6289954    9087.1029 
+Loop time of 3.8147e-06 on 1 procs for 0 steps with 64 atoms
+
+0.0% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 3.815e-06  |            |       |100.00
+
+Nlocal:    64 ave 64 max 64 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:    801 ave 801 max 801 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:    3888 ave 3888 max 3888 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 3888
+Ave neighs/atom = 60.75
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:11
