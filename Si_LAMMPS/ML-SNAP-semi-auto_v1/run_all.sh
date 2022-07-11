@@ -15,7 +15,7 @@ coeff=Si_Zuo_Arxiv2019.snapcoeff
 param=Si_Zuo_Arxiv2019.snapparam
 input_file=in.lmp
 SC222_data=SC222.lammps
-distance=7.3
+distance=12.0
 
 echo "----- Get informaions form ${SC222_data} file -----"
 natom=`awk '{if($2=="atoms"){printf "%d",$1}}' ${SC222_data}`
@@ -60,7 +60,7 @@ cat << EOF > alm0.in
 /
 
 &cutoff 
-  ${elem[1]}-${elem[1]} ${distance} ${distance}
+  *-* ${distance} ${distance}
 /
 
 

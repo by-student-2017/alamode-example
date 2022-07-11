@@ -9,6 +9,7 @@ set key right top
 set terminal win font "Arial,12"
 set xlabel "Temperature [K]"
 set mxtics 5
+set xrange [100:]
 
 set ylabel "Thermal Conductivity [W/mK]"
 set mytics 5
