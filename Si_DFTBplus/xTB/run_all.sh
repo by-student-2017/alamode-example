@@ -122,7 +122,7 @@ mkdir displace; cd displace/
 python3 ${ALAMODE_ROOT}/tools/displace.py --LAMMPS ../${SC222_data} --prefix harm --mag 0.01 -pf ../si222.pattern_HARMONIC >> run.log
 python3 ${ALAMODE_ROOT}/tools/displace.py --LAMMPS ../${SC222_data} --prefix cubic --mag 0.04 -pf ../si222.pattern_ANHARM3 >> run.log
 
-cp -r ../pbc-0-3 .
+#cp -r ../pbc-0-3 .
 cp ../conv_dftbp.sh .
 cp ../conv_force.sh .
 cp ../dftb_in.hsd .
