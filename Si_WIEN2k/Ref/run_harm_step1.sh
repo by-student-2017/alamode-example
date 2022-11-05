@@ -124,4 +124,4 @@ python3 ${ALAMODE_ROOT}/tools/displace.py --LAMMPS ../${SC222_data} --prefix har
 
 cp ../conv_struct.sh ./
 cp ../conv_force.sh ./
-CURRENT_DIR=`pwd`
+
