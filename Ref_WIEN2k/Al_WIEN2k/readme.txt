@@ -1,7 +1,7 @@
 WIEN2k(ver.16) + Alamode(v.1.4.1)
 
 1. git clone https://github.com/by-student-2017/alamode-example.git
-2. cd alamode-example/Al_WIEN2k
+2. cd alamode-example/Ref_WIEN2k/Al_WIEN2k
 3. chmod +x run_harm_step1.sh
 4. ./run_harm_step1.sh
 5. cd displace
