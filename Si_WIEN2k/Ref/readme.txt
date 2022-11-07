@@ -28,3 +28,6 @@ WIEN2k(ver.16) + Alamode(v.1.4.1)
 21. chmod +x run_harm_step2.sh
 22. ./run_harm_step2.sh
 23. gnuplot < plot_band.gpl
+
+Note 1: Negative values tend to appear as the number of k points increases.
+Note 2: If the number of k-points is small or the force convergence condition is bad, the value of phonon dispersion will be large and the shape will not be good.
