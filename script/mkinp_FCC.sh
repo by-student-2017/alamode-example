@@ -83,7 +83,7 @@ for((i=0;i<$nat;i++));do
 	#echo $nstart ${pnatoms[$i]}
 	awk -v nst=$nstart -v pna=${pnatoms[$id]} -v i=$i '{
 		if(NR==3){x=$1}; if(NR==4){y=$2}; if(NR==5){z=$3};
-		if(NR==8 && $1=="Direct"){x=1.0;y=1.0;z=1.0};
+		#if(NR==8 && ! $1=="Diect"){x=1.0;y=1.0;z=1.0};
 		if(NR>(8+nst) && NR<=(8+nst+pna)){
 			printf "%3d %2d %9.6f %9.6f %9.6f \n",(NR-8),(i+1),$1*x,$2*y,$3*z}
 		}' $fname >> $name"222.lammps"
@@ -123,7 +123,17 @@ done
 echo "/" >> ${name}_alm0.in
 echo " " >> ${name}_alm0.in
 echo "&position" >> ${name}_alm0.in
-awk '{if(NR>8){printf " %2d %9.6f %9.6f %9.6f \n",(NR-8),$1,$2,$3}}' $fname >> ${name}_alm0.in
+nstart=0
+for((i=0;i<$nat;i++));do
+	#echo $nstart ${pnatoms[$i]}
+	awk -v nst=$nstart -v pna=${pnatoms[$id]} -v i=$i '{
+		#if(NR==3){x=$1}; if(NR==4){y=$2}; if(NR==5){z=$3};
+		#if(NR==8 && $1=="Diect"){x=1.0;y=1.0;z=1.0};
+		if(NR>(8+nst) && NR<=(8+nst+pna)){
+			printf " %2d %9.6f %9.6f %9.6f \n",(i+1),$1,$2,$3}
+		}' $fname >> ${name}_alm0.in
+	nstart=$((nstart+pnatoms[$i]))
+done
 echo "/" >> ${name}_alm0.in
 
 # Extract harmonic force constants
