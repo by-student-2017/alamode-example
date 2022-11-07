@@ -46,7 +46,7 @@ ion_charge_list=(1.0 0.0 1.0 2.0 0.0 0.0 -3.0 -2.0 -1.0 0.0 1.0 2.0 3.0 0.0 -3.0
 for((i=0;i<$nat;i++));do
 	for((j=0;j<118;j++));do
 		if [ ${elem[$i]} = ${element_list[$j]} ]; then
-			atomic_num[$i]=$j
+			atomic_num[$i]=$((j+1))
 			mass[$i]=${mass_list[$j]}
 			#echo ${elem[$i]} ${atomic_num[$i]} ${mass[$i]}
 		fi
@@ -58,7 +58,7 @@ cat << EOF > $name"222.lammps"
 # Structure data of $name (2x2x2 conventional)
 
 $natoms atoms
-$nat types
+$nat atom types
 
 0.000000   $a11   xlo xhi
 0.000000   $a22   ylo yhi
@@ -71,7 +71,7 @@ EOF
 #-----
 for((i=0;i<$nat;i++));do
 	#echo ${elem[$i]} ${atomic_num[$i]} ${mass[$i]}
-	echo "$((i+1)) ${mass[$i]} # ${elem[$i]} 2.22 ${atomic_num[$i]}" >> $name"222.lammps" 
+	echo "$((i+1)) ${mass[$i]} 000999 ${elem[$i]} 2.22 ${atomic_num[$i]}" >> $name"222.lammps" 
 done
 #----
 echo "" >> $name"222.lammps"
@@ -167,6 +167,7 @@ cat << EOF > phband.in
 EOF
 unit_bohr=`awk '{if(NR==3){printf "%-9.6f", $1*1.889726/2.0}}' $fname`
 cat << EOF >> phband.in
+&cell
   ${unit_bohr}
   0.0 0.5 0.5
   0.5 0.0 0.5
@@ -211,20 +212,20 @@ cat << EOF > run.sh
 # Binaries 
 WIEN2k_init="init_lapw -prec 2n"
 WIEN2k_run="run_lapw -fc 0.1"
-ALAMODE_ROOT=${HOME}/alamode-v.1.4.1/_build
+ALAMODE_ROOT=\${HOME}/alamode-v.1.4.1/_build
 SC222_data=${name}222.lammps
 
 chmod +x conv_struct.sh
 chmod +x conv_force.sh
 
 # Generate displacement patterns
-${ALAMODE_ROOT}/alm/alm si_alm0.in > alm.log
+\${ALAMODE_ROOT}/alm/alm ${name}_alm0.in > alm.log
 
 # Generate structure files
 mkdir displace; cd displace/
 
-python3 ${ALAMODE_ROOT}/tools/displace.py --LAMMPS ../${SC222_data} --prefix harm --mag 0.01 -pf ../si222.pattern_HARMONIC >> run.log
-python3 ${ALAMODE_ROOT}/tools/displace.py --LAMMPS ../${SC222_data} --prefix cubic --mag 0.04 -pf ../si222.pattern_ANHARM3 >> run.log
+python3 \${ALAMODE_ROOT}/tools/displace.py --LAMMPS ../\${SC222_data} --prefix harm --mag 0.01 -pf ../${name}222.pattern_HARMONIC >> run.log
+python3 \${ALAMODE_ROOT}/tools/displace.py --LAMMPS ../\${SC222_data} --prefix cubic --mag 0.04 -pf ../${name}222.pattern_ANHARM3 >> run.log
 
 cp ../conv_struct.sh ./
 cp ../conv_force.sh ./
@@ -234,57 +235,57 @@ nharm=`find harm* | wc -l`
 cat << EOF >> run.sh
 # Run WIEN2k v.21.1
 for ((i=1; i<=$nharm; i++));do
-   cp harm${i}.lammps tmp.lammps
-   ./conv_struct.sh ${i}
+   cp harm\${i}.lammps tmp.lammps
+   ./conv_struct.sh \${i}
    #
-   cd $W2WEB_CASE_BASEDIR
-   mkdir ${i}; cd ${i}
-   cp $CURRENT_DIR/${i}.struct ./${i}.struct
+   cd \$W2WEB_CASE_BASEDIR
+   mkdir \${i}; cd \${i}
+   cp \$CURRENT_DIR/\${i}.struct ./\${i}.struct
    \$WIEN2k_init
    \$WIEN2k_run
-   cp ${i}.scf ./$CURRENT_DIR/${i}.scf
-   cd $CURRENT_DIR
+   cp \${i}.scf ./\$CURRENT_DIR/\${i}.scf
+   cd \$CURRENT_DIR
    #
-   ./conv_force.sh ${i}.scf
-   mv XFSET XFSET.harm${i}
+   ./conv_force.sh \${i}.scf
+   mv XFSET XFSET.harm\${i}
 done
 EOF
 ncubic=`find cubic* | wc -l`
 cat << EOF >> run.sh
 for ((i=1; i<=$ncubic; i++));do
-   suffix=`echo ${i} | awk '{printf("%02d", $1)}'`
-   cp cubic${suffix}.lammps tmp.lammps
-   ./conv_struct.sh ${i}
+   suffix=`echo \${i} | awk '{printf("%02d", $1)}'`
+   cp cubic\${suffix}.lammps tmp.lammps
+   ./conv_struct.sh \${i}
    #
-   cd $W2WEB_CASE_BASEDIR
-   mkdir ${i}; cd ${i}
-   cp $CURRENT_DIR/${i}.struct ./${i}.struct
+   cd \$W2WEB_CASE_BASEDIR
+   mkdir \${i}; cd \${i}
+   cp \$CURRENT_DIR/\${i}.struct ./\${i}.struct
    \$WIEN2k_init
    \$WIEN2k_run
-   cp ${i}.scf ./$CURRENT_DIR/${i}.scf
-   cd $CURRENT_DIR
+   cp \${i}.scf ./\$CURRENT_DIR/\${i}.scf
+   cd \$CURRENT_DIR
    #
-   ./conv_force.sh ${i}.scf
-   mv XFSET XFSET.cubic${suffix}
+   ./conv_force.sh \${i}.scf
+   mv XFSET XFSET.cubic\${suffix}
 done
 
 # Collect data
-python3 ${ALAMODE_ROOT}/tools/extract.py --LAMMPS ../${SC222_data} XFSET.harm* > DFSET_harmonic
-python3 ${ALAMODE_ROOT}/tools/extract.py --LAMMPS ../${SC222_data} XFSET.cubic* > DFSET_cubic
+python3 \${ALAMODE_ROOT}/tools/extract.py --LAMMPS ../\${SC222_data} XFSET.harm* > DFSET_harmonic
+python3 \${ALAMODE_ROOT}/tools/extract.py --LAMMPS ../\${SC222_data} XFSET.cubic* > DFSET_cubic
 
 cd ../
 
 # Extract harmonic force constants
-${ALAMODE_ROOT}/alm/alm si_alm1.in >> alm.log
+\${ALAMODE_ROOT}/alm/alm ${name}_alm1.in >> alm.log
 
 # Extract cubic force constants
-${ALAMODE_ROOT}/alm/alm si_alm2.in >> alm.log
+\${ALAMODE_ROOT}/alm/alm ${name}_alm2.in >> alm.log
 
 # Phonon dispersion
-${ALAMODE_ROOT}/anphon/anphon phband.in > phband.log
+\${ALAMODE_ROOT}/anphon/anphon phband.in > phband.log
 
 # Thermal conductivity
-${ALAMODE_ROOT}/anphon/anphon RTA.in > RTA.log
+\${ALAMODE_ROOT}/anphon/anphon RTA.in > RTA.log
 EOF
 chmod +x run.sh
 
@@ -301,12 +302,12 @@ chmod +x conv_struct.sh
 chmod +x conv_force.sh
 
 # Generate displacement patterns
-${ALAMODE_ROOT}/alm/alm si_alm0.in > alm.log
+\${ALAMODE_ROOT}/alm/alm ${name}_alm0.in > alm.log
 
 # Generate structure files
 mkdir displace; cd displace/
 
-python3 ${ALAMODE_ROOT}/tools/displace.py --LAMMPS ../${SC222_data} --prefix harm --mag 0.01 -pf ../si222.pattern_HARMONIC >> run.log
+python3 \${ALAMODE_ROOT}/tools/displace.py --LAMMPS ../\${SC222_data} --prefix harm --mag 0.01 -pf ../${name}222.pattern_HARMONIC >> run.log
 
 cp ../conv_struct.sh ./
 cp ../conv_force.sh ./
@@ -319,20 +320,20 @@ cat << EOF > run_harm_step2.sh
 #!/bin/bash
 
 # Binaries 
-ALAMODE_ROOT=${HOME}/alamode-v.1.4.1/_build
+ALAMODE_ROOT=\${HOME}/alamode-v.1.4.1/_build
 SC222_data=${name}222.lammps
 
 cd ./displace
 
 # Collect data
-python3 ${ALAMODE_ROOT}/tools/extract.py --LAMMPS ../${SC222_data} XFSET.harm* > DFSET_harmonic
+python3 \${ALAMODE_ROOT}/tools/extract.py --LAMMPS ../\${SC222_data} XFSET.harm* > DFSET_harmonic
 
 cd ../
 
 # Extract harmonic force constants
-${ALAMODE_ROOT}/alm/alm si_alm1.in >> alm.log
+\${ALAMODE_ROOT}/alm/alm ${name}_alm1.in >> alm.log
 
 # Phonon dispersion
-${ALAMODE_ROOT}/anphon/anphon phband.in > phband.log
+\${ALAMODE_ROOT}/anphon/anphon phband.in > phband.log
 EOF
 chmod +x run_harm_step2.sh
