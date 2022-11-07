@@ -229,25 +229,29 @@ python3 ${ALAMODE_ROOT}/tools/displace.py --LAMMPS ../${SC222_data} --prefix cub
 cp ../conv_struct.sh ./
 cp ../conv_force.sh ./
 CURRENT_DIR=\`pwd\`
-
+EOF
+nharm=`find harm* | wc -l`
+cat << EOF >> run.sh
 # Run WIEN2k v.21.1
-for ((i=1; i<=1; i++));do
+for ((i=1; i<=$nharm; i++));do
    cp harm${i}.lammps tmp.lammps
    ./conv_struct.sh ${i}
    #
    cd $W2WEB_CASE_BASEDIR
    mkdir ${i}; cd ${i}
    cp $CURRENT_DIR/${i}.struct ./${i}.struct
-   $WIEN2k_init
-   $WIEN2k_run
+   \$WIEN2k_init
+   \$WIEN2k_run
    cp ${i}.scf ./$CURRENT_DIR/${i}.scf
    cd $CURRENT_DIR
    #
    ./conv_force.sh ${i}.scf
    mv XFSET XFSET.harm${i}
 done
-
-for ((i=1; i<=20; i++));do
+EOF
+ncubic=`find cubic* | wc -l`
+cat << EOF >> run.sh
+for ((i=1; i<=$ncubic; i++));do
    suffix=`echo ${i} | awk '{printf("%02d", $1)}'`
    cp cubic${suffix}.lammps tmp.lammps
    ./conv_struct.sh ${i}
@@ -255,8 +259,8 @@ for ((i=1; i<=20; i++));do
    cd $W2WEB_CASE_BASEDIR
    mkdir ${i}; cd ${i}
    cp $CURRENT_DIR/${i}.struct ./${i}.struct
-   $WIEN2k_init
-   $WIEN2k_run
+   \$WIEN2k_init
+   \$WIEN2k_run
    cp ${i}.scf ./$CURRENT_DIR/${i}.scf
    cd $CURRENT_DIR
    #
