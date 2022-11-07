@@ -125,7 +125,7 @@ python3 ${ALAMODE_ROOT}/tools/displace.py --LAMMPS ../${SC222_data} --prefix cub
 
 cp ../conv_struct.sh ./
 cp ../conv_force.sh ./
-CURRENT_DIR=pwd
+CURRENT_DIR=`pwd`
 
 # Run WIEN2k v.21.1
 for ((i=1; i<=1; i++))
