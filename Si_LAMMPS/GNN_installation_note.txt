@@ -1,0 +1,305 @@
+------------------------------------------------------------------------------
+Edit: 22/May/2024
+
+□ Installation (CHGNet) on Linux or WSL
+1. wget https://repo.anaconda.com/miniconda/Miniconda3-py310_24.4.0-0-Linux-x86_64.sh
+  (see https://repo.anaconda.com/miniconda/)
+2. sh Miniconda3-py310_24.4.0-0-Linux-x86_64.sh
+  ([Enter], [space], "yes" and [Enter]) (all "Enter" key, "space" key and "yes")
+- Press ENTER to confirm the location
+  ([Enter] and "yes")
+3. echo 'export PATH=$HOME/miniconda3/bin:$PATH' >> ~/.bashrc
+4. bash
+5. pip install chgnet
+6. conda install pytorch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 pytorch-cuda=11.7 -c pytorch -c nvidia
+  (see https://pytorch.org/get-started/previous-versions/)
+
+□ Environment settings (CHGNet)
+1. echo 'export LD_PRELOAD=$HOME/miniconda3/lib/libgomp.so' >> ~/.bashrc
+2. echo '# export PATH=$HOME/miniconda3/lib/libgomp.so:$PATH' >> ~/.bashrc
+3. echo '# export LD_LIBRARY_PATH=$HOME/miniconda3/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
+4. echo 'export PYTHONPATH=$HOME/miniconda3/chgnet:$PYTHONPATH' >> ~/.bashrc
+5. bash
+
+□ Check installation (PyTorch)
+  python
+  import torch
+  print(torch.cuda.is_available())
+  (Show "True")
+  (Ctrl + Z)
+
+□ Installation (Lammps) on Linux or WSL
+1. sudo apt update
+2. sudo apt -y install python3.10-dev
+3. echo 'export CPATH=/usr/include/python3.10:$CPATH' >> ~/.bashrc
+4. bash
+5. git clone https://github.com/advancesoftcorp/lammps.git
+6. cd lammps/src
+7. make package-status
+8. make yes-KSPACE yes-MANYBODY yes-ML-CHGNET yes-MOLECULE yes-PYTHON yes-RIGID
+9. cd MAKE
+10. vim Makefile.serial
+11. LIB = -I/usr/include/python3.10 -L/usr/lib/x86_64-linux-gnu -lpython3.10
+12. cd ../
+13. make serial
+Note: "make omp" is failed.
+
+□ Environment settings (Lammps)
+1. echo 'export PATH=$PATH:$HOME/lammps/src' >> ~/.bashrc
+  ( In my case (WSL and D drive), $HOME => /mnt/d )
+2. bash
+3. which lmp_serial
+----- (username = your PC name)
+/home/username/lammps/src/lmp_serial
+-----
+
+□ Test (Total wall time: 0:10:20)
+1. cd $HOME/lammps/examples/CHGNET
+  ( In my case (WSL and D drive), $HOME => /mnt/d )
+2. lmp_serial -in inp.lammps
+3. Drag and drop "xyz.lammpstrj" to Octa.
+
+□ Test (DFT-D3) (about 1000 cycle/10 min)
+1. cd $HOME/lammps/examples/CHGNET
+  ( In my case (WSL and D drive), $HOME => /mnt/d )
+2. vim inp.lammps
+-----(before)
+pair_style    chgnet ../../potentials/CHGNET
+#pair_style    chgnet/d3 ../../potentials/CHGNET
+-----
+-----(after)
+#pair_style    chgnet ../../potentials/CHGNET
+pair_style    chgnet/d3 ../../potentials/CHGNET
+-----
+3. lmp_serial -in inp.lammps
+4. Drag and drop "xyz.lammpstrj" to Octa.
+
+Note: [pair_coeff * * 0.3.0  Zr O] in inp.lammps
+This "0.3.0" is the model name. It corresponds to the following items written on the official Github.
+CHGNet 0.3.0 is released with new pretrained weights! (release date: 10/22/23)
+- CHGNet_0.3.0
+
+- CHGNet_0.2.0
+
+
+□ Environment
+- OS: Microsoft Windows 11 Home 64 bit
+- BIOS: 1.14.0
+- CPU： 12th Gen Intel(R) Core(TM) i7-12700
+- Base Board：0R6PCT (A01)
+- Memory：32 GB (Need: >=16 GB)
+- GPU: NVIDIA GeForce RTX 3070 (compute capability, 8.6) (CUDA 11.7) (sm_86)
+  (see https://developer.nvidia.com/cuda-gpus)
+- GPU Memory: 24 GB (Need >= 1.7 GB (Dedicated GPU memory))
+- WSL2: VERSION="22.04.1 LTS (Jammy Jellyfish)"
+- Python3.10 (Python 3.10.12)
+
+□ References
+- [AS1] https://nanolabo-doc.readthedocs.io/ja/latest/usage/inputeditorlammps.html (Japanese)
+- [AS2] https://github.com/advancesoftcorp/lammps
+- [CN1] https://github.com/CederGroupHub/chgnet/issues/57
+------------------------------------------------------------------------------
+■ Appendix: GPU calculation
+
+□ Environment
+- OS: Microsoft Windows 11 Home 64 bit
+- BIOS: 1.14.0
+- CPU： 12th Gen Intel(R) Core(TM) i7-12700
+- Base Board：0R6PCT (A01)
+- Memory：32 GB (Need: >=16 GB)
+- GPU: NVIDIA GeForce RTX 3070 (compute capability, 8.6) (CUDA 11.7) (sm_86)
+  (see https://developer.nvidia.com/cuda-gpus)
+- GPU Memory: 24 GB (Need >= 1.7 GB (Dedicated GPU memory))
+- WSL2: VERSION="22.04.1 LTS (Jammy Jellyfish)"
+- Python3.10 (Python 3.10.12)
+
+□ Installation (GPU version of Lammps) on Linux or WSL
+1. sudo apt update
+2. sudo apt -y install python3.10-dev
+3. echo 'export CPATH=/usr/include/python3.10:$CPATH' >> ~/.bashrc
+4. bash
+5. git clone https://github.com/advancesoftcorp/lammps.git
+6. cd lammps/src
+7. make package-status
+8. make yes-KSPACE yes-MANYBODY yes-ML-CHGNET yes-MOLECULE yes-PYTHON yes-RIGID yes-GPU
+9. cd MAKE
+10. vim Makefile.serial
+11. LIB = -I/usr/include/python3.10 -L/usr/lib/x86_64-linux-gnu -lpython3.10
+12. cd ../
+13. cd $HOME/lammps/
+  ( In my case (WSL and D drive), $HOME => /mnt/d ) 
+14. make lib-gpu args="-m serial -a sm_80 -p mixed -b"
+  (In my case sm_86 is rejected.)
+15. make serial
+
+□ Test on GPU (Total wall time: 0:05:44)
+1. cd $HOME/lammps/examples/CHGNET
+  ( In my case (WSL and D drive), $HOME => /mnt/d )
+2. lmp_serial -sf gpu -pk gpu 1 -in inp.lammps
+3. Drag and drop "xyz.lammpstrj" to Octa.
+
+□ Test on GPU (Total wall time: 0:05:40)
+1. cd $HOME/lammps/examples/CHGNET
+  ( In my case (WSL and D drive), $HOME => /mnt/d )
+2. vim inp.lammps
+-----(before)
+pair_style    chgnet ../../potentials/CHGNET
+#pair_style    chgnet/d3 ../../potentials/CHGNET
+#pair_style    chgnet/gpu ../../potentials/CHGNET
+#pair_style    chgnet/d3/gpu ../../potentials/CHGNET
+-----
+-----(after)
+#pair_style    chgnet ../../potentials/CHGNET
+#pair_style    chgnet/d3 ../../potentials/CHGNET
+pair_style    chgnet/gpu ../../potentials/CHGNET
+#pair_style    chgnet/d3/gpu ../../potentials/CHGNET
+-----
+3. lmp_serial -sf gpu -pk gpu 1 -in inp.lammps
+4. Drag and drop "xyz.lammpstrj" to Octa.
+
+□ Test on GPU (Total wall time: 0:05:36)
+1. cd $HOME/lammps/examples/CHGNET
+  ( In my case (WSL and D drive), $HOME => /mnt/d )
+2. vim inp.lammps
+-----(before)
+pair_style    chgnet ../../potentials/CHGNET
+#pair_style    chgnet/d3 ../../potentials/CHGNET
+#pair_style    chgnet/gpu ../../potentials/CHGNET
+#pair_style    chgnet/d3/gpu ../../potentials/CHGNET
+-----
+-----(after)
+#pair_style    chgnet ../../potentials/CHGNET
+#pair_style    chgnet/d3 ../../potentials/CHGNET
+pair_style    chgnet/gpu ../../potentials/CHGNET
+#pair_style    chgnet/d3/gpu ../../potentials/CHGNET
+-----
+3. lmp_serial -in inp.lammps
+4. Drag and drop "xyz.lammpstrj" to Octa.
+
+□ Test on GPU (DFT-D3) (about 1000 cycle/10 min)
+1. cd $HOME/lammps/examples/CHGNET
+  ( In my case (WSL and D drive), $HOME => /mnt/d )
+2. vim inp.lammps
+-----(before)
+pair_style    chgnet ../../potentials/CHGNET
+#pair_style    chgnet/d3 ../../potentials/CHGNET
+#pair_style    chgnet/gpu ../../potentials/CHGNET
+#pair_style    chgnet/d3/gpu ../../potentials/CHGNET
+-----
+-----(after)
+#pair_style    chgnet ../../potentials/CHGNET
+#pair_style    chgnet/d3 ../../potentials/CHGNET
+#pair_style    chgnet/gpu ../../potentials/CHGNET
+pair_style    chgnet/d3/gpu ../../potentials/CHGNET
+-----
+3. lmp_serial -in inp.lammps
+4. Drag and drop "xyz.lammpstrj" to Octa.
+Note: About 1000 cycle/10 min on lmp_serial -sf gpu -pk gpu 1 -in inp.lammps
+------------------------------------------------------------------------------
+■ Appendix: M3GNet
+
+□ Installation (CHGNet) on Linux or WSL
+5. pip install m3gnet matgl
+6. conda install simple-dftd3 dftd3-python -c conda-forge
+
+□ Environment settings of M3GNet
+4. echo 'export PYTHONPATH=$HOME/miniconda3/m3gnet:$PYTHONPATH' >> ~/.bashrc
+5. bash
+
+□ Installation (Lammps) on Linux or WSL
+8. make yes-KSPACE yes-MANYBODY yes-ML-M3GNET yes-MOLECULE yes-PYTHON yes-RIGID yes-GPU
+
+□ Test (Total wall time: 0:18:44)
+1. cd $HOME/lammps/examples/M3GNET
+  ( In my case (WSL and D drive), $HOME => /mnt/d )
+2. vim inp.lammps
+-----(before)
+pair_coeff    * *  MP-2021.2.8-EFS  Zr O
+#pair_coeff    * *  M3GNet-MP-2021.2.8-PES  Zr O
+-----
+-----(after)
+#pair_coeff    * *  MP-2021.2.8-EFS  Zr O
+pair_coeff    * *  M3GNet-MP-2021.2.8-PES  Zr O
+-----
+3. lmp_serial -in inp.lammps
+4. Drag and drop "xyz.lammpstrj" to Octa.
+
+Note: GPU version of M3GNet is failed.
+dgl._ffi.base.DGLError: [22:53:32] /opt/dgl/src/array/array.cc:42: Operator Range does not support cuda device.
+ERROR: Cannot calculate energy, forces and stress by python of M3GNet. (../pair_m3gnet.cpp:693)
+------------------------------------------------------------------------------
+■ Appendix: Environment setting (set PATH) file
+
+□ ~/.bashrc
+--------------------------------
+export PATH=$HOME/miniconda3/bin:$PATH
+#export PATH=$HOME/miniconda3/lib/libgomp.so:$PATH
+export LD_PRELOAD=$HOME/miniconda3/lib/libgomp.so
+#export LD_LIBRARY_PATH=$HOME/miniconda3/lib:$LD_LIBRARY_PATH
+export PYTHONPATH=$HOME/miniconda3/chgnet:$PYTHONPATH
+export PYTHONPATH=$HOME/miniconda3/m3gnet:$PYTHONPATH
+export PATH=$PATH:/mnt/d/lammps/src
+export CPATH=/usr/include/python3.10:$CPATH
+--------------------------------
+------------------------------------------------------------------------------
+■ Appendix: example of inp.lammps for CHGNet
+
+□ Example 1
+- Even with the input file below, it is currently running without stopping until the middle of "heating".
+- Calculations involving DFT-D3 such as "chgnet/d3" or "chgnet/d3/gpu" failed. Sorry for forcing you.
+-----------------------------------------
+units         metal
+dimension     3
+boundary      p p p
+atom_style    charge
+
+#pair_style    chgnet ../../../potentials/CHGNET
+#pair_style    chgnet/d3 ../../../potentials/CHGNET
+pair_style    chgnet/gpu ../../../potentials/CHGNET
+#pair_style    chgnet/d3/gpu ../../../potentials/CHGNET
+
+read_data     ./dat_charge.lammps
+replicate     2 2 2
+
+pair_coeff * * 0.3.0 C H N Zn
+
+#neighbor 2 bin
+#neigh_modify every 10 delay 0 check no
+
+# relax structure, 0 K
+#fix      f2 all box/relax iso 0.0
+minimize 1.0e-6 1.0e-8 1000 10000
+#unfix    f2
+
+reset_timestep 0
+
+dump        d1 all cfg 100 cfg/run.*.cfg mass type xs ys zs id type q
+dump_modify d1 element C H N Zn
+
+#dump          myDump all custom 10 xyz.lammpstrj id element x y z
+#dump_modify   myDump sort id element C H N Zn
+
+thermo_style  custom step time cpu pe ke etotal temp press vol density
+thermo        10
+
+variable HT equal 1200.0 # [K]
+
+velocity      all create 300.0 12345 rot yes mom yes dist gaussian
+
+timestep      5.0e-4 # 0.5 [fs]
+
+# heating (300 K to HT)
+fix           3 all npt temp 300.0 ${HT} 0.1 aniso 1.0 1.0 1.0
+run           10000
+unfix         3
+
+# annealing at HT [K]
+fix           4 all npt temp ${HT} ${HT} 0.1 aniso 1.0 1.0 1.0
+run           100000
+unfix         4
+
+# cooling (HT to 300 K)
+fix           5 all npt temp ${HT} 300.0 0.1 aniso 1.0 1.0 1.0
+run           10000
+-----------------------------------------
+------------------------------------------------------------------------------
