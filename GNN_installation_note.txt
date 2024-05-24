@@ -1,6 +1,10 @@
 ------------------------------------------------------------------------------
 Edit: 22/May/2024
 
+□ Attention !!! (Edit: 24/May/2024)
+- I believe that the CHGNet processes charges, but this Lammps interface does not output charges (the charge q of each atom is zero.). The input charge may also be ignored. If you want to investigate the behavior when voltage is applied, be careful and further rewrite the Lammps interface.
+- On the other hand, even in ASE, in the ASE web manual, electric fields can only be searched using OpenMX.
+
 □ Installation (CHGNet) on Linux or WSL
 1. wget https://repo.anaconda.com/miniconda/Miniconda3-py310_24.4.0-0-Linux-x86_64.sh
   (see https://repo.anaconda.com/miniconda/)
@@ -59,7 +63,7 @@ Note: "make omp" is failed.
 2. lmp_serial -in inp.lammps
 3. Drag and drop "xyz.lammpstrj" to Octa.
 
-□ Test (DFT-D3) (about 1000 cycle/10 min)
+□ Test (DFT-D3) (about 100 cycle/min)
 1. cd $HOME/lammps/examples/CHGNET
   ( In my case (WSL and D drive), $HOME => /mnt/d )
 2. vim inp.lammps
@@ -176,7 +180,7 @@ pair_style    chgnet/gpu ../../potentials/CHGNET
 3. lmp_serial -in inp.lammps
 4. Drag and drop "xyz.lammpstrj" to Octa.
 
-□ Test on GPU (DFT-D3) (about 1000 cycle/10 min)
+□ Test on GPU (DFT-D3) (about 100 cycle/min)
 1. cd $HOME/lammps/examples/CHGNET
   ( In my case (WSL and D drive), $HOME => /mnt/d )
 2. vim inp.lammps
@@ -194,7 +198,7 @@ pair_style    chgnet/d3/gpu ../../potentials/CHGNET
 -----
 3. lmp_serial -in inp.lammps
 4. Drag and drop "xyz.lammpstrj" to Octa.
-Note: About 1000 cycle/10 min on lmp_serial -sf gpu -pk gpu 1 -in inp.lammps
+Note: About 100 cycle/min on lmp_serial -sf gpu -pk gpu 1 -in inp.lammps
 ------------------------------------------------------------------------------
 ■ Appendix: M3GNet
 
@@ -230,7 +234,7 @@ ERROR: Cannot calculate energy, forces and stress by python of M3GNet. (../pair_
 ------------------------------------------------------------------------------
 ■ Appendix: Environment setting (set PATH) file and Lammps make settings
 
-□ ~/.bashrc
+□ cat ~/.bashrc
 --------------------------------
 export PATH=$HOME/miniconda3/bin:$PATH
 #export PATH=$HOME/miniconda3/lib/libgomp.so:$PATH
@@ -405,4 +409,71 @@ Installed  NO: package VORONOI
 Installed  NO: package VTK
 Installed  NO: package YAFF
 --------------------------------
+------------------------------------------------------------------------------
+■ Appendix: example of inp.lammps for CHGNet
+
+□ Example 1
+- ZIF-8 2x2x2 supercell (chgnet/gpu): 
+    Needs Memory >= 28 GB and Memory (GPU) >= 24 GB (About 550 cycle/h)
+- ZIF-8 2x2x1 supercell (chgnet/d3/gpu):
+    Needs Memory >= 18.9 GB and Memory (GPU) >= 14.8 GB (About 100 cycle/h)
+- ZIF-8:
+    Needs Memory >= 12.3 GB and Memory (GPU) >= 4.1 GB
+- Even with the input file below, it is currently running without stopping until the middle of "heating".
+- Calculations involving DFT-D3 such as "chgnet/d3" or "chgnet/d3/gpu" failed. Sorry for forcing you.
+-----------------------------------------
+units         metal
+dimension     3
+boundary      p p p
+atom_style    charge
+
+#pair_style    chgnet ../../../potentials/CHGNET
+#pair_style    chgnet/d3 ../../../potentials/CHGNET
+pair_style    chgnet/gpu ../../../potentials/CHGNET
+#pair_style    chgnet/d3/gpu ../../../potentials/CHGNET
+
+read_data     ./dat_charge.lammps
+replicate     2 2 2
+
+pair_coeff * * 0.3.0 C H N Zn
+
+#neighbor 2 bin
+#neigh_modify every 10 delay 0 check no
+
+# relax structure, 0 K
+#fix      f2 all box/relax iso 0.0
+minimize 1.0e-6 1.0e-8 1000 10000
+#unfix    f2
+
+reset_timestep 0
+
+dump        d1 all cfg 100 cfg/run.*.cfg mass type xs ys zs id type q
+dump_modify d1 element C H N Zn
+
+#dump          myDump all custom 10 xyz.lammpstrj id element x y z
+#dump_modify   myDump sort id element C H N Zn
+
+thermo_style  custom step time cpu pe ke etotal temp press vol density
+thermo        10
+
+variable HT equal 1200.0 # [K]
+
+velocity      all create 300.0 12345 rot yes mom yes dist gaussian
+
+timestep      5.0e-4 # 0.5 [fs]
+
+# heating (300 K to HT)
+fix           3 all npt temp 300.0 ${HT} 0.1 aniso 1.0 1.0 1.0
+run           10000
+unfix         3
+
+# annealing at HT [K]
+fix           4 all npt temp ${HT} ${HT} 0.1 aniso 1.0 1.0 1.0
+run           100000
+unfix         4
+
+# cooling (HT to 300 K)
+fix           5 all npt temp ${HT} 300.0 0.1 aniso 1.0 1.0 1.0
+run           10000
+-----------------------------------------
 ------------------------------------------------------------------------------
