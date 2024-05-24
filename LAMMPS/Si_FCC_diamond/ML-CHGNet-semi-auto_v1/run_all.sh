@@ -80,10 +80,11 @@ echo "/" >> alm0.in
 ${ALAMODE_ROOT}/alm/alm alm0.in > alm0.log
 
 grep "Space group" alm0.log
-NHARM=`grep "Space group" alm0.log | awk '{printf "%d",$8}'`
-
 grep "Number of disp. patterns" alm0.log
-NANHA=`grep "Number of disp. patterns" alm0.log | awk '{printf "%d",$8}'`
+NHARM=`awk '{if($1=="Number" && $3=="disp." && $6=="HARMONIC"){printf "%d",$8}}' alm0.log`
+echo "harmonic file: ${NHARM}"
+NANHA=`awk '{if($1=="Number" && $3=="disp." && $6=="ANHARM3"){printf "%d",$8}}' alm0.log`
+echo "anharmonic file: ${NANHA}"
 
 echo "----- Generate structure files of LAMMPS (displace.py) -----"
 mkdir displace; cd displace/
@@ -155,12 +156,13 @@ cat << EOF > phband.in
 /
 EOF
 
+# 1x1x1 Primitive cell
 sg=`awk '{if($1=="Space" && $2=="group:"){printf "%1s",$3}}' alm1.log`
 if [ ${sg:0:1} = "F" ]; then
   echo "space group: "${sg:0:1}" settings"
 cat << EOF >> phband.in
 &cell
-  ${la_bohr_d2}
+  ${la_bohr_d2} # factor in Bohr unit
   0.0 0.5 0.5
   0.5 0.0 0.5
   0.5 0.5 0.0
@@ -176,24 +178,26 @@ elif [ ${sg:0:1} = "I" ]; then
   echo "space group: "${sg:0:1}" settings"
 cat << EOF >> phband.in
 &cell
-  ${la_bohr_r3}
+  ${la_bohr_r3} # factor in Bohr unit
   1.00000  0.00000  0.00000
  -0.33333  0.94281  0.00000
  -0.33333 -0.47140  0.81649
 /
 &kpoint
   1  # KPMODE = 1: line mode
-  G 0.0 0.0 0.0 H 0.0 1.0 0.0 51
-  H 0.0 1.0 0.0 N 0.5 0.5 0.0 51
+  G 0.0 0.0 0.0 N 0.5 0.5 0.0 51
   N 0.5 0.5 0.0 G 0.0 0.0 0.0 51
-  G 0.0 0.0 0.0 P 0.5 0.5 0.5 51
+  G 0.0 0.0 0.0 H 0.0 1.0 0.0 51
+  H 0.0 1.0 0.0 P 0.5 0.5 0.5 51
+  P 0.5 0.5 0.5 G 0.0 0.0 0.0 51
+  
 /
 EOF
 elif [ ${sg:0:1} = "H" ]; then
   echo "space group: "${sg:0:1}" settings"
 cat << EOF >> phband.in
 &cell
-  ${la_bohr_d2}
+  ${la_bohr_d2} # factor in Bohr unit
   1.00000 0.00000 0.00000
  -0.50000 0.86603 0.00000
   0.00000 0.00000 ${zz}
@@ -231,6 +235,15 @@ fi
 #  G 0.0 0.0 0.0 X 0.5 0.0 0.0 51
 #  X 0.5 0.0 0.0 M 0.5 0.5 0.0 51
 #  M 0.5 0.5 0.0 G 0.0 0.0 0.5 51
+#/
+
+#Memo: I
+#&kpoint
+#  1  # KPMODE = 1: line mode
+#  G 0.0 0.0 0.0 H 0.0 1.0 0.0 51
+#  H 0.0 1.0 0.0 N 0.5 0.5 0.0 51
+#  N 0.5 0.5 0.0 G 0.0 0.0 0.0 51
+#  G 0.0 0.0 0.0 P 0.5 0.5 0.5 51
 #/
 
 
