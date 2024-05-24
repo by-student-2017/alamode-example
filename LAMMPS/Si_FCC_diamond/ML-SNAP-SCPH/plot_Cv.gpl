@@ -1,0 +1,22 @@
+#!/usr/bin/gnuplot
+
+set key right bottom
+
+#set logscale x
+#set xrange[1e-9:1e0]
+#set format x "10^{%L}"
+
+set terminal win font "Arial,12"
+set xlabel "Temperature [K]"
+set mxtics 5
+
+set ylabel "Cv [in kB unit]"
+set mytics 5
+
+plot "si222_scph.scph_thermo" u 1:2 w lp t ""
+
+pause -1
+
+set terminal png truecolor enhanced
+set out "plot_Cv.png"
+replot

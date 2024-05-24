@@ -1,0 +1,43 @@
+-----------------------------------------------------------------------------------
+This is test version !!!
+-----------------------------------------------------------------------------------
+ERROR: Unknown parameter 'diagonalstyle' in SNAP parameter file (../pair_snap.cpp:764)
+
+So, I removed 'diagonalstyle 3' in Si_Zuo_Arxiv2019.snapparam.
+-----------------------------------------------------------------------------------
+- lammps (test)
+(https://github.com/lammps/lammps/releases)
+
+- Installation (Machine Learning)
+1. sudo apt update
+2. sudo apt -y install python
+3. cd $HOME
+4. wget https://github.com/lammps/lammps/archive/refs/tags/stable_23Jun2022.tar.gz
+5. tar zxvf stable_23Jun2022.tar.gz
+6. cd lammps-stable_23Jun2022
+7. cd src
+8. make package-status
+9. make yes-MC yes-MEAM yes-REAXFF yes-QEQ
+10. make yes-ML-IAP yes-ML-RANN yes-ML-SNAP
+11. make mpi
+- Failed: QUIP, HDNNP, PACE
+
+- environment settings
+1. echo 'export PATH=$PATH:$HOME/lammps-stable_23Jun2022/src' >> ~/.bashrc
+2. bash
+3. which lmp_mpi
+-----(username = your PC name)
+/home/username/lammps-stable_23Jun2022/src/lmp_mpi
+-----
+
+- Si
+1. git clone https://github.com/by-student-2017/alamode-example.git
+2. cd alamode-example/Si_LAMMPS/ML-SNAP
+3. bash run_all.sh
+(if you use gnuplot)
+4. gnuplot < plot_band.gpl
+5. gnuplot < plot_thermal_conductivity.gpl
+
+- SNAP files
+ENIST -> KIM page -> FILES (*.snapcoef and *.snapparam)
+-----------------------------------------------------------------------------------

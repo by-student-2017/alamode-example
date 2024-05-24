@@ -1,0 +1,22 @@
+#!/usr/bin/gnuplot
+
+set key right top
+
+#set logscale x
+#set xrange[1e-9:1e0]
+#set format x "10^{%L}"
+
+set terminal win font "Arial,12"
+set xlabel "k-axis"
+set mxtics 5
+
+set ylabel "Frequency (cm^{-1})"
+set mytics 5
+
+plot for [col=3:8] "si222_scph.scph_bands" usi 2:col w l lt 1 t ""
+
+pause -1
+
+set terminal png truecolor enhanced
+set out "plot_band.png"
+replot

@@ -1,0 +1,20 @@
+&general
+  PREFIX = si222_scph_800K
+  MODE = RTA
+  FCSXML = si222_anharm.xml
+  FC2XML = si222_scph_800K.xml
+  TMIN = 800; TMAX = 800
+  
+  NKD = 1; KD = Si
+  MASS = 28.0855
+/
+&cell
+  10.203
+  0.0 0.5 0.5
+  0.5 0.0 0.5
+  0.5 0.5 0.0
+/
+&kpoint
+  2
+  10 10 10
+/

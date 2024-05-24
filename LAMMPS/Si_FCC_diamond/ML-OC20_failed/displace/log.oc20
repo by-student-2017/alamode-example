@@ -1,0 +1,59 @@
+
+model_name = SpinConv
+config_yml = /home/inukai/lammps/potentials/OC20DRIVER/oc20_configs/spinconv.yml
+checkpoint = /home/inukai/lammps/potentials/OC20DRIVER/oc20_checkpt/spinconv_force_centric_all.pt
+gpu (in)   = False
+gpu (eff)  = False
+max_neigh  = 50
+cutoff     = 6.0
+
+config:
+{'logger': 'tensorboard',
+ 'model': {'basis_width_scalar': 3.0,
+           'cutoff': 6.0,
+           'force_estimator': 'random',
+           'hidden_channels': 32,
+           'max_num_neighbors': 40,
+           'mid_hidden_channels': 256,
+           'model_ref_number': 0,
+           'name': 'spinconv',
+           'num_basis_functions': 512,
+           'num_interactions': 3,
+           'otf_graph': True,
+           'output_message': 'fullconv',
+           'regress_forces': True,
+           'scale_distances': True,
+           'sphere_message': 'fullconv',
+           'sphere_size_lat': 16,
+           'sphere_size_long': 12,
+           'use_pbc': True},
+ 'normalizer': {'grad_target_mean': 0.0,
+                'grad_target_std': 2.887317180633545,
+                'normalize_labels': True,
+                'target_mean': -0.7554450631141663,
+                'target_std': 2.887317180633545},
+ 'optim': {'batch_size': 3,
+           'energy_coefficient': 1,
+           'eval_batch_size': 3,
+           'eval_every': 5000,
+           'factor': 0.8,
+           'force_coefficient': 100,
+           'lr_initial': 0.0004,
+           'max_epochs': 80,
+           'mode': 'min',
+           'num_workers': 8,
+           'optimizer': 'Adam',
+           'optimizer_params': {'amsgrad': True},
+           'patience': 3,
+           'scheduler': 'ReduceLROnPlateau'},
+ 'task': {'dataset': 'trajectory_lmdb',
+          'description': 'Regressing to energies and forces for DFT '
+                         'trajectories from OCP',
+          'eval_on_free_atoms': True,
+          'grad_input': 'atomic forces',
+          'labels': ['potential energy'],
+          'metric': 'mae',
+          'train_on_free_atoms': True,
+          'type': 'regression'},
+ 'trainer': 'forces'}
+
