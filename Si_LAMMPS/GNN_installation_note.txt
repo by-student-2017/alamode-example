@@ -3,7 +3,7 @@ Edit: 22/May/2024
 
 □ Attention !!! (Edit: 24/May/2024)
 - I believe that the CHGNet processes charges, but this Lammps interface does not output charges (the charge q of each atom is zero.). The input charge may also be ignored. If you want to investigate the behavior when voltage is applied, be careful and further rewrite the Lammps interface.
-- On the other hand, even in ASE, in the ASE web manual, electric fields can only be searched using OpenMX.
+- On the other hand, even in ASE, in the ASE web manual, electric fields can only be searched for OpenMX.
 
 □ Installation (CHGNet) on Linux or WSL
 1. wget https://repo.anaconda.com/miniconda/Miniconda3-py310_24.4.0-0-Linux-x86_64.sh
