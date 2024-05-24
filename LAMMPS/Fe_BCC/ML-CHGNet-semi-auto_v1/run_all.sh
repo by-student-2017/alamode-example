@@ -37,9 +37,9 @@ la=`awk '{if($3=="xlo"){printf "%f",$2}}' ${SC222_data}`
 xx=`awk -v la=${la} '{if($3=="xlo"){printf "%12.6f",($2/la)}}' ${SC222_data}`
 yy=`awk -v la=${la} '{if($3=="ylo"){printf "%12.6f",($2/la)}}' ${SC222_data}`
 zz=`awk -v la=${la} '{if($3=="zlo"){printf "%12.6f",($2/la)}}' ${SC222_data}`
-xy=`awk -v la=${la} '{if($4=="xy"){printf "%12.6f",($1/la)}}' ${SC222_data}`
-xz=`awk -v la=${la} '{if($5=="xz"){printf "%12.6f",($2/la)}}' ${SC222_data}`
-yz=`awk -v la=${la} '{if($6=="yz"){printf "%12.6f",($3/la)}}' ${SC222_data}`
+xy=`awk -v la=${la} 'BEGIN{XY=0.0}{if($4=="xy"){XY=$1}}END{printf "%12.6f",(XY/la)}' ${SC222_data}`
+xz=`awk -v la=${la} 'BEGIN{XZ=0.0}{if($5=="xz"){XZ=$2}}END{printf "%12.6f",(XZ/la)}' ${SC222_data}`
+yz=`awk -v la=${la} 'BEGIN{YZ=0.0}{if($6=="yz"){YZ=$3}}END{printf "%12.6f",(YZ/la)}' ${SC222_data}`
 
 #Note: 1/0.529176 = 1.88973
 la_bohr_d2=`awk '{if($3=="xlo"){printf "%-12.6f",($2/2/0.529)}}' ${SC222_data}`
@@ -78,9 +78,12 @@ awk -v nla=${nla} -v la=${la} '{if(NR>nla && $2>0){printf " %4d  %12.8f   %12.8f
 echo "/" >> alm0.in
 
 ${ALAMODE_ROOT}/alm/alm alm0.in > alm0.log
-grep "Space group" alm0.log
-grep "Number of disp. patterns" alm0.log
 
+grep "Space group" alm0.log
+NHARM=`grep "Space group" alm0.log | awk '{printf "%d",$8}'`
+
+grep "Number of disp. patterns" alm0.log
+NANHA=`grep "Number of disp. patterns" alm0.log | awk '{printf "%d",$8}'`
 
 echo "----- Generate structure files of LAMMPS (displace.py) -----"
 mkdir displace; cd displace/
@@ -94,14 +97,14 @@ cp ../${input_file} .
 
 
 echo "----- Run LAMMPS -----"
-for ((i=1; i<=1; i++))
+for ((i=1; i<=${NHARM}; i++))
 do
    cp harm${i}.lammps tmp.lammps
    $LAMMPS < ${input_file} >> run.log
    mv XFSET XFSET.harm${i}
 done
 
-for ((i=1; i<=20; i++))
+for ((i=1; i<=${NANHA}; i++))
 do
    suffix=`echo ${i} | awk '{printf("%02d", $1)}'`
    cp cubic${suffix}.lammps tmp.lammps

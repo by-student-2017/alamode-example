@@ -8,7 +8,8 @@
 #LAMMPS=${HOME}/src/lammps/_build/lmp
 #LAMMPS=/usr/local/bin/lmp
 #LAMMPS=/usr/bin/lmp
-LAMMPS="mpirun -np 2 $HOME/lammps-stable_23Jun2022/src/lmp_mpi"
+#LAMMPS="mpirun -np 2 $HOME/lammps-stable_23Jun2022/src/lmp_mpi"
+LAMMPS=$HOME/lammps/src/lmp_serial
 #ALAMODE_ROOT=${HOME}/src/alamode
 ALAMODE_ROOT=${HOME}/alamode-v.1.4.1/_build
 coeff=Si_Zuo_Arxiv2019.snapcoeff
@@ -22,7 +23,7 @@ natom=`awk '{if($2=="atoms"){printf "%d",$1}}' ${SC222_data}`
 nat=`awk '{if($2=="atom" && $3=="types"){printf "%d",$1}}' ${SC222_data}`
 nma=`awk '{if($1=="Masses"){print NR}}' ${SC222_data}`
 #${nma} is a line number of "Masses"
-for ((i=1;i<=${nat};i++));do
+for ((i=1;i<=${nat}+1;i++));do
   elem[$i]=`awk -v nma=${nma} -v i=$i '{if(NR==nma+1+i){printf "%s",$4}}' ${SC222_data}`
   mass[$i]=`awk -v nma=${nma} -v i=$i '{if(NR==nma+1+i){printf "%s",$2}}' ${SC222_data}`
 done
@@ -34,10 +35,13 @@ la=`awk '{if($3=="xlo"){printf "%f",$2}}' ${SC222_data}`
 xx=`awk -v la=${la} '{if($3=="xlo"){printf "%12.6f",($2/la)}}' ${SC222_data}`
 yy=`awk -v la=${la} '{if($3=="ylo"){printf "%12.6f",($2/la)}}' ${SC222_data}`
 zz=`awk -v la=${la} '{if($3=="zlo"){printf "%12.6f",($2/la)}}' ${SC222_data}`
-xy=`awk -v la=${la} '{if($4=="xy"){printf "%12.6f",($1/la)}}' ${SC222_data}`
-xz=`awk -v la=${la} '{if($5=="xz"){printf "%12.6f",($2/la)}}' ${SC222_data}`
-yz=`awk -v la=${la} '{if($6=="yz"){printf "%12.6f",($3/la)}}' ${SC222_data}`
+xy=`awk -v la=${la} 'BEGIN{XY=0.0}{if($4=="xy"){XY=$1}}END{printf "%12.6f",(XY/la)}' ${SC222_data}`
+xz=`awk -v la=${la} 'BEGIN{XZ=0.0}{if($5=="xz"){XZ=$2}}END{printf "%12.6f",(XZ/la)}' ${SC222_data}`
+yz=`awk -v la=${la} 'BEGIN{YZ=0.0}{if($6=="yz"){YZ=$3}}END{printf "%12.6f",(YZ/la)}' ${SC222_data}`
 
+#Note: 1/0.529176 = 1.88973
+la_bohr_d2=`awk '{if($3=="xlo"){printf "%-12.6f",($2/2/0.529)}}' ${SC222_data}`
+la_bohr_r3=`awk '{if($3=="xlo"){printf "%-12.6f",($2/2/0.529*0.8660)}}' ${SC222_data}`
 
 echo "----- Generate displacement patterns -----"
 cat << EOF > alm0.in
@@ -149,7 +153,6 @@ EOF
 sg=`awk '{if($1=="Space" && $2=="group:"){printf "%1s",$3}}' alm1.log`
 if [ ${sg:0:1} = "F" ]; then
   echo "space group: "${sg:0:1}" settings"
-  la_bohr_d2=`awk '{if($3=="xlo"){printf "%-12.6f",($2*1.88973/2)}}' ${SC222_data}`
 cat << EOF >> phband.in
 &cell
   ${la_bohr_d2}
@@ -164,20 +167,15 @@ cat << EOF >> phband.in
   G 0.0 0.0 0.0 L 0.5 0.5 0.5 51
 /
 EOF
-else
-cat << EOF >> phband.in
-&cell
-  ${la_bohr}
-  ${xx} ${xy} ${xz}
-  ${xy} ${yy} ${yz}
-  ${xz} ${yz} ${zz}
-/
-EOF
-fi
-
-if [ ${sg:0:1} = "I" ]; then
+elif [ ${sg:0:1} = "I" ]; then
   echo "space group: "${sg:0:1}" settings"
 cat << EOF >> phband.in
+&cell
+  ${la_bohr_r3}
+  1.00000  0.00000  0.00000
+ -0.33333  0.94281  0.00000
+ -0.33333 -0.47140  0.81649
+/
 &kpoint
   1  # KPMODE = 1: line mode
   G 0.0 0.0 0.0 H 0.0 1.0 0.0 51
@@ -189,7 +187,13 @@ EOF
 elif [ ${sg:0:1} = "H" ]; then
   echo "space group: "${sg:0:1}" settings"
 cat << EOF >> phband.in
-  &kpoint
+&cell
+  ${la_bohr_d2}
+  1.00000 0.00000 0.00000
+ -0.50000 0.86603 0.00000
+  0.00000 0.00000 ${zz}
+/
+&kpoint
   1  # KPMODE = 1: line mode
   G 0.0 0.0 0.0 M 0.5 0.0 0.0 51
   M 0.5 0.0 0.0 K 0.333 0.333 0.0 51
@@ -197,18 +201,33 @@ cat << EOF >> phband.in
   G 0.0 0.0 0.0 A 0.0 0.0 0.5 51
 /
 EOF
-elif [ ${sg:0:1} != "F" ]; then
+else
   echo "space group: "${sg:0:1}" settings"
 cat << EOF >> phband.in
-  &kpoint
+&cell
+  ${la_bohr_d2}
+  ${xx} ${xy} ${xz}
+  ${xy} ${yy} ${yz}
+  ${xz} ${yz} ${zz}
+/
+&kpoint
   1  # KPMODE = 1: line mode
-  R 0.5 0.5 0.5 G 0.0 0.0 0.0 51
-  G 0.0 0.0 0.0 X 0.5 0.0 0.0 51
-  X 0.5 0.0 0.0 M 0.5 0.5 0.0 51
-  M 0.5 0.5 0.0 G 0.0 0.0 0.5 51
+  G 0.0 0.0 0.0 X 0.5 0.5 0.0 51
+  X 0.5 0.5 1.0 G 0.0 0.0 0.0 51
+  G 0.0 0.0 0.0 R 0.5 0.5 0.5 51
 /
 EOF
 fi
+
+#Memo: F
+#&kpoint
+#  1  # KPMODE = 1: line mode
+#  R 0.5 0.5 0.5 G 0.0 0.0 0.0 51
+#  G 0.0 0.0 0.0 X 0.5 0.0 0.0 51
+#  X 0.5 0.0 0.0 M 0.5 0.5 0.0 51
+#  M 0.5 0.5 0.0 G 0.0 0.0 0.5 51
+#/
+
 
 ${ALAMODE_ROOT}/anphon/anphon phband.in > phband.log
 
@@ -234,10 +253,28 @@ cat << EOF >> RTA.in
   0.5 0.5 0.0
 /
 EOF
+elif [ ${sg:0:1} = "I" ]; then
+cat << EOF >> RTA.in
+&cell
+  ${la_bohr_r3}
+  1.00000  0.00000  0.00000
+ -0.33333  0.94281  0.00000
+ -0.33333 -0.47140  0.81649
+/
+EOF
+elif [ ${sg:0:1} = "H" ]; then
+cat << EOF >> RTA.in
+&cell
+  ${la_bohr_d2}
+  1.00000 0.00000 0.00000
+ -0.50000 0.86603 0.00000
+  0.00000 0.00000 ${zz}
+/
+EOF
 else
 cat << EOF >> RTA.in
 &cell
-  ${la_bohr}
+  ${la_bohr_d2}
   ${xx} ${xy} ${xz}
   ${xy} ${yy} ${yz}
   ${xz} ${yz} ${zz}

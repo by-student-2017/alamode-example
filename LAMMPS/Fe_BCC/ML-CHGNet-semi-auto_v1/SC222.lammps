@@ -1,12 +1,12 @@
 # Structure data of Fe (2x2x2 conventional) 
 
-
 16 atoms
 1 atom types
 
 0.0 5.680103302 xlo xhi
 0.0 5.680103302 ylo yhi
 0.0 5.680103302 zlo zhi
+0.000000    0.000000    0.000000   xy xz yz
 
 Masses
 
