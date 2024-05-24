@@ -52,3 +52,7 @@
 - These techniques and code are published on github. This is the first time in the world including the result. These are developed based on the original "Si_LAMMPS". Coincidentally, I feel destined to accomplish these feats on July 7, 2022 (Tanabata).
 - The interface still has room for improvement. Other systems also need to be verified. I will post it on arXiv as soon as these verifications are completed. However, I'm so busy that it's likely to be years away.
 - No one was in favor of these R&Ds. In addition, no research grants have been obtained. It was a lonely development.
+
+
+# Appendix (Convert LF => CRLF)
+1. sed -i 's/$/\r/g' *.sh
