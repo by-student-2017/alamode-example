@@ -3,7 +3,7 @@ Edit: 22/May/2024
 
 □ Attention !!! (Edit: 24/May/2024)
 - I believe that the CHGNet processes charges, but this Lammps interface does not output charges (the charge q of each atom is zero.). The input charge may also be ignored. If you want to investigate the behavior when voltage is applied, be careful and further rewrite the Lammps interface.
-- The CHGNet's Github (https://github.com/CederGroupHub/chgnet) describes how to use ASE, so please refer to it.
+- The CHGNet (Github: https://github.com/CederGroupHub/chgnet) describes how to handle charges in ASE, so please refer to it. However, there is no description of electric fields.
 
 □ Installation (CHGNet) on Linux or WSL
 1. wget https://repo.anaconda.com/miniconda/Miniconda3-py310_24.4.0-0-Linux-x86_64.sh
