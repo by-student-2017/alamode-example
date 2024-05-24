@@ -38,10 +38,11 @@
 
 # Convert CRLF => LF
 1. sed -i 's/\r//g' *.sh
+2. sed -i 's/\r//g' *.lammps
 
 
 # Set in executable file
-2. chmod +x *.sh
+1. chmod +x *.sh
 
 
 # Note
