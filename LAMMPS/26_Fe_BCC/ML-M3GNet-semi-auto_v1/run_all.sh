@@ -41,6 +41,10 @@ xy=`awk -v la=${la} 'BEGIN{XY=0.0}{if($4=="xy"){XY=$1}}END{printf "%12.6f",(XY/l
 xz=`awk -v la=${la} 'BEGIN{XZ=0.0}{if($5=="xz"){XZ=$2}}END{printf "%12.6f",(XZ/la)}' ${SC222_data}`
 yz=`awk -v la=${la} 'BEGIN{YZ=0.0}{if($6=="yz"){YZ=$3}}END{printf "%12.6f",(YZ/la)}' ${SC222_data}`
 
+a1=`echo "${xx}   0.0   0.0 ${la} " | awk '{printf "%f",($4*($1^2+$2^2+$3^2)^0.5)}'`
+a2=`echo "${xy} ${yy}   0.0 ${la} " | awk '{printf "%f",($4*($1^2+$2^2+$3^2)^0.5)}'`
+a3=`echo "${xz} ${yz} ${zz} ${la} " | awk '{printf "%f",($4*($1^2+$2^2+$3^2)^0.5)}'`
+
 #Note: 1/0.529176 = 1.88973
 la_bohr_d2=`awk '{if($3=="xlo"){printf "%-12.6f",($2/2/0.529)}}' ${SC222_data}`
 la_bohr_r3=`awk '{if($3=="xlo"){printf "%-12.6f",($2/2/0.529*0.8660)}}' ${SC222_data}`
@@ -60,8 +64,8 @@ cat << EOF > alm0.in
 
 &cell
   ${la_bohr} # factor in Bohr unit
-  ${xx} ${xy} ${xz} # a1
-  ${xy} ${yy} ${yz} # a2
+  ${xx} 0.0   0.0   # a1
+  ${xy} ${yy} 0.0   # a2
   ${xz} ${yz} ${zz} # a3
 /
 
@@ -74,7 +78,7 @@ cat << EOF > alm0.in
 EOF
 
 nla=`awk '{if($1=="Atoms"){print NR}}' ${SC222_data}`
-awk -v nla=${nla} -v la=${la} '{if(NR>nla && $2>0){printf " %4d  %12.8f   %12.8f   %12.8f  \n",$2,($3/la),($4/la),($5/la)}}' ${SC222_data} >> alm0.in
+awk -v nla=${nla} -v a1=${a1} -v a2=${a2} -v a3=${a3} '{if(NR>nla && $2>0){printf " %4d  %12.8f   %12.8f   %12.8f  \n",$2,($3/a1),($4/a2),($5/a3)}}' ${SC222_data} >> alm0.in
 echo "/" >> alm0.in
 
 ${ALAMODE_ROOT}/alm/alm alm0.in > alm0.log
@@ -98,14 +102,16 @@ cp ../${input_file} .
 
 
 echo "----- Run LAMMPS -----"
-for ((i=1; i<=${NHARM}; i++))
+#for ((i=1; i<=${NHARM}; i++)) # old version
+for i in $(seq -w ${NHARM})
 do
    cp harm${i}.lammps tmp.lammps
    $LAMMPS < ${input_file} >> run.log
    mv XFSET XFSET.harm${i}
 done
 
-for ((i=1; i<=${NANHA}; i++))
+#for ((i=1; i<=${NANHA}; i++)) # old version
+for i in $(seq -w ${NANHA})
 do
    suffix=`echo ${i} | awk '{printf("%02d", $1)}'`
    cp cubic${suffix}.lammps tmp.lammps
@@ -213,9 +219,9 @@ else
 cat << EOF >> phband.in
 &cell
   ${la_bohr_d2}
-  ${xx} ${xy} ${xz}
-  ${xy} ${yy} ${yz}
-  ${xz} ${yz} ${zz}
+  ${xx} 0.0   0.0   # a1
+  ${xy} ${yy} 0.0   # a2
+  ${xz} ${yz} ${zz} # a3
 /
 &kpoint
   1  # KPMODE = 1: line mode
@@ -299,9 +305,9 @@ else
 cat << EOF >> RTA.in
 &cell
   ${la_bohr_d2}
-  ${xx} ${xy} ${xz}
-  ${xy} ${yy} ${yz}
-  ${xz} ${yz} ${zz}
+  ${xx} 0.0   0.0   # a1
+  ${xy} ${yy} 0.0   # a2
+  ${xz} ${yz} ${zz} # a3
 /
 EOF
 fi
