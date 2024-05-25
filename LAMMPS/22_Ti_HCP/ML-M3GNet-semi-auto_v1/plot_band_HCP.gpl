@@ -9,14 +9,14 @@ set key opaque box lc rgb "white" height 1
 #-------------------------------------------------------------------------------
 set output "phonon_band.png"
 set ylabel "Eigenvalues [cm^{-1}]"
-ytop = 140
-ybottom = -10
-set yrange [ybottom:ytop]
+#ytop = 140
+#ybottom = -10
+#set yrange [ybottom:ytop]
 #set ytics 2
 #set grid y
 #------------------------------------------------
-set parametric
-set trange [ybottom:ytop]
+#set parametric
+#set trange [ybottom:ytop]
 #set arrow 1 nohead from x1,ybottom to x1,ytop lt 2 lc "gray"
 #set arrow 2 nohead from x2,ybottom to x2,ytop lt 2 lc "gray"
 #set arrow 3 nohead from x3,ybottom to x3,ytop lt 2 lc "gray"

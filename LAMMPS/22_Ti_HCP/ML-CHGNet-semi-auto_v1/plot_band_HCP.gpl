@@ -9,14 +9,14 @@ set key opaque box lc rgb "white" height 1
 #-------------------------------------------------------------------------------
 set output "phonon_band.png"
 set ylabel "Eigenvalues [cm^{-1}]"
-ytop = 140
-ybottom = -10
-set yrange [ybottom:ytop]
+#ytop = 140
+#ybottom = -10
+#set yrange [ybottom:ytop]
 #set ytics 2
 #set grid y
 #------------------------------------------------
-set parametric
-set trange [ybottom:ytop]
+#set parametric
+#set trange [ybottom:ytop]
 #set arrow 1 nohead from x1,ybottom to x1,ytop lt 2 lc "gray"
 #set arrow 2 nohead from x2,ybottom to x2,ytop lt 2 lc "gray"
 #set arrow 3 nohead from x3,ybottom to x3,ytop lt 2 lc "gray"
@@ -39,7 +39,7 @@ set xtics ("{/Symbol G}" xmin, "M" x1, "K" x2, "{/Symbol G}" x3, "A" xmax)
 #-------------------------------------------------------------------------------
 set output "phonon_band_THz.png"
 set ylabel "Phonon energy [THz]"
-ytop = 4.2
+ytop = 5
 ybottom = -0.2
 set yrange [ybottom:ytop]
 set ytics 0.5
@@ -60,7 +60,7 @@ plot for [col=3:*] "sc222_THz.bands" u 1:col w l lt 1 t ""
 #-------------------------------------------------------------------------------
 set output "phonon_band_meV.png"
 set ylabel "Phonon energy [meV]"
-ytop = 18
+ytop = 20
 ybottom = -1
 set yrange [ybottom:ytop]
 set ytics 2
