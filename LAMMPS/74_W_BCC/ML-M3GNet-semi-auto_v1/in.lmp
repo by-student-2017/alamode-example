@@ -1,0 +1,17 @@
+units           metal
+atom_style      atomic
+boundary        p p p
+
+read_data       tmp.lammps
+
+pair_style      m3gnet /mnt/d/lammps/potentials/M3GNET
+#pair_style      m3gnet/d3 /mnt/d/lammps/potentials/M3GNET
+
+#pair_coeff      * *  MP-2021.2.8-EFS W # M3GNet <https://github.com/materialsvirtuallab/m3gnet> will be called
+pair_coeff      * *  M3GNet-MP-2021.2.8-PES W # MatGL <https://github.com/materialsvirtuallab/matgl> will be called
+#pair_coeff      * *  M3GNet-MP-2021.2.8-DIRECT-PES W # MatGL <https://github.com/materialsvirtuallab/matgl> will be called
+
+dump            1 all custom 1 XFSET id xu yu zu fx fy fz 
+dump_modify     1 format float "%20.15f"
+run             0
+
