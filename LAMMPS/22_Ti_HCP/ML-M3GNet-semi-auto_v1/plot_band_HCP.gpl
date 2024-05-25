@@ -38,7 +38,7 @@ set xtics ("{/Symbol G}" xmin, "M" x1, "K" x2, "{/Symbol G}" x3, "A" xmax)
 #------------------------------------------------
 #-------------------------------------------------------------------------------
 set output "phonon_band_THz.png"
-set ylabel "Phonon energy [THz]"
+set ylabel "Phonon frequency [THz]"
 ytop = 4.2
 ybottom = -0.2
 set yrange [ybottom:ytop]
