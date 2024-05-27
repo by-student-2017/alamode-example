@@ -1,22 +1,22 @@
-#!/usr/bin/gnuplot
-
+#!/usr/local/bin/gnuplot -persist
+#-------------------------------------------------------------------------------
+set terminal pngcairo color enhanced font "Arial" fontscale 1.0
+set out "thermal_conductivity.png"
+#-------------------------------------------------------------------------------
 set key right top
-
+#------------------------------------------------
 #set logscale x
 #set xrange[1e-9:1e0]
 #set format x "10^{%L}"
-
-set terminal win font "Arial,12"
+#------------------------------------------------
 set xlabel "Temperature [K]"
 set mxtics 5
 set xrange [100:]
-
+#------------------------------------------------
 set ylabel "Thermal Conductivity [W/mK]"
 set mytics 5
-
-plot for [col=2:10] "sc222_10.kl" usi 1:col w l lt 1 t ""
-pause -1
-
-set terminal png truecolor enhanced
-set out "plot_thermal_conductivity.png"
-replot
+#------------------------------------------------
+#plot for [col=2:10] "sc222_10.kl" usi 1:col w l lt 1 t ""
+plot for [col=2:10] "sc222_10.kl" u 1:col w l lt (col-1) t sprintf("component-%d",(col-1))
+#pause -1
+#-------------------------------------------------------------------------------
