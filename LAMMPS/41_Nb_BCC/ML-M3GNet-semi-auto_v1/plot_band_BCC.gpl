@@ -39,7 +39,7 @@ set xtics ("{/Symbol G}" xmin, "H" x1, "P" x2, "{/Symbol G}" x3, "N" xmax)
 #-------------------------------------------------------------------------------
 set output "phonon_band_THz.png"
 set ylabel "Phonon frequency [THz]"
-ytop = 9
+ytop = 8
 ybottom = -0.2
 set yrange [ybottom:ytop]
 set ytics 2
@@ -60,7 +60,7 @@ plot for [col=3:*] "sc222_THz.bands" u 1:col w l lt 1 t ""
 #-------------------------------------------------------------------------------
 set output "phonon_band_meV.png"
 set ylabel "Phonon energy [meV]"
-ytop = 36
+ytop = 35
 ybottom = -1
 set yrange [ybottom:ytop]
 set ytics 5
