@@ -358,9 +358,9 @@ cat << EOF >> RTA.in
 EOF
 fi
 
-nqx=`echo ${xx} | awk '{printf "%d",int(12*5.68/$1+0.5)}'`
-nqy=`echo ${yy} | awk '{printf "%d",int(12*5.68/$1+0.5)}'`
-nqz=`echo ${zz} | awk '{printf "%d",int(12*5.68/$1+0.5)}'`
+nqx=`echo ${xx} ${la} | awk '{printf "%d",int(12*5.68/($1*$2)+0.5)}'`
+nqy=`echo ${yy} ${la} | awk '{printf "%d",int(12*5.68/($1*$2)+0.5)}'`
+nqz=`echo ${zz} ${la} | awk '{printf "%d",int(12*5.68/($1*$2)+0.5)}'`
 
 cat << EOF >> RTA.in
 &kpoint
