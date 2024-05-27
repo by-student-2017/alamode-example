@@ -7,6 +7,9 @@ set terminal pngcairo color enhanced font "Arial" fontscale 1.0
 set key opaque box lc rgb "white" height 1
 #set key outside
 #-------------------------------------------------------------------------------
+ytop_Kaiser = 60
+ybottom_Kaiser = ytop_Kaiser * -0.1
+#-------------------------------------------------------------------------------
 set output "phonon_band.png"
 set ylabel "Eigenvalues [cm^{-1}]"
 #ytop = 140
@@ -19,7 +22,6 @@ set ylabel "Eigenvalues [cm^{-1}]"
 #set trange [ybottom:ytop]
 #set arrow 1 nohead from x1,ybottom to x1,ytop lt 2 lc "gray"
 #set arrow 2 nohead from x2,ybottom to x2,ytop lt 2 lc "gray"
-#set arrow 3 nohead from x3,ybottom to x3,ytop lt 2 lc "gray"
 
 set xzeroaxis
 #------------------------------------------------
@@ -28,28 +30,27 @@ plot for [col=2:*] "sc222.bands" u 1:col w l lt 1 t ""
 #pause -1
 #-------------------------------------------------------------------------------
 xmin = 1
-xmax = 204
+xmax = 153
 #------------------------------------------------
 set xrange [xmin:xmax]
 #unset xtics
-set title "BCC: G-H-P-G-N"
-x1=51; x2=102; x3=153
-set xtics ("{/Symbol G}" xmin, "H" x1, "P" x2, "{/Symbol G}" x3, "N" xmax)
+set title "FCC: G-X-G-L"
+x1=51; x2=102
+set xtics ("{/Symbol G}" xmin, "X" x1, "{/Symbol G}" x2, "L" xmax)
 #------------------------------------------------
 #-------------------------------------------------------------------------------
 set output "phonon_band_THz.png"
 set ylabel "Phonon frequency [THz]"
-ytop = 7
-ybottom = -0.2
+ytop = ytop_Kaiser * 0.029979
+ybottom =ybottom_Kaiser * 0.029979
 set yrange [ybottom:ytop]
-set ytics 2
+set ytics 1
 set grid y
 #------------------------------------------------
 set parametric
 set trange [ybottom:ytop]
 set arrow 1 nohead from x1,ybottom to x1,ytop lt 2 lc "gray"
 set arrow 2 nohead from x2,ybottom to x2,ytop lt 2 lc "gray"
-set arrow 3 nohead from x3,ybottom to x3,ytop lt 2 lc "gray"
 
 #set xzeroaxis
 set arrow 10 nohead from xmin,0 to xmax,0 lt 2 lc "gray" lw 2
@@ -60,8 +61,8 @@ plot for [col=3:*] "sc222_THz.bands" u 1:col w l lt 1 t ""
 #-------------------------------------------------------------------------------
 set output "phonon_band_meV.png"
 set ylabel "Phonon energy [meV]"
-ytop = 30
-ybottom = -1
+ytop = ytop_Kaiser * 0.12398
+ybottom =ybottom_Kaiser * 0.12398
 set yrange [ybottom:ytop]
 set ytics 5
 set grid y
@@ -70,7 +71,6 @@ set parametric
 set trange [ybottom:ytop]
 set arrow 1 nohead from x1,ybottom to x1,ytop lt 2 lc "gray"
 set arrow 2 nohead from x2,ybottom to x2,ytop lt 2 lc "gray"
-set arrow 3 nohead from x3,ybottom to x3,ytop lt 2 lc "gray"
 
 #set xzeroaxis
 set arrow 10 nohead from xmin,0 to xmax,0 lt 2 lc "gray" lw 2

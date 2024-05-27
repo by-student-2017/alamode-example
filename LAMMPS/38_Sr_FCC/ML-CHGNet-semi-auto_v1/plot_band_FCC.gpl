@@ -7,6 +7,9 @@ set terminal pngcairo color enhanced font "Arial" fontscale 1.0
 set key opaque box lc rgb "white" height 1
 #set key outside
 #-------------------------------------------------------------------------------
+ytop_Kaiser = 180
+ybottom_Kaiser = ytop_Kaiser * -0.1
+#-------------------------------------------------------------------------------
 set output "phonon_band.png"
 set ylabel "Eigenvalues [cm^{-1}]"
 #ytop = 140
@@ -38,8 +41,8 @@ set xtics ("{/Symbol G}" xmin, "X" x1, "{/Symbol G}" x2, "L" xmax)
 #-------------------------------------------------------------------------------
 set output "phonon_band_THz.png"
 set ylabel "Phonon frequency [THz]"
-ytop = 5.5
-ybottom = -0.2
+ytop = ytop_Kaiser * 0.029979
+ybottom =ybottom_Kaiser * 0.029979
 set yrange [ybottom:ytop]
 set ytics 1
 set grid y
@@ -58,8 +61,8 @@ plot for [col=3:*] "sc222_THz.bands" u 1:col w l lt 1 t ""
 #-------------------------------------------------------------------------------
 set output "phonon_band_meV.png"
 set ylabel "Phonon energy [meV]"
-ytop = 22
-ybottom = -1
+ytop = ytop_Kaiser * 0.12398
+ybottom =ybottom_Kaiser * 0.12398
 set yrange [ybottom:ytop]
 set ytics 5
 set grid y
