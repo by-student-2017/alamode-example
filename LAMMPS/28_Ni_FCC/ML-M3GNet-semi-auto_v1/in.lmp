@@ -7,9 +7,11 @@ read_data       tmp.lammps
 pair_style      m3gnet /mnt/d/lammps/potentials/M3GNET
 #pair_style      m3gnet/d3 /mnt/d/lammps/potentials/M3GNET
 
-#pair_coeff      * *  MP-2021.2.8-EFS Ni # M3GNet <https://github.com/materialsvirtuallab/m3gnet> will be called
-pair_coeff      * *  M3GNet-MP-2021.2.8-PES Ni # MatGL <https://github.com/materialsvirtuallab/matgl> will be called
-#pair_coeff      * *  M3GNet-MP-2021.2.8-DIRECT-PES Ni # MatGL <https://github.com/materialsvirtuallab/matgl> will be called
+variable elem string "Ni"
+
+#pair_coeff      * *  MP-2021.2.8-EFS ${elem} # M3GNet <https://github.com/materialsvirtuallab/m3gnet> will be called
+pair_coeff      * *  M3GNet-MP-2021.2.8-PES ${elem} # MatGL <https://github.com/materialsvirtuallab/matgl> will be called
+#pair_coeff      * *  M3GNet-MP-2021.2.8-DIRECT-PES ${elem} # MatGL <https://github.com/materialsvirtuallab/matgl> will be called
 
 dump            1 all custom 1 XFSET id xu yu zu fx fy fz 
 dump_modify     1 format float "%20.15f"

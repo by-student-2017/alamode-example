@@ -199,7 +199,8 @@ EOF
 # 1x1x1 Primitive cell
 sg=`awk '{if($1=="Space" && $2=="group:"){printf "%1s",$3}}' alm1.log`
 if [ ${sg:0:1} = "F" ]; then
-  echo "space group: "${sg:0:1}" (FCC Primitive cell) settings"
+  echo "space group: "${sg:0:1}" settings"
+  SG=FCC
 cat << EOF >> phband.in
 &cell
   ${la_bohr_d2} # factor in Bohr unit
@@ -215,7 +216,8 @@ cat << EOF >> phband.in
 /
 EOF
 elif [ ${sg:0:1} = "I" ]; then
-  echo "space group: "${sg:0:1}" (BCC Primitive cell)  settings"
+  echo "space group: "${sg:0:1}" settings"
+  SG=BCC
 cat << EOF >> phband.in
 &cell
   ${la_bohr_d2} # factor in Bohr unit
@@ -232,7 +234,8 @@ cat << EOF >> phband.in
 /
 EOF
 elif [ ${sg:0:8} = "P6_3/mmc" ]; then
-  echo "space group: "${sg:0:8}" (HCP Primitive cell) settings"
+  echo "space group: "${sg:0:8}" (HCP) settings"
+  SG=HCP
 cat << EOF >> phband.in
 &cell
   ${la_bohr_d2} # factor in Bohr unit
@@ -250,6 +253,7 @@ cat << EOF >> phband.in
 EOF
 else
   echo "space group: "${sg}" (P) settings"
+  SG=SC
 cat << EOF >> phband.in
 &cell
   ${la_bohr_d2}
@@ -309,7 +313,6 @@ cat << EOF > RTA.in
 EOF
 
 if [ ${sg:0:1} = "F" ]; then
-  echo "space group: "${sg:0:1}" (FCC Primitive cell) settings"
 cat << EOF >> RTA.in
 &cell
   ${la_bohr_d2}
@@ -319,7 +322,6 @@ cat << EOF >> RTA.in
 /
 EOF
 elif [ ${sg:0:1} = "I" ]; then
-  echo "space group: "${sg:0:1}" (BCC Primitive cell) settings"
 cat << EOF >> RTA.in
 &cell
   ${la_bohr_d2} # factor in Bohr unit
@@ -329,7 +331,7 @@ cat << EOF >> RTA.in
 /
 EOF
 elif [ ${sg:0:8} = "P6_3/mmc" ]; then
-  echo "space group: "${sg:0:8}" (HCP Primitive cell) settings"
+  echo "space group: "${sg:0:8}" (HCP) settings"
 cat << EOF >> RTA.in
 &cell
   ${la_bohr_d2}
@@ -358,3 +360,11 @@ cat << EOF >> RTA.in
 EOF
 
 ${ALAMODE_ROOT}/anphon/anphon RTA.in > RTA.log
+
+#-----------------------------------------------------------------------------------------------
+awk '{if(NR==3){printf "# k-axis, Phonon frequency [THz]";for(j=1;j<=(NF+3);j++){printf ", band-%-d",j};printf("\n")}else if(NR>=4){printf("%6d %12.6f"),(NR-3),$1;for(i=2;i<=NF;i++){printf("%12.6f ",$i*0.029979)}{printf("\n")}}}' sc222.bands > sc222_THz.bands
+awk '{if(NR==3){printf "# k-axis, Phonon energy [meV]";for(j=1;j<=(NF+3);j++){printf ", band-%-d",j};printf("\n")}else if(NR>=4){printf("%6d %12.6f"),(NR-3),$1;for(i=2;i<=NF;i++){printf("%12.6f ",$i*0.12398)}{printf("\n")}}}' sc222.bands > sc222_meV.bands
+#---------------------------------------
+gnuplot < plot_band_${SG}.gpl
+gnuplot < plot_thermal_conductivity.gpl
+#-----------------------------------------------------------------------------------------------
