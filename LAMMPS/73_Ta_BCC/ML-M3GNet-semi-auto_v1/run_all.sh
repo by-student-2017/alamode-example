@@ -81,6 +81,12 @@ a3=`echo "${xz} ${yz} ${zz} ${la} " | awk '{printf "%f",($4*($1^2+$2^2+$3^2)^0.5
 la_bohr_d2=`awk '{if($3=="xlo"){printf "%-12.6f",($2/2/0.529)}}' ${SC222_data}`
 la_bohr_r3=`awk '{if($3=="xlo"){printf "%-12.6f",($2/2/0.529*0.8660)}}' ${SC222_data}`
 
+#--------------------------------
+cp in_tmp.lmp in.lmp
+els=${elem[@]}
+sed -i "s/XXXXXX/${els}/g" in.lmp
+#--------------------------------
+
 #-----------------------------------------------------------------------------------------------
 
 echo "----- Generate displacement patterns -----"
@@ -199,7 +205,8 @@ EOF
 # 1x1x1 Primitive cell
 sg=`awk '{if($1=="Space" && $2=="group:"){printf "%1s",$3}}' alm1.log`
 if [ ${sg:0:1} = "F" ]; then
-  echo "space group: "${sg:0:1}" (FCC Primitive cell) settings"
+  echo "space group: "${sg:0:1}" settings"
+  SG=FCC
 cat << EOF >> phband.in
 &cell
   ${la_bohr_d2} # factor in Bohr unit
@@ -215,7 +222,8 @@ cat << EOF >> phband.in
 /
 EOF
 elif [ ${sg:0:1} = "I" ]; then
-  echo "space group: "${sg:0:1}" (BCC Primitive cell)  settings"
+  echo "space group: "${sg:0:1}" settings"
+  SG=BCC
 cat << EOF >> phband.in
 &cell
   ${la_bohr_d2} # factor in Bohr unit
@@ -232,7 +240,8 @@ cat << EOF >> phband.in
 /
 EOF
 elif [ ${sg:0:8} = "P6_3/mmc" ]; then
-  echo "space group: "${sg:0:8}" (HCP Primitive cell) settings"
+  echo "space group: "${sg:0:8}" (HCP) settings"
+  SG=HCP
 cat << EOF >> phband.in
 &cell
   ${la_bohr_d2} # factor in Bohr unit
@@ -250,6 +259,7 @@ cat << EOF >> phband.in
 EOF
 else
   echo "space group: "${sg}" (P) settings"
+  SG=SC
 cat << EOF >> phband.in
 &cell
   ${la_bohr_d2}
@@ -265,6 +275,32 @@ cat << EOF >> phband.in
 /
 EOF
 fi
+
+#Memo: F
+#&kpoint
+#  1  # KPMODE = 1: line mode
+#  R 0.5 0.5 0.5 G 0.0 0.0 0.0 51
+#  G 0.0 0.0 0.0 X 0.5 0.0 0.0 51
+#  X 0.5 0.0 0.0 M 0.5 0.5 0.0 51
+#  M 0.5 0.5 0.0 G 0.0 0.0 0.5 51
+#/
+
+#Memo: I (failed)
+#&cell
+#  ${la_bohr_r3} # factor in Bohr unit
+#  1.00000  0.00000  0.00000
+# -0.33333  0.94281  0.00000
+# -0.33333 -0.47140  0.81649
+#/
+
+#Memo: I
+#&kpoint
+#  1  # KPMODE = 1: line mode
+#  G 0.0 0.0 0.0 H 0.0 1.0 0.0 51
+#  H 0.0 1.0 0.0 N 0.5 0.5 0.0 51
+#  N 0.5 0.5 0.0 G 0.0 0.0 0.0 51
+#  G 0.0 0.0 0.0 P 0.5 0.5 0.5 51
+#/
 
 
 ${ALAMODE_ROOT}/anphon/anphon phband.in > phband.log
@@ -283,7 +319,6 @@ cat << EOF > RTA.in
 EOF
 
 if [ ${sg:0:1} = "F" ]; then
-  echo "space group: "${sg:0:1}" (FCC Primitive cell) settings"
 cat << EOF >> RTA.in
 &cell
   ${la_bohr_d2}
@@ -293,7 +328,6 @@ cat << EOF >> RTA.in
 /
 EOF
 elif [ ${sg:0:1} = "I" ]; then
-  echo "space group: "${sg:0:1}" (BCC Primitive cell) settings"
 cat << EOF >> RTA.in
 &cell
   ${la_bohr_d2} # factor in Bohr unit
@@ -303,7 +337,7 @@ cat << EOF >> RTA.in
 /
 EOF
 elif [ ${sg:0:8} = "P6_3/mmc" ]; then
-  echo "space group: "${sg:0:8}" (HCP Primitive cell) settings"
+  echo "space group: "${sg:0:8}" (HCP) settings"
 cat << EOF >> RTA.in
 &cell
   ${la_bohr_d2}
@@ -332,3 +366,11 @@ cat << EOF >> RTA.in
 EOF
 
 ${ALAMODE_ROOT}/anphon/anphon RTA.in > RTA.log
+
+#-----------------------------------------------------------------------------------------------
+awk '{if(NR==3){printf "# k-axis, Phonon frequency [THz]";for(j=1;j<=(NF+3);j++){printf ", band-%-d",j};printf("\n")}else if(NR>=4){printf("%6d %12.6f"),(NR-3),$1;for(i=2;i<=NF;i++){printf("%12.6f ",$i*0.029979)}{printf("\n")}}}' sc222.bands > sc222_THz.bands
+awk '{if(NR==3){printf "# k-axis, Phonon energy [meV]";for(j=1;j<=(NF+3);j++){printf ", band-%-d",j};printf("\n")}else if(NR>=4){printf("%6d %12.6f"),(NR-3),$1;for(i=2;i<=NF;i++){printf("%12.6f ",$i*0.12398)}{printf("\n")}}}' sc222.bands > sc222_meV.bands
+#---------------------------------------
+gnuplot < plot_band_${SG}.gpl
+gnuplot < plot_thermal_conductivity.gpl
+#-----------------------------------------------------------------------------------------------
