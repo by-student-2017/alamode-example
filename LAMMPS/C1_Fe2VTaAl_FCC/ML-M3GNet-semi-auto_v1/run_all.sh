@@ -29,26 +29,33 @@ ALAMODE_ROOT=/mnt/d/alamode-v.1.4.1/_build
 input_file=in.lmp
 if [ -f SC444.lammps ]; then
   SC222_data=SC444.lammps
-else
+  mode=cubic
+elif [ -f SC222.lammps ]; then
   SC222_data=SC222.lammps
+  mode=cubic
+else
+  SC222_data=SC111.lammps
+  mode=random
 fi
 #-----------------------------------------------------------------------------------------------
 
 #-----------------------------------------------------------------------------------------------
-# YxYxY supercell (Y = 2 or 4) to primitive cell for band dispersion.
-sc_type=`echo ${SC222_data:2:1}`
-echo "set YxYxY supercell (Y = ${sc_type}) to primitive cell for band dispersion"
+# XxYxZ supercell to primitive cell for band dispersion.
+sc_X=`echo ${SC222_data:2:1}`
+sc_Y=`echo ${SC222_data:3:1}`
+sc_Z=`echo ${SC222_data:4:1}`
+sc_type=${sc_X}
+echo "band dispersion: ${sc_X}x${sc_Y}x${sc_Z} supercell => primitive cell: ${sc_type} vs. 1"
+#-----------------------------------------------------------------------------------------------
+
+#-----------------------------------------------------------------------------------------------
+# Anharmonic calculation mode (cubic or random)
+echo "set anharmonic calculation mode (cubic or random): ${mode}"
 #-----------------------------------------------------------------------------------------------
 
 #-----------------------------------------------------------------------------------------------
 # I feel like there is no problem with leaving it at 12.0.
 distance=12.0
-#-----------------------------------------------------------------------------------------------
-
-#-----------------------------------------------------------------------------------------------
-# Anharmonic calculation mode (cubic or random)
-mode=cubic
-echo "set anharmonic calculation mode (cubic or random): ${mode}"
 #-----------------------------------------------------------------------------------------------
 
 #-----------------------------------------------------------------------------------------------
@@ -209,7 +216,7 @@ echo "----- Run LAMMPS -----"
 if [ -f NHARM_restart.txt ]; then
   NHARM_restart=`cat NHARM_restart.txt`
 else
-  NHARM_restart=0
+  NHARM_restart=1
 fi
 if [ ! ${NHARM_restart} -eq ${NHARM} ]; then
 for i in $(seq -w ${NHARM_restart} ${NHARM})
@@ -221,14 +228,14 @@ do
    echo ${i} > NHARM_restart.txt
 done
 else
-  echo "step ${NHARM_restart} / ${NHARM} case"
+  echo "HARMONIC step ${NHARM_restart} / ${NHARM} case"
   echo "----- skip HARMONIC calculation -----"
 fi
 #-------------------------------------------------------------------------------
 if [ -f NANHA_restart.txt ]; then
   NANHA_restart=`cat NANHA_restart.txt`
 else
-  NANHA_restart=0
+  NANHA_restart=1
 fi
 if [ ! ${NANHA_restart} -eq ${NANHA} ]; then
 for i in $(seq -w ${NANHA_restart} ${NANHA})
@@ -240,7 +247,7 @@ do
    echo ${i} > NANHA_restart.txt
 done
 else
-  echo "step ${NANHA_restart} / ${NANHA} case"
+  echo "ANHARM3 step ${NANHA_restart} / ${NANHA} case"
   echo "----- skip ANHARM3 calculation -----"
 fi
 #-------------------------------------------------------------------------------
