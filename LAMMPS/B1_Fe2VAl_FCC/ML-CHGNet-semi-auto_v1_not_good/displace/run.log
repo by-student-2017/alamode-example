@@ -1,0 +1,281 @@
+*****************************************************************
+    displace.py --  Generator of displaced configurations        
+                      Version. 1.2.1                             
+*****************************************************************
+
+ Output format                  : LAMMPS structure format
+ Structure before displacements : ../SC222.lammps
+ Output file names              : harm{counter}.lammps
+ Magnitude of displacements     : 0.01 Angstrom
+ Number of atoms                : 128
+
+ Displacement mode              : Finite displacement
+
+ 3 displacement pattern are generated from
+ the given *.pattern_* files
+
+ Number of displacements        : 3
+-----------------------------------------------------------------
+
+All input files are created.
+*****************************************************************
+    displace.py --  Generator of displaced configurations        
+                      Version. 1.2.1                             
+*****************************************************************
+
+ Output format                  : LAMMPS structure format
+ Structure before displacements : ../SC222.lammps
+ Output file names              : cubic{counter}.lammps
+ Magnitude of displacements     : 0.04 Angstrom
+ Number of atoms                : 128
+
+ Displacement mode              : Finite displacement
+
+ 178 displacement pattern are generated from
+ the given *.pattern_* files
+
+ Number of displacements        : 178
+-----------------------------------------------------------------
+
+All input files are created.
+LAMMPS (2 Aug 2023)
+Reading data file ...
+  triclinic box = (0 0 0) to (11.415328 11.415328 11.415328) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  128 atoms
+  read_data CPU = 0.015 seconds
+WARNING: No fixes with time integration, atoms won't move (../verlet.cpp:60)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair chgnet, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+Per MPI rank memory allocation (min/avg/max) = 3.13 | 3.13 | 3.13 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+         0   0             -992.98083      0             -992.98083     -739.10003    
+Loop time of 1.01e-06 on 1 procs for 0 steps with 128 atoms
+
+594.1% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 1.01e-06   |            |       |100.00
+
+Nlocal:            128 ave         128 max         128 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           1601 ave        1601 max        1601 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:        21504 ave       21504 max       21504 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of CHGNet v0.3.0 initialized with 412,525 parameters
+CHGNet will run on cuda:0
+CHGNet will run on cpu
+neighbors = 21504
+Ave neighs/atom = 168
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:03
+LAMMPS (2 Aug 2023)
+Reading data file ...
+  triclinic box = (0 0 0) to (11.415328 11.415328 11.415328) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  128 atoms
+  read_data CPU = 0.004 seconds
+WARNING: No fixes with time integration, atoms won't move (../verlet.cpp:60)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair chgnet, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+Per MPI rank memory allocation (min/avg/max) = 3.13 | 3.13 | 3.13 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+         0   0             -992.98102      0             -992.98102     -746.17632    
+Loop time of 1.145e-06 on 1 procs for 0 steps with 128 atoms
+
+436.7% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 1.145e-06  |            |       |100.00
+
+Nlocal:            128 ave         128 max         128 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           1601 ave        1601 max        1601 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:        21504 ave       21504 max       21504 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # ofCHGNet v0.3.0 initialized with 412,525 parameters
+CHGNet will run on cuda:0
+CHGNet will run on cpu
+ neighbors = 21504
+Ave neighs/atom = 168
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:03
+LAMMPS (2 Aug 2023)
+Reading data file ...
+  triclinic box = (0 0 0) to (11.415328 11.415328 11.415328) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  128 atoms
+  read_data CPU = 0.007 seconds
+WARNING: No fixes with time integration, atoms won't move (../verlet.cpp:60)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair chgnet, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+Per MPI rank memory allocation (min/avg/max) = 3.13 | 3.13 | 3.13 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+         0   0             -992.98096      0             -992.98096     -745.37059    
+Loop time of 1.122e-06 on 1 procs for 0 steps with 128 atoms
+
+534.8% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 1.122e-06  |            |       |100.00
+
+Nlocal:            128 ave         128 max         128 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           1601 ave        1601 max        1601 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:        21504 ave       21504 max       21504 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # ofCHGNet v0.3.0 initialized with 412,525 parameters
+CHGNet will run on cuda:0
+CHGNet will run on cpu
+ neighbors = 21504
+Ave neighs/atom = 168
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:04
+LAMMPS (2 Aug 2023)
+Reading data file ...
+  triclinic box = (0 0 0) to (11.415328 11.415328 11.415328) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  128 atoms
+  read_data CPU = 0.007 seconds
+WARNING: No fixes with time integration, atoms won't move (../verlet.cpp:60)
+Neighbor list info ...
+  update: every = 1 steps, delay = 0 steps, check = yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 8
+  ghost atom cutoff = 8
+  binsize = 4, bins = 3 3 3
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair chgnet, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard
+Setting up Verlet run ...
+  Unit style    : metal
+  Current step  : 0
+  Time step     : 0.001
+Per MPI rank memory allocation (min/avg/max) = 3.13 | 3.13 | 3.13 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+         0   0             -992.97522      0             -992.97522     -635.75653    
+Loop time of 8.5e-07 on 1 procs for 0 steps with 128 atoms
+
+352.9% CPU use with 1 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0          | 0          | 0          |   0.0 |  0.00
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0          | 0          | 0          |   0.0 |  0.00
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 8.5e-07    |            |       |100.00
+
+Nlocal:            128 ave         128 max         128 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           1601 ave        1601 max        1601 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:              0 ave           0 max           0 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:        21504 ave       21504 max       21504 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of nCHGNet v0.3.0 initialized with 412,525 parameters
+CHGNet will run on cuda:0
+CHGNet will run on cpu
+eighbors = 21504
+Ave neighs/atom = 168
+Neighbor list builds = 0
+Dangerous builds = 0
+Total wall time: 0:00:04
+LAMMPS (2 Aug 2023)
+Reading data file ...
+  triclinic box = (0 0 0) to (11.415328 11.415328 11.415328) with tilt (0 0 0)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  128 atoms
+  read_data CPU = 0.007 seconds
+ERROR: Cannot initialize python for pair_coeff of CHGNet. (../pair_chgnet.cpp:519)
+Last command: pair_coeff    * *  0.3.0 ${elem}
