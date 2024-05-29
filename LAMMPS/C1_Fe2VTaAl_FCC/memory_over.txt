@@ -1,0 +1,5 @@
+/mnt/d/alamode-v.1.4.1/_build/alm/alm alm2.in > alm2.log
+
+terminate called after throwing an instance of 'std::bad_alloc'
+  what():  std::bad_alloc
+Aborted

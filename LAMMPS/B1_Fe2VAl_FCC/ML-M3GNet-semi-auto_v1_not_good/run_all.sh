@@ -49,6 +49,12 @@ echo "band dispersion: ${sc_X}x${sc_Y}x${sc_Z} supercell => primitive cell: ${sc
 #-----------------------------------------------------------------------------------------------
 
 #-----------------------------------------------------------------------------------------------
+# Set space group of Bands and RTA: Auto, FCC, BCC, HCP or SC
+fix_sg="Auto"
+echo "Space group of Bands and RTA (Auto, FCC, BCC, HCP or SC): ${fix_sg}"
+#-----------------------------------------------------------------------------------------------
+
+#-----------------------------------------------------------------------------------------------
 # Anharmonic calculation mode (cubic or random)
 echo "set anharmonic calculation mode (cubic or random): ${mode}"
 #-----------------------------------------------------------------------------------------------
@@ -184,8 +190,8 @@ grep "Space group" alm0.log
 grep "Number of disp. patterns" alm0.log
 NHARM=`awk '{if($1=="Number" && $3=="disp." && $6=="HARMONIC"){printf "%d",$8}}' alm0.log`
 echo "harmonic file: ${NHARM}"
-NANHA=`awk '{if($1=="Number" && $3=="disp." && $6=="ANHARM3"){printf "%d",$8}}' alm0.log`
-echo "anharmonic file: ${NANHA}"
+#NANHA=`awk '{if($1=="Number" && $3=="disp." && $6=="ANHARM3"){printf "%d",$8}}' alm0.log`
+#echo "anharmonic file: ${NANHA}"
 #-------------------------------------------------------------------------------
 
 
@@ -354,14 +360,14 @@ ${ALAMODE_ROOT}/alm/alm alm2.in > alm2.log
 
 #-------------------------------------------------------------------
 if [ ${mode} == "random" ]; then
-# opt.in
-alpha=`awk '{if($1=="Minimum" && $2=="CVSCORE"){print $6}}' alm.log`
-echo "Minimum CVSCORE at alpha = "${alpha}
-sed "15i \ L1_ALPHA = ${alpha}" sc_alm2.in > sc_opt.in
-sed -i "s/CV = 4/CV = 0/" sc_opt.in
-awk '{if($1=="CV"){print $0}}' sc_opt.in
-awk '{if($1=="L1_ALPHA"){print $0}}' sc_opt.in
-${ALAMODE_ROOT}/alm/alm sc_opt.in >> alm.log
+  # opt.in
+  alpha=`awk '{if($1=="Minimum" && $2=="CVSCORE"){print $6}}' alm.log`
+  echo "Minimum CVSCORE at alpha = "${alpha}
+  sed "15i \ L1_ALPHA = ${alpha}" sc_alm2.in > sc_opt.in
+  sed -i "s/CV = 4/CV = 0/" sc_opt.in
+  awk '{if($1=="CV"){print $0}}' sc_opt.in
+  awk '{if($1=="L1_ALPHA"){print $0}}' sc_opt.in
+  ${ALAMODE_ROOT}/alm/alm sc_opt.in >> alm.log
 fi
 #-------------------------------------------------------------------
 
@@ -395,7 +401,21 @@ cat << EOF > phband.in
 EOF
 
 # 1x1x1 Primitive cell
-sg=`awk '{if($1=="Space" && $2=="group:"){printf "%1s",$3}}' alm1.log`
+#
+if [ "${fix_sg}" == "Auto" ]; then
+  sg=`awk '{if($1=="Space" && $2=="group:"){printf "%1s",$3}}' alm1.log`
+elif [ "${fix_sg}" == "FCC" ]; then
+  sg="F"
+elif [ "${fix_sg}" == "BCC" ]; then
+  sg="I"
+elif [ "${fix_sg}" == "HCP" ]; then
+  sg="P6_3/mmc"
+else
+  sg="SC"
+fi
+echo "----- Bands and RTA calculation -----"
+echo "  space group: ${fix_sg} (${sg}) setting"
+#
 if [ ${sg:0:1} == "F" ]; then
   echo "space group: "${sg:0:1}" settings"
   #SG=FCC
