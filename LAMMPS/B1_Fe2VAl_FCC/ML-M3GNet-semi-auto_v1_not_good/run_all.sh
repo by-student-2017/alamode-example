@@ -1,6 +1,10 @@
 #!/bin/bash
 
 #-----------------------------------------------------------------------------------------------
+echo "----- File and User settings -----"
+#-----------------------------------------------------------------------------------------------
+
+#-----------------------------------------------------------------------------------------------
 # Please modify the following paths appropriately
 #export DYLD_LIBRARY_PATH=/Users/tadano/src/spglib/lib/:$DYLD_LIBRARY_PATH
 #export LD_LIBRARY_PATH=/Users/tadano/src/spglib/lib/:$LD_LIBRARY_PATH
@@ -32,7 +36,8 @@ if [ -f SC444.lammps ]; then
   mode=cubic
 elif [ -f SC222.lammps ]; then
   SC222_data=SC222.lammps
-  mode=cubic
+  #mode=cubic
+  mode=random
 else
   SC222_data=SC111.lammps
   mode=random
@@ -45,7 +50,7 @@ sc_X=`echo ${SC222_data:2:1}`
 sc_Y=`echo ${SC222_data:3:1}`
 sc_Z=`echo ${SC222_data:4:1}`
 sc_type=${sc_X}
-echo "band dispersion: ${sc_X}x${sc_Y}x${sc_Z} supercell => primitive cell: ${sc_type} vs. 1"
+echo "Band dispersion: ${sc_X}x${sc_Y}x${sc_Z} supercell => primitive cell: ${sc_type} vs. 1"
 #-----------------------------------------------------------------------------------------------
 
 #-----------------------------------------------------------------------------------------------
@@ -195,7 +200,14 @@ grep "Space group" alm0.log
 grep "Number of disp. patterns" alm0.log
 NHARM=`awk '{if($1=="Number" && $3=="disp." && $6=="HARMONIC"){printf "%d",$8}}' alm0.log`
 echo "harmonic file: ${NHARM}"
-NANHA=`awk '{if($1=="Number" && $3=="disp." && $6=="ANHARM3"){printf "%d",$8}}' alm0.log`
+#
+if [ ${mode} == "cubic" ]; then
+  echo "cubic displacement case"
+  NANHA=`awk '{if($1=="Number" && $3=="disp." && $6=="ANHARM3"){printf "%d",$8}}' alm0.log`
+else
+  echo "random displacement case"
+  NANHA=${random_num}
+fi
 echo "anharmonic file: ${NANHA}"
 #-------------------------------------------------------------------------------
 
@@ -642,4 +654,8 @@ gnuplot < plot_thermal_conductivity.gpl
 
 #-----------------------------------------------------------------------------------------------
 rm -f ./displace/NHARM_restart.txt ./displace/NANHA_restart.txt
+#-----------------------------------------------------------------------------------------------
+
+#-----------------------------------------------------------------------------------------------
+echo "------ Ende. (Die Geschichte von GNN ist eine andere Seite.) ------"
 #-----------------------------------------------------------------------------------------------

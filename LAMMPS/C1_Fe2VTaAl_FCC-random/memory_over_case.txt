@@ -1,0 +1,7 @@
+This references need above 24 GB (for the number of random: 12 files).
+
+/mnt/d/alamode-v.1.4.1/_build/alm/alm alm2.in > alm2.log
+
+terminate called after throwing an instance of 'std::bad_alloc'
+  what():  std::bad_alloc
+Aborted

@@ -101,7 +101,7 @@ yz=`awk -v la=${la} 'BEGIN{YZ=0.0}{if($6=="yz"){YZ=$3}}END{printf "%12.6f",(YZ/l
 #-----------------------------------------------------------------------------------------------
 det=`echo "${xx} ${yy} ${zz}" | awk '{printf "%f",($1*$2*$3)}'`
 vol=`echo "${det} ${la}" | awk '{printf "%f",($1*$2^3)}'`
-random_num=`echo "${vol}" | awk '{printf "%d",int(20*$1/(5.68^3)+0.5)}'`
+random_num=`echo "${natom}" | awk '{printf "%d",int(4*(5*64/$1+0.5))}'` # CV=4
 #-----------------------------------------------------------------------------------------------
 #ixx=`echo "${xx} ${yy} ${zz} ${xy} ${xz} ${yz} ${det}" | awk '{printf "%f", ($2*$3-0.0)/$7}'`
 #iyy=`echo "${xx} ${yy} ${zz} ${xy} ${xz} ${yz} ${det}" | awk '{printf "%f", ($1*$3-0.0)/$7}'`
@@ -199,7 +199,14 @@ grep "Space group" alm0.log
 grep "Number of disp. patterns" alm0.log
 NHARM=`awk '{if($1=="Number" && $3=="disp." && $6=="HARMONIC"){printf "%d",$8}}' alm0.log`
 echo "harmonic file: ${NHARM}"
-NANHA=`awk '{if($1=="Number" && $3=="disp." && $6=="ANHARM3"){printf "%d",$8}}' alm0.log`
+#
+if [ ${mode} == "cubic" ]; then
+  echo "cubic displacement case"
+  NANHA=`awk '{if($1=="Number" && $3=="disp." && $6=="ANHARM3"){printf "%d",$8}}' alm0.log`
+else
+  echo "random displacement case"
+  NANHA=${random_num}
+fi
 echo "anharmonic file: ${NANHA}"
 #-------------------------------------------------------------------------------
 
@@ -352,7 +359,7 @@ fi
 #-------------------------------------------------------------------------------
 
 #-------------------------------------------------------------------------------
-#echo "----- Extract ${mode} force constants (alm2.in) -----"
+echo "----- Extract ${mode} force constants (alm2.in) -----"
 #-------------------------------------------------------------------------------
 #### alm2.log
 #log_file="alm2.log"
@@ -372,21 +379,33 @@ fi
 #if [ ${mode} == "cubic" ]; then
 #  sed -i "/DFSET = displace\/DFSET_harmonic/a \  FC2XML = sc222_harm.xml" alm2.in
 #else
-#  sed -i "/DFSET = displace\/DFSET_harmonic/a \  FC2XML = sc222_harm.xml/a \  LMODEL = enet/a \  NDATA = ${random_num}/a \ CV = 4/a \ L1_RATIO = 1.0/a \ CONV_TOL = 1.0e-8" alm2.in
+#  cp alm2.in alm2_tmp.in
+#  awk -v ndata=${random_num} '{if($1=="DFSET"){
+#      printf("  DFSET = displace/DFSET_random\n")
+#      printf("  FC2XML = sc222_harm.xml\n")
+#      printf("  LMODEL = enet\n")
+#      printf("  NDATA = %d\n",ndata)
+#      printf("  CV = 4\n")
+#      printf("  L1_RATIO = 1.0\n")
+#      printf("  CONV_TOL = 1.0e-8\n")
+#    }else{print $0}
+#  }' alm2_tmp.in > alm2.in
+#  rm -f alm2_tmp.in
 #fi
 #sed -i "s/NORDER = 1/NORDER = 2/" alm2.in
+#
 #${ALAMODE_ROOT}/alm/alm alm2.in > alm2.log
-
+#
 #-------------------------------------------------------------------
 #if [ ${mode} == "random" ]; then
 #  # opt.in
-#  alpha=`awk '{if($1=="Minimum" && $2=="CVSCORE"){print $6}}' alm.log`
+#  alpha=`awk '{if($1=="Minimum" && $2=="CVSCORE"){print $6}}' alm2.log`
 #  echo "Minimum CVSCORE at alpha = "${alpha}
-#  sed "15i \ L1_ALPHA = ${alpha}" sc_alm2.in > sc_opt.in
-#  sed -i "s/CV = 4/CV = 0/" sc_opt.in
-#  awk '{if($1=="CV"){print $0}}' sc_opt.in
-#  awk '{if($1=="L1_ALPHA"){print $0}}' sc_opt.in
-#  ${ALAMODE_ROOT}/alm/alm sc_opt.in >> alm.log
+#  sed "15i \ L1_ALPHA = ${alpha}" alm2.in > opt.in
+#  sed -i "s/CV = 4/CV = 0/" opt.in
+#  awk '{if($1=="CV"){print $0}}' opt.in
+#  awk '{if($1=="L1_ALPHA"){print $0}}' opt.in
+#  ${ALAMODE_ROOT}/alm/alm opt.in >> alm2_cv0.log
 #fi
 #-------------------------------------------------------------------
 #
