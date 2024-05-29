@@ -212,13 +212,13 @@ mkdir displace; cd displace
 ####
 python3 ${ALAMODE_ROOT}/tools/displace.py --LAMMPS ../${SC222_data} --prefix harm --mag 0.01 -pf ../sc222.pattern_HARMONIC >> run.log
 
-if [ ${mode} == "cubic" ]; then
-  echo "cubic displacement case"
-  python3 ${ALAMODE_ROOT}/tools/displace.py --LAMMPS ../${SC222_data} --prefix ${mode} --mag 0.04 -pf ../sc222.pattern_ANHARM3 >> run.log
-else
-  echo "random displacement case"
-  python3 ${ALAMODE_ROOT}/tools/displace.py --LAMMPS ../${SC222_data} --prefix ${mode} --random --mag 0.04 -nd ${random_num} >> run.log
-fi
+#if [ ${mode} == "cubic" ]; then
+#  echo "cubic displacement case"
+#  python3 ${ALAMODE_ROOT}/tools/displace.py --LAMMPS ../${SC222_data} --prefix ${mode} --mag 0.04 -pf ../sc222.pattern_ANHARM3 >> run.log
+#else
+#  echo "random displacement case"
+#  python3 ${ALAMODE_ROOT}/tools/displace.py --LAMMPS ../${SC222_data} --prefix ${mode} --random --mag 0.04 -nd ${random_num} >> run.log
+#fi
 ####
 #-------------------------------------------------------------------------------
 
@@ -260,29 +260,29 @@ else
 fi
 #-------------------------------------------------------------------------------
 ##### lammps calculation for ANHARM3
-if [ -f NANHA_restart.txt ]; then
-  if [ -e DFSET_${mode}${NANHA} ]; then
-    NANHA_restart=${NANHA}
-  else
-    NANHA_restart=`cat NANHA_restart.txt`
-  fi
-else
-  NANHA_restart=1
-fi
+#if [ -f NANHA_restart.txt ]; then
+#  if [ -e DFSET_${mode}${NANHA} ]; then
+#    NANHA_restart=${NANHA}
+#  else
+#    NANHA_restart=`cat NANHA_restart.txt`
+#  fi
+#else
+#  NANHA_restart=1
+#fi
 #
-if [ ! "${NANHA_restart}" == "${NANHA}" ]; then
-for i in $(seq -w ${NANHA_restart} ${NANHA})
-do
-   cp ${mode}${i}.lammps tmp.lammps
-   $LAMMPS < ${input_file} >> run.log
-   mv XFSET XFSET.${mode}${i}
-   echo "----- XFSET.${mode}${i} / ${NANHA} -----"
-   echo ${i} > NANHA_restart.txt
-done
-else
-  echo "ANHARM3 step ${NANHA_restart} / ${NANHA} case"
-  echo "----- skip ANHARM3 calculation -----"
-fi
+#if [ ! "${NANHA_restart}" == "${NANHA}" ]; then
+#for i in $(seq -w ${NANHA_restart} ${NANHA})
+#do
+#   cp ${mode}${i}.lammps tmp.lammps
+#   $LAMMPS < ${input_file} >> run.log
+#   mv XFSET XFSET.${mode}${i}
+#   echo "----- XFSET.${mode}${i} / ${NANHA} -----"
+#   echo ${i} > NANHA_restart.txt
+#done
+#else
+#  echo "ANHARM3 step ${NANHA_restart} / ${NANHA} case"
+#  echo "----- skip ANHARM3 calculation -----"
+#fi
 #-------------------------------------------------------------------------------
 
 
@@ -293,9 +293,9 @@ if [ ! -e DFSET_harmonic ]; then
   python3 ${ALAMODE_ROOT}/tools/extract.py --LAMMPS ../${SC222_data} XFSET.harm* > DFSET_harmonic
 fi
 #-------------------------------------------------------------------------------
-if [ ! -e DFSET_${mode} ]; then
-  python3 ${ALAMODE_ROOT}/tools/extract.py --LAMMPS ../${SC222_data} XFSET.${mode}* > DFSET_${mode}
-fi
+#if [ ! -e DFSET_${mode} ]; then
+#  python3 ${ALAMODE_ROOT}/tools/extract.py --LAMMPS ../${SC222_data} XFSET.${mode}* > DFSET_${mode}
+#fi
 #-------------------------------------------------------------------------------
 
 
@@ -352,10 +352,55 @@ fi
 #-------------------------------------------------------------------------------
 
 #-------------------------------------------------------------------------------
-echo "----- Extract ${mode} force constants (alm2.in) -----"
+#echo "----- Extract ${mode} force constants (alm2.in) -----"
 #-------------------------------------------------------------------------------
 #### alm2.log
-log_file="alm2.log"
+#log_file="alm2.log"
+#if [ -e ${log_file} ]; then
+#  CF=`awk '{if($1=="Job"){printf "%s",$2}}' ${log_file}`
+#  if [ ${CF} == "finished" ]; then
+#    echo "----- skip ${log_file} -----"
+#  else
+#    rm -f ${log_file}
+#  fi
+#fi
+#
+#if [ ! -e ${log_file} ]; then
+#
+#sed -e "s/PREFIX = sc222_harm/PREFIX = sc222_${mode}/" alm1.in > alm2.in
+#sed -i "s/DFSET_harmonic/DFSET_${mode}/" alm2.in
+#if [ ${mode} == "cubic" ]; then
+#  sed -i "/DFSET = displace\/DFSET_harmonic/a \  FC2XML = sc222_harm.xml" alm2.in
+#else
+#  sed -i "/DFSET = displace\/DFSET_harmonic/a \  FC2XML = sc222_harm.xml/a \  LMODEL = enet/a \  NDATA = ${random_num}/a \ CV = 4/a \ L1_RATIO = 1.0/a \ CONV_TOL = 1.0e-8" alm2.in
+#fi
+#sed -i "s/NORDER = 1/NORDER = 2/" alm2.in
+#${ALAMODE_ROOT}/alm/alm alm2.in > alm2.log
+
+#-------------------------------------------------------------------
+#if [ ${mode} == "random" ]; then
+#  # opt.in
+#  alpha=`awk '{if($1=="Minimum" && $2=="CVSCORE"){print $6}}' alm.log`
+#  echo "Minimum CVSCORE at alpha = "${alpha}
+#  sed "15i \ L1_ALPHA = ${alpha}" sc_alm2.in > sc_opt.in
+#  sed -i "s/CV = 4/CV = 0/" sc_opt.in
+#  awk '{if($1=="CV"){print $0}}' sc_opt.in
+#  awk '{if($1=="L1_ALPHA"){print $0}}' sc_opt.in
+#  ${ALAMODE_ROOT}/alm/alm sc_opt.in >> alm.log
+#fi
+#-------------------------------------------------------------------
+#
+#fi
+#### alm2.log
+#-------------------------------------------------------------------------------
+#grep "Space group" alm2.log
+#grep "Fitting error" alm2.log
+#-------------------------------------------------------------------------------
+
+
+#-------------------------------------------------------------------------------
+#### phband.log
+log_file="phband.log"
 if [ -e ${log_file} ]; then
   CF=`awk '{if($1=="Job"){printf "%s",$2}}' ${log_file}`
   if [ ${CF} == "finished" ]; then
@@ -366,46 +411,6 @@ if [ -e ${log_file} ]; then
 fi
 #
 if [ ! -e ${log_file} ]; then
-
-sed -e "s/PREFIX = sc222_harm/PREFIX = sc222_${mode}/" alm1.in > alm2.in
-sed -i "s/DFSET_harmonic/DFSET_${mode}/" alm2.in
-if [ ${mode} == "cubic" ]; then
-  sed -i "/DFSET = displace\/DFSET_harmonic/a \  FC2XML = sc222_harm.xml" alm2.in
-else
-  sed -i "/DFSET = displace\/DFSET_harmonic/a \  FC2XML = sc222_harm.xml/a \  LMODEL = enet/a \  NDATA = ${random_num}/a \ CV = 4/a \ L1_RATIO = 1.0/a \ CONV_TOL = 1.0e-8" alm2.in
-fi
-sed -i "s/NORDER = 1/NORDER = 2/" alm2.in
-${ALAMODE_ROOT}/alm/alm alm2.in > alm2.log
-
-#-------------------------------------------------------------------
-if [ ${mode} == "random" ]; then
-  # opt.in
-  alpha=`awk '{if($1=="Minimum" && $2=="CVSCORE"){print $6}}' alm.log`
-  echo "Minimum CVSCORE at alpha = "${alpha}
-  sed "15i \ L1_ALPHA = ${alpha}" sc_alm2.in > sc_opt.in
-  sed -i "s/CV = 4/CV = 0/" sc_opt.in
-  awk '{if($1=="CV"){print $0}}' sc_opt.in
-  awk '{if($1=="L1_ALPHA"){print $0}}' sc_opt.in
-  ${ALAMODE_ROOT}/alm/alm sc_opt.in >> alm.log
-fi
-#-------------------------------------------------------------------
-
-fi
-#### alm2.log
-#-------------------------------------------------------------------------------
-grep "Space group" alm2.log
-grep "Fitting error" alm2.log
-#-------------------------------------------------------------------------------
-
-
-#-------------------------------------------------------------------------------
-#### phband.log
-if [ -e phband.log ]; then
-  CF=`awk '{if($1=="Job"){printf "%s",$2}}' phband.log`
-  if [ ${CF} == "finished" ]; then
-    echo "----- skip phband -----"
-  fi
-else
 
 echo "----- Phonon dispersion (phband.in) -----"
 cat << EOF > phband.in
@@ -432,8 +437,7 @@ elif [ "${fix_sg}" == "HCP" ]; then
 else
   sg="SC"
 fi
-echo "----- Bands and RTA calculation -----"
-echo "  space group: ${fix_sg} (${sg}) setting"
+echo "  space group of Band and RTA: ${fix_sg} (${sg}) setting"
 #
 if [ ${sg:0:1} == "F" ]; then
   echo "space group: "${sg:0:1}" settings"
@@ -542,93 +546,93 @@ fi
 
 #-------------------------------------------------------------------------------
 #### RTA.log
-log_file="RTA.log"
-if [ -e ${log_file} ]; then
-  CF=`awk '{if($1=="Job"){printf "%s",$2}}' ${log_file}`
-  if [ ${CF} == "finished" ]; then
-    echo "----- skip ${log_file} -----"
-  else
-    rm -f ${log_file}
-  fi
-fi
+#log_file="RTA.log"
+#if [ -e ${log_file} ]; then
+#  CF=`awk '{if($1=="Job"){printf "%s",$2}}' ${log_file}`
+#  if [ ${CF} == "finished" ]; then
+#    echo "----- skip ${log_file} -----"
+#  else
+#    rm -f ${log_file}
+#  fi
+#fi
 #
-if [ ! -e ${log_file} ]; then
-
-echo "----- Thermal conductivity (RTA.in) -----"
-cat << EOF > RTA.in
-&general
-  PREFIX = sc222_10
-  MODE = RTA
-  FCSXML = sc222_${mode}.xml
-
-  NKD = ${nat}; KD = ${elem[@]}
-  MASS = ${mass[@]}
-/
-EOF
-
-if [ ${sg:0:1} == "F" ]; then
-  echo "space group: "${sg:0:1}" settings"
-  #SG=FCC
-cat << EOF >> RTA.in
-&cell
-  ${la_bohr_primitive}
-  0.0 0.5 0.5
-  0.5 0.0 0.5
-  0.5 0.5 0.0
-/
-EOF
-elif [ ${sg:0:1} == "I" ]; then
-  echo "space group: "${sg:0:1}" settings"
-  #SG=BCC
-cat << EOF >> RTA.in
-&cell
-  ${la_bohr_primitive} # factor in Bohr unit
-  1.0 0.0 0.0
-  0.0 1.0 0.0
-  0.0 0.0 1.0
-/
-EOF
-elif [ ${sg:0:8} == "P6_3/mmc" ]; then
-  echo "space group: "${sg:0:8}" (HCP) settings"
-  #SG=HCP
-cat << EOF >> RTA.in
-&cell
-  ${la_bohr_primitive}
-  1.00000 0.00000 0.00000
- -0.50000 0.86603 0.00000
-  0.00000 0.00000 ${zz}
-/
-EOF
-else
-  echo "space group: "${sg}" (P) settings"
-  #SG=SC
-cat << EOF >> RTA.in
-&cell
-  ${la_bohr_primitive}
-  ${xx} 0.0   0.0   # a1
-  ${xy} ${yy} 0.0   # a2
-  ${xz} ${yz} ${zz} # a3
-/
-EOF
-fi
+#if [ ! -e ${log_file} ]; then
+#
+#echo "----- Thermal conductivity (RTA.in) -----"
+#cat << EOF > RTA.in
+#&general
+#  PREFIX = sc222_10
+#  MODE = RTA
+#  FCSXML = sc222_${mode}.xml
+#
+#  NKD = ${nat}; KD = ${elem[@]}
+#  MASS = ${mass[@]}
+#/
+#EOF
+#
+#if [ ${sg:0:1} == "F" ]; then
+#  echo "space group: "${sg:0:1}" settings"
+#  #SG=FCC
+#cat << EOF >> RTA.in
+#&cell
+#  ${la_bohr_primitive}
+#  0.0 0.5 0.5
+#  0.5 0.0 0.5
+#  0.5 0.5 0.0
+#/
+#EOF
+#elif [ ${sg:0:1} == "I" ]; then
+#  echo "space group: "${sg:0:1}" settings"
+#  #SG=BCC
+#cat << EOF >> RTA.in
+#&cell
+#  ${la_bohr_primitive} # factor in Bohr unit
+#  1.0 0.0 0.0
+#  0.0 1.0 0.0
+#  0.0 0.0 1.0
+#/
+#EOF
+#elif [ ${sg:0:8} == "P6_3/mmc" ]; then
+#  echo "space group: "${sg:0:8}" (HCP) settings"
+#  #SG=HCP
+#cat << EOF >> RTA.in
+#&cell
+#  ${la_bohr_primitive}
+#  1.00000 0.00000 0.00000
+# -0.50000 0.86603 0.00000
+#  0.00000 0.00000 ${zz}
+#/
+#EOF
+#else
+#  echo "space group: "${sg}" (P) settings"
+#  #SG=SC
+#cat << EOF >> RTA.in
+#&cell
+#  ${la_bohr_primitive}
+#  ${xx} 0.0   0.0   # a1
+#  ${xy} ${yy} 0.0   # a2
+#  ${xz} ${yz} ${zz} # a3
+#/
+#EOF
+#fi
 
 #------------------------------------------------------------------------------
-nqx=`echo ${a1} | awk '{printf "%d",int(50/$1+0.5)}'`
-nqy=`echo ${a2} | awk '{printf "%d",int(50/$1+0.5)}'`
-nqz=`echo ${a3} | awk '{printf "%d",int(50/$1+0.5)}'`
-echo "RTA mesh: ${nqx} ${nqy} ${nqz}"
+#nqx=`echo ${a1} | awk '{printf "%d",int(50/$1+0.5)}'`
+#nqy=`echo ${a2} | awk '{printf "%d",int(50/$1+0.5)}'`
+#nqz=`echo ${a3} | awk '{printf "%d",int(50/$1+0.5)}'`
+#echo "RTA mesh: ${nqx} ${nqy} ${nqz}"
 #------------------------------------------------------------------------------
 
-cat << EOF >> RTA.in
-&kpoint
-  2
-  ${nqx} ${nqy} ${nqz}
-/
-EOF
-
-${ALAMODE_ROOT}/anphon/anphon RTA.in > RTA.log
-
-fi
+#cat << EOF >> RTA.in
+#&kpoint
+#  2
+#  ${nqx} ${nqy} ${nqz}
+#/
+#EOF
+#
+#${ALAMODE_ROOT}/anphon/anphon RTA.in > RTA.log
+#
+#fi
 #### RTA.log
 #-------------------------------------------------------------------------------
 
@@ -641,7 +645,7 @@ awk '{if(NR==3){printf "# k-axis, Phonon frequency [THz]";for(j=1;j<=(NF+3);j++)
 awk '{if(NR==3){printf "# k-axis, Phonon energy [meV]";for(j=1;j<=(NF+3);j++){printf ", band-%-d",j};printf("\n")}else if(NR>=4){printf("%6d %12.6f"),(NR-3),$1;for(i=2;i<=NF;i++){printf("%12.6f ",$i*0.12398)}{printf("\n")}}}' sc222.bands > sc222_meV.bands
 #-----------------------------------------------------------------------------------------------
 gnuplot < plot_band_${SG}.gpl
-gnuplot < plot_thermal_conductivity.gpl
+#gnuplot < plot_thermal_conductivity.gpl
 #-----------------------------------------------------------------------------------------------
 
 #-----------------------------------------------------------------------------------------------
