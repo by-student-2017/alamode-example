@@ -1,0 +1,22 @@
+units           real
+atom_style      charge
+boundary        p p p
+
+read_data       tmp.lammps
+
+pair_style      reax/c NULL
+
+variable elem string "XXXXXX"
+
+pair_coeff      * * ./potential_files/ffield.reax.040.CHOFeSCr ${elem}
+#pair_coeff      * * ./potential_files/ffield.reax.102.CHONSFe  ${elem}
+#pair_coeff      * * ./potential_files/ffield.reax.2019X1.CHOFeAlNiCuSCr ${elem}
+#pair_coeff      * * ./potential_files/ffield.reax.2023X6.CHOFeSCr ${elem}
+#pair_coeff      * * ./potential_files/ffield.reax.2024X4.CHONSSiFe ${elem}
+
+fix             1 all qeq/reax 1 0.0 10.0 1e-6 reax/c
+
+dump            1 all custom 1 XFSET id xu yu zu fx fy fz 
+dump_modify     1 format float "%20.15f"
+run             0
+
