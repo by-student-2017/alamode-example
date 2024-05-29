@@ -1,8 +1,8 @@
 #!/usr/local/bin/gnuplot -persist
 #-------------------------------------------------------------------------------
 set terminal pngcairo color enhanced font "Arial" fontscale 1.0
-#set output "comp_band.png"
-#set output "phonon_band.png"
+#set output "comp_band_HCP.png"
+#set output "phonon_band_HCP.png"
 #------------------------------------------------
 set key opaque box lc rgb "white" height 1
 #set key outside
@@ -10,7 +10,7 @@ set key opaque box lc rgb "white" height 1
 ytop_Kaiser = 250
 ybottom_Kaiser = ytop_Kaiser * -0.1
 #-------------------------------------------------------------------------------
-set output "phonon_band.png"
+set output "phonon_band_HCP.png"
 set ylabel "Eigenvalues [cm^{-1}]"
 set xlabel "Wave vector"
 
@@ -32,7 +32,7 @@ x1=50; x2=100; x3=150
 set xtics ("{/Symbol G}" xmin, "M" x1, "K" x2, "{/Symbol G}" x3, "A" xmax)
 #------------------------------------------------
 #-------------------------------------------------------------------------------
-set output "phonon_band_THz.png"
+set output "phonon_band_THz_HCP.png"
 set ylabel "Phonon frequency [THz]"
 ytop = ytop_Kaiser * 0.029979
 ybottom =ybottom_Kaiser * 0.029979
@@ -52,7 +52,7 @@ set arrow 10 nohead from xmin,0 to xmax,0 lt 2 lc "gray" lw 2
 plot for [col=3:*] "sc222_THz.bands" u 1:col w l lt 1 t ""
 #pause -1
 #-------------------------------------------------------------------------------
-set output "phonon_band_meV.png"
+set output "phonon_band_meV_HCP.png"
 set ylabel "Phonon energy [meV]"
 ytop = ytop_Kaiser * 0.12398
 ybottom =ybottom_Kaiser * 0.12398

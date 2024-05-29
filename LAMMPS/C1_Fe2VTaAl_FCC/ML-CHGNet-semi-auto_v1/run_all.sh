@@ -49,6 +49,12 @@ echo "band dispersion: ${sc_X}x${sc_Y}x${sc_Z} supercell => primitive cell: ${sc
 #-----------------------------------------------------------------------------------------------
 
 #-----------------------------------------------------------------------------------------------
+# Set space group of Bands and RTA: Auto, FCC, BCC, HCP or SC
+fix_sg="Auto"
+echo "Space group of Bands and RTA (Auto, FCC, BCC, HCP or SC): ${fix_sg}"
+#-----------------------------------------------------------------------------------------------
+
+#-----------------------------------------------------------------------------------------------
 # Anharmonic calculation mode (cubic or random)
 echo "set anharmonic calculation mode (cubic or random): ${mode}"
 #-----------------------------------------------------------------------------------------------
@@ -131,12 +137,17 @@ sed -i "s/XXXXXX/${els}/g" in.lmp
 
 #-------------------------------------------------------------------------------
 #### alm0.log
-if [ -e alm0.log ]; then
-  CF=`awk '{if($1=="Job"){printf "%s",$2}}' alm0.log`
+log_file="alm0.log"
+if [ -e ${log_file} ]; then
+  CF=`awk '{if($1=="Job"){printf "%s",$2}}' ${log_file}`
   if [ ${CF} == "finished" ]; then
-    echo "----- skip alm0 -----"
+    echo "----- skip ${log_file} -----"
+  else
+    rm -f ${log_file}
   fi
-else
+fi
+#
+if [ ! -e ${log_file} ]; then
 
 echo "----- Generate displacement patterns -----"
 cat << EOF > alm0.in
@@ -218,7 +229,7 @@ echo "----- Run LAMMPS -----"
 #-------------------------------------------------------------------------------
 ##### lammps calculation for HARMONIC
 if [ -f NHARM_restart.txt ]; then
-  if [ -e DFSET_harmonic ]; then
+  if [ -e DFSET_harmonic${NHARM} ]; then
     NHARM_restart=${NHARM}
   else
     NHARM_restart=`cat NHARM_restart.txt`
@@ -246,7 +257,7 @@ fi
 #-------------------------------------------------------------------------------
 ##### lammps calculation for ANHARM3
 if [ -f NANHA_restart.txt ]; then
-  if [ -e DFSET_${mode} ]; then
+  if [ -e DFSET_${mode}${NANHA} ]; then
     NANHA_restart=${NANHA}
   else
     NANHA_restart=`cat NANHA_restart.txt`
@@ -291,12 +302,17 @@ cd ./../
 echo "----- Extract harmonic force constants (alm1.in) -----"
 #-------------------------------------------------------------------------------
 #### alm1.log
-if [ -e alm1.log ]; then
-  CF=`awk '{if($1=="Job"){printf "%s",$2}}' alm1.log`
+log_file="alm1.log"
+if [ -e ${log_file} ]; then
+  CF=`awk '{if($1=="Job"){printf "%s",$2}}' ${log_file}`
   if [ ${CF} == "finished" ]; then
-    echo "----- skip alm1 -----"
+    echo "----- skip ${log_file} -----"
+  else
+    rm -f ${log_file}
   fi
-else
+fi
+#
+if [ ! -e ${log_file} ]; then
 
 sed -e "s/PREFIX = sc222/PREFIX = sc222_harm/" alm0.in > alm1.in
 sed -i "s/suggest/optimize/" alm1.in
@@ -335,12 +351,17 @@ fi
 echo "----- Extract ${mode} force constants (alm2.in) -----"
 #-------------------------------------------------------------------------------
 #### alm2.log
-if [ -e alm2.log ]; then
-  CF=`awk '{if($1=="Job"){printf "%s",$2}}' alm2.log`
+log_file="alm2.log"
+if [ -e ${log_file} ]; then
+  CF=`awk '{if($1=="Job"){printf "%s",$2}}' ${log_file}`
   if [ ${CF} == "finished" ]; then
-    echo "----- skip alm2 -----"
+    echo "----- skip ${log_file} -----"
+  else
+    rm -f ${log_file}
   fi
-else
+fi
+#
+if [ ! -e ${log_file} ]; then
 
 sed -e "s/PREFIX = sc222_harm/PREFIX = sc222_${mode}/" alm1.in > alm2.in
 sed -i "s/DFSET_harmonic/DFSET_${mode}/" alm2.in
@@ -395,7 +416,21 @@ cat << EOF > phband.in
 EOF
 
 # 1x1x1 Primitive cell
-sg=`awk '{if($1=="Space" && $2=="group:"){printf "%1s",$3}}' alm1.log`
+#
+if [ "${fix_sg}" == "Auto" ]; then
+  sg=`awk '{if($1=="Space" && $2=="group:"){printf "%1s",$3}}' alm1.log`
+elif [ "${fix_sg}" == "FCC" ]; then
+  sg="F"
+elif [ "${fix_sg}" == "BCC" ]; then
+  sg="I"
+elif [ "${fix_sg}" == "HCP" ]; then
+  sg="P6_3/mmc"
+else
+  sg="SC"
+fi
+echo "----- Bands and RTA calculation -----"
+echo "  space group: ${fix_sg} (${sg}) setting"
+#
 if [ ${sg:0:1} == "F" ]; then
   echo "space group: "${sg:0:1}" settings"
   #SG=FCC
@@ -503,12 +538,17 @@ fi
 
 #-------------------------------------------------------------------------------
 #### RTA.log
-if [ -e RTA.log ]; then
-  CF=`awk '{if($1=="Job"){printf "%s",$2}}' RTA.log`
+log_file="RTA.log"
+if [ -e ${log_file} ]; then
+  CF=`awk '{if($1=="Job"){printf "%s",$2}}' ${log_file}`
   if [ ${CF} == "finished" ]; then
-    echo "----- skip RTA -----"
+    echo "----- skip ${log_file} -----"
+  else
+    rm -f ${log_file}
   fi
-else
+fi
+#
+if [ ! -e ${log_file} ]; then
 
 echo "----- Thermal conductivity (RTA.in) -----"
 cat << EOF > RTA.in
