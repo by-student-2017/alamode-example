@@ -1,0 +1,16 @@
+units           metal
+atom_style      atomic
+boundary        p p p
+
+read_data       tmp.lammps
+
+pair_style      meam
+
+variable elem string "XXXXXX"
+
+pair_coeff      * * ./potential_files/library.meam Fe Mn Si C ./potential_files/parameter.meam ${elem}
+
+dump            1 all custom 1 XFSET id xu yu zu fx fy fz 
+dump_modify     1 format float "%20.15f"
+run             0
+
