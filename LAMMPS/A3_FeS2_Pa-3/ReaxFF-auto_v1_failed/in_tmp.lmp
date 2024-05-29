@@ -4,6 +4,9 @@ boundary        p p p
 
 read_data       tmp.lammps
 
+set type 1 charge  0.3486 # Fe
+set type 2 charge -0.1743 # Si
+
 pair_style      reax/c NULL
 
 variable elem string "XXXXXX"
