@@ -31,13 +31,6 @@ ALAMODE_ROOT=/mnt/d/alamode-v.1.4.1/_build
 
 #-----------------------------------------------------------------------------------------------
 # ReaxFF
-potential=./potential_files/ffield.reax.040.CHOFeSCr
-#potential=./potential_files/ffield.reax.102.CHONSFe
-#potential=./potential_files/ffield.reax.2019X1.CHOFeAlNiCuSCr
-#potential=./potential_files/ffield.reax.2023X6.CHOFeSCr
-#potential=./potential_files/ffield.reax.2024X4.CHONSSiFe
-#control=lmp_control
-#
 chmod +x conv_data.sh
 chmod +x conv_force.sh
 #-----------------------------------------------------------------------------------------------
@@ -248,8 +241,7 @@ fi
 ####
 #-------------------------------------------------------------------------------
 # ReaxFF
-cp ./../${potential} ./
-cp ./../${control} ./
+cp -r ./../potential_files ./
 #cp ./../${input_file} ./
 cp ./../conv_force.sh ./
 #-------------------------------------------------------------------------------
