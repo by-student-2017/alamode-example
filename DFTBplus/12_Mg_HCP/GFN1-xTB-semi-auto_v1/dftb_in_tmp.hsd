@@ -1,0 +1,28 @@
+Geometry = GenFormat {
+  <<< "geometry.gen"
+}
+
+Driver = {}
+
+Hamiltonian = xTB {
+  Method = "GFN1-xTB"
+  KPointsAndWeights = SupercellFolding {
+    6  0  0
+    0  6  0
+    0  0  6
+    0.0 0.0 0.0
+  }
+}
+
+Options = {
+  WriteResultsTag = Yes
+  #WriteAutotestTag = Yes
+}
+
+Analysis = {
+  CalculateForces = Yes
+}
+
+ParserOptions = {
+  ParserVersion = 12
+}
