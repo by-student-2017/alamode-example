@@ -19,20 +19,38 @@ ALAMODE_ROOT=/mnt/d/alamode-v.1.4.1/_build
 #-----------------------------------------------------------------------------------------------
 
 #-----------------------------------------------------------------------------------------------
-# MOPAC settings
-MOPAC=/mnt/d/mopac-22.1.0/_build/mopac
-#-------------------------------------
-chmod +x conv_mop.sh
-chmod +x conv_force.sh
-#-----------------------------------------------------------------------------------------------
-
-#-----------------------------------------------------------------------------------------------
-# ReaxFF or GNN settings
+# Lammps settings
 #LAMMPS="mpirun -np 2 $HOME/lammps-stable_23Jun2022/src/lmp_mpi"
 #LAMMPS=$HOME/lammps/src/lmp_serial
 #LAMMPS=/mnt/d/lammps/src/lmp_serial
 #-------------------------------------
 #input_file=in.lmp
+#-----------------------------------------------------------------------------------------------
+
+#-----------------------------------------------------------------------------------------------
+# ReaxFF
+#chmod +x conv_data.sh
+#chmod +x conv_force.sh
+#-----------------------------------------------------------------------------------------------
+
+#-----------------------------------------------------------------------------------------------
+# DFTB+(xTB)
+#DFTBp=${HOME}/dftbplus-22.1.x86_64-linux/bin/dftb+
+DFTBp="mpirun -np 1 dftb+"
+export OMP_NUM_THREADS=1
+#-------------------------------------
+cp dftb_in_tmp.hsd dftb_in.hsd
+#-------------------------------------
+chmod +x conv_dftbp.sh
+chmod +x conv_force.sh
+#-----------------------------------------------------------------------------------------------
+
+#-----------------------------------------------------------------------------------------------
+# MOPAC settings
+MOPAC=/mnt/d/mopac-22.1.0/_build/mopac
+#-------------------------------------
+#chmod +x conv_mop.sh
+#chmod +x conv_force.sh
 #-----------------------------------------------------------------------------------------------
 
 #-----------------------------------------------------------------------------------------------
@@ -213,6 +231,14 @@ echo "anharmonic file: ${NANHA}"
 echo "----- Generate structure files of LAMMPS (displace.py) -----"
 mkdir displace; cd displace
 
+#-------------------------------------------------------------------------------
+# ReaxFF
+#cp ./../${SC222_data} ./
+#cp ./../${input_file} ./
+#cp ./../conv_data.sh ./
+#./conv_data.sh ${SC222_data}
+#mv ${SC222_data}.reax ${SC222_data}
+#-------------------------------------------------------------------------------
 
 #-------------------------------------------------------------------------------
 ####
@@ -230,15 +256,27 @@ python3 ${ALAMODE_ROOT}/tools/displace.py --LAMMPS ../${SC222_data} --prefix har
 
 
 #-------------------------------------------------------------------------------
-# MOPAC settings
-cp ./../conv_mop.sh ./
-cp ./../conv_force.sh ./
-#-------------------------------------------------------------------------------
-
-
-#-------------------------------------------------------------------------------
-# ReaxFF or GNN settings (in.lmp file)
+# GNN (in.lmp file)
 #cp ./../${input_file} ./
+#-------------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------------
+# ReaxFF
+#cp -r ./../potential_files ./
+#cp ./../conv_force.sh ./
+#-------------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------------
+# DFTB+(xTB)
+cp ./../conv_dftbp.sh ./
+cp ./../conv_force.sh ./
+cp ./../dftb_in.hsd ./
+#-------------------------------------------------------------------------------
+
+#-------------------------------------------------------------------------------
+# MOPAC settings
+#cp ./../conv_mop.sh ./
+#cp ./../conv_force.sh ./
 #-------------------------------------------------------------------------------
 
 
@@ -263,9 +301,27 @@ if [ ! "${NHARM_restart}" == "${NHARM}" ]; then
 for i in $(seq -w ${NHARM_restart} ${NHARM})
 do
    cp harm${i}.lammps tmp.lammps
-   ./conv_mop.sh tmp.lammps
-   $MOPAC tmp.lammps.mop
-   ./conv_force.sh tmp.lammps.out
+   #-------------------------------------------
+   ## GNN or MEAM
+   #$LAMMPS < ${input_file} >> run.log
+   #-------------------------------------------
+   ## ReaxFF
+   #./conv_data.sh tmp.lammps
+   #mv tmp.lammps.reax tmp.lammps
+   #$LAMMPS < ${input_file} >> run.log
+   #./conv_force.sh XFSET
+   #mv XFSET.reax XFSET
+   #-------------------------------------------
+   # DFTB+
+   ./conv_dftbp.sh tmp.lammps
+   ${DFTBp}  < dftb_in.hsd
+   ./conv_force.sh detailed.out
+   #-------------------------------------------
+   ## MOPAC
+   #./conv_mop.sh tmp.lammps
+   #$MOPAC tmp.lammps.mop
+   #./conv_force.sh tmp.lammps.out
+   #-------------------------------------------
    mv XFSET XFSET.harm${i}
    echo "----- XFSET.harm${i} / ${NHARM} -----"
    echo ${i} > NHARM_restart.txt
@@ -290,9 +346,27 @@ fi
 #for i in $(seq -w ${NANHA_restart} ${NANHA})
 #do
 #   cp ${mode}${i}.lammps tmp.lammps
-#   ./conv_mop.sh tmp.lammps
-#   $MOPAC tmp.lammps.mop
-#   ./conv_force.sh tmp.lammps.out
+#   #-------------------------------------------
+#   ## GNN or MEAM
+#   #$LAMMPS < ${input_file} >> run.log
+#   #-------------------------------------------
+#   ## ReaxFF
+#   #./conv_data.sh tmp.lammps
+#   #mv tmp.lammps.reax tmp.lammps
+#   #$LAMMPS < ${input_file} >> run.log
+#   #./conv_force.sh XFSET
+#   #mv XFSET.reax XFSET
+#   #-------------------------------------------
+#   # DFTB+
+#   ./conv_dftbp.sh tmp.lammps
+#   ${DFTBp}  < dftb_in.hsd
+#   ./conv_force.sh detailed.out
+#   #-------------------------------------------
+#   ## MOPAC
+#   #./conv_mop.sh tmp.lammps
+#   #$MOPAC tmp.lammps.mop
+#   #./conv_force.sh tmp.lammps.out
+#   #-------------------------------------------
 #   mv XFSET XFSET.${mode}${i}
 #   echo "----- XFSET.${mode}${i} / ${NANHA} -----"
 #   echo ${i} > NANHA_restart.txt
