@@ -7,35 +7,29 @@ set terminal pngcairo color enhanced font "Arial" fontscale 1.0
 set key opaque box lc rgb "white" height 1
 #set key outside
 #-------------------------------------------------------------------------------
-ytop_Kaiser = 300
+ytop_Kaiser = 250
 ybottom_Kaiser = ytop_Kaiser * -0.1
 #-------------------------------------------------------------------------------
 set output "phonon_band_FCC.png"
 set ylabel "Eigenvalues [cm^{-1}]"
-#ytop = 140
-#ybottom = -10
-#set yrange [ybottom:ytop]
-#set ytics 2
-#set grid y
-#------------------------------------------------
-#set parametric
-#set trange [ybottom:ytop]
-#set arrow 1 nohead from x1,ybottom to x1,ytop lt 2 lc "gray"
-#set arrow 2 nohead from x2,ybottom to x2,ytop lt 2 lc "gray"
+set xlabel "Wave vector"
 
 set xzeroaxis
+set grid x y
+set title "FCC: G-X-G-L"
+#unset xtics
 #------------------------------------------------
 #plot for [col=2:*] "sc222.bands" u 1:col w l lt (col-1) t sprintf("%d",(col-1))
 plot for [col=2:*] "sc222.bands" u 1:col w l lt 1 t ""
 #pause -1
 #-------------------------------------------------------------------------------
 xmin = 1
-xmax = 153
+xmax = 150
 #------------------------------------------------
 set xrange [xmin:xmax]
 #unset xtics
 set title "FCC: G-X-G-L"
-x1=51; x2=102
+x1=50; x2=100
 set xtics ("{/Symbol G}" xmin, "X" x1, "{/Symbol G}" x2, "L" xmax)
 #------------------------------------------------
 #-------------------------------------------------------------------------------

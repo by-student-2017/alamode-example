@@ -45,6 +45,13 @@
 1. chmod +x *.sh
 
 
+# semi-auto-v1
+1. (prepare) SC222.lammps (*.cif => VESATA (VASP) =(2x2x2) => Ovito (LAMMPS Data File (*))
+2. ./run_bands.sh
+3. ./run_all.sh
+- Other methods: "bash run_bands.sh" or "sh run_bands.sh"
+
+
 # Note
 - The phonon calculation was performed on "alamode" and "DFTB+" code using the skf or GFN2-xTB parameters.
 - Phonon calculation was performed on "alamode" and "MOPAC" code.

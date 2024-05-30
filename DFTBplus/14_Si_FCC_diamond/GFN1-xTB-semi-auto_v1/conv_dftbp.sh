@@ -27,6 +27,6 @@ zz=`awk '{if($3=="zlo"){print $2}}' ${fname}`
 xy=`awk '{if($4=="xy"){print $1}}' ${fname}`
 xz=`awk '{if($5=="xz"){print $2}}' ${fname}`
 yz=`awk '{if($6=="yz"){print $3}}' ${fname}`
-echo "${xx} ${xy} ${xz}" >> geometry.gen
-echo "0.000000 ${yy} ${yz}" >> geometry.gen
-echo "0.000000  0.000000 ${zz}" >> geometry.gen
+echo "${xx} 0.000000 0.000000" >> geometry.gen
+echo "${xy} ${yy}    0.000000" >> geometry.gen
+echo "${xz} ${yz}    ${zz}"    >> geometry.gen
