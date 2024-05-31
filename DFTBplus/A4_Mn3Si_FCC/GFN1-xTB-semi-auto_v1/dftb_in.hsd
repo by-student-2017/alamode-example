@@ -6,7 +6,7 @@ Driver = {}
 
 Hamiltonian = xTB {
   Method = "GFN1-xTB"
-  MaxSCCIterations = 1000
+  MaxSCCIterations = 400
   #Mixer = Broyden {
   #  MixingParameter = 0.10
   #  InverseJacobiWeight = 0.5
@@ -17,6 +17,10 @@ Hamiltonian = xTB {
     0  3  0
     0  0  3
     0.0 0.0 0.0
+  }
+  Filling = MethfesselPaxton {
+    Order = 2
+    Temperature [eV] = 0.02
   }
 }
 

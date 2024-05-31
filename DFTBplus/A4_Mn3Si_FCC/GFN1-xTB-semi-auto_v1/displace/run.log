@@ -1,0 +1,20 @@
+*****************************************************************
+    displace.py --  Generator of displaced configurations        
+                      Version. 1.2.1                             
+*****************************************************************
+
+ Output format                  : LAMMPS structure format
+ Structure before displacements : ../SC222.lammps
+ Output file names              : harm{counter}.lammps
+ Magnitude of displacements     : 0.01 Angstrom
+ Number of atoms                : 128
+
+ Displacement mode              : Finite displacement
+
+ 3 displacement pattern are generated from
+ the given *.pattern_* files
+
+ Number of displacements        : 3
+-----------------------------------------------------------------
+
+All input files are created.
