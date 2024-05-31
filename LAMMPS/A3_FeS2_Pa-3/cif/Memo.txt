@@ -1,0 +1,20 @@
+#---------------------------------------------------------------------------------------------------
+https://www.cryst.ehu.es/cgi-bin/cryst/programs/nph-lxi?way=up&gnum=205&client=&what=&path=&series=1
+
+Maximal subgroups of group Pa-3 (No. 205)
+
+N	IT number	HM symbol	Index	Type	Transformations
+1	61	Pbca	3	t	show..
+2	148	R-3	4	t	show..
+3	198	P213	2	t	show..
+#---------------------------------------------------------------------------------------------------
+Maximal subgroups of group Pbca (No. 61)
+
+N	IT number	HM symbol	Index	Type	Transformations
+1	14	P21/c	2	t	show..
+2	19	P212121	2	t	show..
+3	29	Pca21	2	t	show..
+4	61	Pbca	3	k	show..
+5	61	Pbca	5	k	show..
+6	61	Pbca	7	k	show..
+#---------------------------------------------------------------------------------------------------
