@@ -1,0 +1,50 @@
+
+#======================================================================
+# CRYSTAL DATA
+#----------------------------------------------------------------------
+data_VESTA_phase_1
+
+_chemical_name_common                  'Fe4 S8'
+_cell_length_a                         7.632261
+_cell_length_b                         7.632261
+_cell_length_c                         9.347573
+_cell_angle_alpha                      90.000000
+_cell_angle_beta                       90.000000
+_cell_angle_gamma                      120.000000
+_cell_volume                           471.558866
+_space_group_name_H-M_alt              'P 3'
+_space_group_IT_number                 143
+
+loop_
+_space_group_symop_operation_xyz
+   'x, y, z'
+   '-y, x-y, z'
+   '-x+y, -x, z'
+
+loop_
+   _atom_site_label
+   _atom_site_occupancy
+   _atom_site_fract_x
+   _atom_site_fract_y
+   _atom_site_fract_z
+   _atom_site_adp_type
+   _atom_site_U_iso_or_equiv
+   _atom_site_type_symbol
+   Fe1        1.0     0.666667     0.833333     0.333333    Uiso  ? Fe
+   Fe4        1.0     0.333333     0.166667     0.666667    Uiso  ? Fe
+   Fe7        1.0     0.000000     0.500000     0.000000    Uiso  ? Fe
+   Fe10       1.0     0.666667     0.333333     0.333333    Uiso  ? Fe
+   Fe11       1.0     0.333333     0.666667     0.666667    Uiso  ? Fe
+   S1         1.0     0.923587     0.576413     0.461793    Uiso  ? S
+   S4         1.0     0.076413     0.423587     0.538207    Uiso  ? S
+   S7         1.0     0.590254     0.909746     0.795126    Uiso  ? S
+   S10        1.0     0.409746     0.090254     0.204874    Uiso  ? S
+   S13        1.0     0.743080     0.756920     0.871540    Uiso  ? S
+   S16        1.0     0.256920     0.243080     0.128460    Uiso  ? S
+   S19        1.0     0.000000     0.000000     0.614620    Uiso  ? S
+   S20        1.0     0.000000     0.000000     0.385380    Uiso  ? S
+   S21        1.0     0.666667     0.333333     0.947953    Uiso  ? S
+   S22        1.0     0.333333     0.666667     0.052047    Uiso  ? S
+   S23        1.0     0.666667     0.333333     0.718713    Uiso  ? S
+   S24        1.0     0.333333     0.666667     0.281287    Uiso  ? S
+   Cu1        1.0     0.000000     0.000000     0.000000    Uiso  ? Cu
