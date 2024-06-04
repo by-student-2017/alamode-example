@@ -13,9 +13,9 @@ Hamiltonian = xTB {
   #  WeightFactor = 0.5
   #}
   KPointsAndWeights = SupercellFolding {
-    6  0  0
-    0  6  0
-    0  0  6
+    5  0  0
+    0  5  0
+    0  0  5
     0.5 0.5 0.5
   }
   Filling = MethfesselPaxton {

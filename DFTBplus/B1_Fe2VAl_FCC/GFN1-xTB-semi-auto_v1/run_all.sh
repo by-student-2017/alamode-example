@@ -36,7 +36,7 @@ ALAMODE_ROOT=/mnt/d/alamode-v.1.4.1/_build
 #-----------------------------------------------------------------------------------------------
 # DFTB+(xTB)
 #DFTBp=${HOME}/dftbplus-22.1.x86_64-linux/bin/dftb+
-DFTBp="mpirun -np 6 dftb+"
+DFTBp="mpirun -np 5 dftb+"
 export OMP_NUM_THREADS=1
 #-------------------------------------
 cp dftb_in_tmp.hsd dftb_in.hsd
