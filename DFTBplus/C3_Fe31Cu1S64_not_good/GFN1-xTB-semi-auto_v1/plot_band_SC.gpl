@@ -7,7 +7,7 @@ set terminal pngcairo color enhanced font "Arial" fontscale 1.0
 set key opaque box lc rgb "white" height 1
 #set key outside
 #-------------------------------------------------------------------------------
-ytop_Kaiser = 450
+ytop_Kaiser = 650
 ybottom_Kaiser = ytop_Kaiser * -0.1
 #-------------------------------------------------------------------------------
 set output "phonon_band_SC.png"
