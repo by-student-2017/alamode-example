@@ -1,0 +1,15 @@
+units           metal
+atom_style      atomic
+boundary        p p p
+
+read_data       tmp.lammps
+
+variable elem string "XXXXXX"
+
+pair_style smatb # R0(A)   p       q     A(eV)   xi(eV)  Rcs(A)   Rc(A), 4NN: Rcs=4NN, Rc=(4NN+5NN)/2										
+pair_coeff 1 1	2.4802	8.0593	2.0148	0.2089	2.6500	4.033	4.176	#	Co	Co
+
+dump            1 all custom 1 XFSET id xu yu zu fx fy fz 
+dump_modify     1 format float "%20.15f"
+run             0
+
